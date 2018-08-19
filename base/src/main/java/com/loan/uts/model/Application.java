@@ -4,7 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class Application {
