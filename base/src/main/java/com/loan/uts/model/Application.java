@@ -15,6 +15,10 @@ public class Application {
     private String attachment;
     private Student studentByApplicantId;
 
+    /**
+     * 
+     * @return
+     */
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
