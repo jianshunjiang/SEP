@@ -1,11 +1,9 @@
 package com.loan.uts.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "student", schema = "uts_loan")
 public class Student {
     private int id;
     private String password;

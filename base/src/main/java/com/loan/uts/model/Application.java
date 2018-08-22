@@ -1,22 +1,19 @@
 package com.loan.uts.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class Application {
     private int id;
     private String status;
     private Integer staffId;
-    private Integer applicantId;
     private Date submitDate;
     private Date completeDate;
     private String title;
     private String content;
     private String attachment;
+    private Student studentByApplicantId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -46,16 +43,6 @@ public class Application {
 
     public void setStaffId(Integer staffId) {
         this.staffId = staffId;
-    }
-
-    @Basic
-    @Column(name = "applicant_id", nullable = true)
-    public Integer getApplicantId() {
-        return applicantId;
-    }
-
-    public void setApplicantId(Integer applicantId) {
-        this.applicantId = applicantId;
     }
 
     @Basic
@@ -118,7 +105,6 @@ public class Application {
         if (id != that.id) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (staffId != null ? !staffId.equals(that.staffId) : that.staffId != null) return false;
-        if (applicantId != null ? !applicantId.equals(that.applicantId) : that.applicantId != null) return false;
         if (submitDate != null ? !submitDate.equals(that.submitDate) : that.submitDate != null) return false;
         if (completeDate != null ? !completeDate.equals(that.completeDate) : that.completeDate != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
@@ -133,12 +119,21 @@ public class Application {
         int result = id;
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (staffId != null ? staffId.hashCode() : 0);
-        result = 31 * result + (applicantId != null ? applicantId.hashCode() : 0);
         result = 31 * result + (submitDate != null ? submitDate.hashCode() : 0);
         result = 31 * result + (completeDate != null ? completeDate.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (attachment != null ? attachment.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "applicant_id", referencedColumnName = "id")
+    public Student getStudentByApplicantId() {
+        return studentByApplicantId;
+    }
+
+    public void setStudentByApplicantId(Student studentByApplicantId) {
+        this.studentByApplicantId = studentByApplicantId;
     }
 }
