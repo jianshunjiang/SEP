@@ -32,7 +32,10 @@ CREATE TABLE `Application` (
   `status` varchar(10) DEFAULT NULL,
   `submit_date` datetime DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK7maykjjlryndadklx2rg7v6cl` (`applicant_id`),
+  CONSTRAINT `FK7maykjjlryndadklx2rg7v6cl` FOREIGN KEY (`applicant_id`) REFERENCES `student` (`id`),
+  CONSTRAINT `FKtbuiidnmel5ub6sj56r5lvvp3` FOREIGN KEY (`applicant_id`) REFERENCES `Student` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -128,7 +131,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (12345678,'12345678','test account','00000000','might_103@yeah.net','1111111');
+INSERT INTO `student` VALUES (12345678,'12345678','test account','00000000','might_103@yeah.net','1111111'),(87654321,'87654321','Ayman','Tree new bee','shunj110@gmail.com','202929292');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-20 20:28:13
+-- Dump completed on 2018-08-22 16:02:09
