@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
+@Table(name = "student", schema = "uts_loan", catalog = "")
 public class Student {
     private Integer id;
     private String password;
@@ -19,8 +20,6 @@ public class Student {
     private String gender;
     private String nationality;
     private String startYear;
-    private Collection<Application> applicationsById;
-
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -193,12 +192,4 @@ public class Student {
         return result;
     }
 
-    @OneToMany(mappedBy = "studentByStudentId")
-    public Collection<Application> getApplicationsById() {
-        return applicationsById;
-    }
-
-    public void setApplicationsById(Collection<Application> applicationsById) {
-        this.applicationsById = applicationsById;
-    }
 }

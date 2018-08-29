@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class MainController {
+public class LoginController {
     public static final String STUDENT = "Student";
     public static final String LOAN_MANAGER = "Loan Manager";
     public static final String SYSTEM_ADMIN = "System Administrator";
+    public static final String USER_TYPE = "User type";
 
     @Autowired
     StudentRepository studentRepository;
@@ -39,9 +40,10 @@ public class MainController {
                         @RequestParam("userType") String userType,
                         ModelMap modelMap) {
         if (userType.equals(STUDENT)) {
-            Student student = studentRepository.findStudentByIdAndPassword(studentId, password);
+            Student student = studentRepository.findByIdAndPassword(studentId, password);
             if (student != null) {
-                modelMap.addAttribute("student", student);
+                modelMap.addAttribute(STUDENT, student);
+                modelMap.addAttribute(USER_TYPE, STUDENT);
                 return "student";
             }
         } else return "index";
@@ -51,6 +53,16 @@ public class MainController {
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login() {
         return "login";
+    }
+
+    @RequestMapping(value = "/logout/action", method = RequestMethod.GET)
+    public String logout(ModelMap modelMap) {
+        Student test = (Student) modelMap.get(STUDENT);
+        String userType = (String) modelMap.get(USER_TYPE);
+        modelMap.remove(userType);
+        modelMap.remove(USER_TYPE);
+        test = (Student) modelMap.get(STUDENT);
+        return "logout";
     }
 
 

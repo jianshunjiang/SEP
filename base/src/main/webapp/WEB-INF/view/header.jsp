@@ -15,7 +15,7 @@
         </div>
         <div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/login">Login</a></li>
+                <li><a href="/logout/action">Log out</a></li>
                 <%--<li><a href="#">SVN</a></li>--%>
             </ul>
         </div>

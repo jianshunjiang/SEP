@@ -11,32 +11,9 @@
     <title>UTS Loan System</title>
 </head>
 <body>
+<%@ include file="header.jsp" %>
     <div class="container">
-        <h1>Welcome</h1>
-        <hr/>
-
-        <table class="table table-bordered table-striped">
-            <tr>
-                <th>ID</th>
-                <td>${student.id}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>${student.name}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>${student.email}</td>
-            </tr>
-            <tr>
-                <th>Bank Account</th>
-                <td>${student.bankaccount}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>${student.phone}</td>
-            </tr>
-        </table>
+        <h1>Welcome ${Student.firstname}  ${Student.lastname}</h1>
     </div>
 
 </body>

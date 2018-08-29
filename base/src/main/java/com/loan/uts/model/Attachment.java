@@ -1,18 +1,20 @@
 package com.loan.uts.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.sql.Date;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Table(name = "attachment", schema = "uts_loan", catalog = "")
 public class Attachment {
     private Integer id;
     private Integer draftId;
     private Integer applicationId;
     private Date uploadDate;
     private String path;
+
+//    public void setUploadDate(java.util.Date uploadDate) {
+//        this.uploadDate = uploadDate;
+//    }
 
     @Id
     @Column(name = "id", nullable = false)

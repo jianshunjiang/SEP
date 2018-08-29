@@ -9,7 +9,10 @@ public class Administrator {
     private Integer id;
     private String username;
     private String password;
-    private Collection<Manager> managersById;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -61,14 +64,5 @@ public class Administrator {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "adminByAdminId")
-    public Collection<Manager> getManagersById() {
-        return managersById;
-    }
-
-    public void setManagersById(Collection<Manager> managersById) {
-        this.managersById = managersById;
     }
 }

@@ -1,17 +1,19 @@
 package com.loan.uts.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@Table(name = "draft", schema = "uts_loan", catalog = "")
 public class Draft {
     private Integer id;
     private String content;
     private Integer studentId;
-    private Date lastEdit;
+    private java.util.Date lastEdit;
+
+    public void setLastEdit(java.util.Date lastEdit) {
+        this.lastEdit = lastEdit;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -45,7 +47,7 @@ public class Draft {
 
     @Basic
     @Column(name = "last_edit", nullable = true)
-    public Date getLastEdit() {
+    public java.util.Date getLastEdit() {
         return lastEdit;
     }
 

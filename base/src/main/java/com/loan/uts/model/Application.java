@@ -1,18 +1,20 @@
 package com.loan.uts.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@Table(name = "application", schema = "uts_loan", catalog = "")
 public class Application {
     private Integer id;
     private String status;
     private Date submitDate;
     private Date resultDate;
     private String content;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
