@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
-    public Student findStudentByIdAndPassword(int id, String password);
+
+    Student findByIdAndPassword(Integer id, String password);
 }

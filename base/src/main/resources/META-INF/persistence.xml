@@ -3,7 +3,12 @@
 
     <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.loan.uts.model.Student</class>
+        <!--<class>com.loan.uts.model.Student</class>-->
+        <!--<class>com.loan.uts.model.Administrator</class>-->
+        <!--<class>com.loan.uts.model.Application</class>-->
+        <!--<class>com.loan.uts.model.Draft</class>-->
+        <!--<class>com.loan.uts.model.Manager</class>-->
+        <!--<class>com.loan.uts.model.Attachment</class>-->
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <!-- 数据库连接的URL地址 -->
