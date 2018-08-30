@@ -41,7 +41,7 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="false"/>
             <!-- 自动输出schema创建DDL语句 -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--<property name="hibernate.hbm2ddl.auto" value="none"/>-->
 
             <!-- 数据库连接超时后自动重连 -->
             <property name="hibernate.connection.autoReconnect" value="true"/>

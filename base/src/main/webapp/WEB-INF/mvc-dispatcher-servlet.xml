@@ -8,7 +8,10 @@
 
     <context:component-scan base-package="com.loan.uts.controller"/>
 
+    <context:component-scan base-package="com.loan.uts.service"/>
+
     <mvc:default-servlet-handler/>
+
 
     <mvc:annotation-driven/>
 

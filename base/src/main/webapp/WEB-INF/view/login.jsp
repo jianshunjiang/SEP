@@ -19,8 +19,8 @@
     <h2>UTS Loan System</h2>
     <form:form action="loginAction" method="post" role="form">
         <div class="form-group">
-            <label for="studentid">Student ID: </label>
-            <input type="text" class="form-control" id="studentid" name="studentid" placeholder="Enter Student ID:"/>
+            <label for="username">Student ID: </label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Student ID:"/>
         </div>
         <div class="form-group">
             <label for="password">Password: </label>

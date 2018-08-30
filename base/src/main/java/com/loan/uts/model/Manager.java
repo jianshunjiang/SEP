@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "manager", schema = "uts_loan", catalog = "")
 public class Manager {
     private Integer id;
-    private String fistname;
+    private String firstname;
     private String lastname;
     private String email;
     private String mobile;
@@ -26,12 +26,12 @@ public class Manager {
 
     @Basic
     @Column(name = "firstname", nullable = true, length = 10)
-    public String getFistname() {
-        return fistname;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFistname(String fistname) {
-        this.fistname = fistname;
+    public void setFirstname(String fistname) {
+        this.firstname = fistname;
     }
 
     @Basic
@@ -93,7 +93,7 @@ public class Manager {
 
         if (delete != manager.delete) return false;
         if (id != null ? !id.equals(manager.id) : manager.id != null) return false;
-        if (fistname != null ? !fistname.equals(manager.fistname) : manager.fistname != null) return false;
+        if (firstname != null ? !firstname.equals(manager.firstname) : manager.firstname != null) return false;
         if (lastname != null ? !lastname.equals(manager.lastname) : manager.lastname != null) return false;
         if (email != null ? !email.equals(manager.email) : manager.email != null) return false;
         if (mobile != null ? !mobile.equals(manager.mobile) : manager.mobile != null) return false;
@@ -105,7 +105,7 @@ public class Manager {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (fistname != null ? fistname.hashCode() : 0);
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
