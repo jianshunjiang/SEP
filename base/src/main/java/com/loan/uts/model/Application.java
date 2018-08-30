@@ -16,6 +16,10 @@ public class Application {
         this.id = id;
     }
 
+    /**
+     * 
+     * @return
+     */
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
