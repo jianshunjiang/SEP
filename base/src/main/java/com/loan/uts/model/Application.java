@@ -11,13 +11,14 @@ public class Application {
     private Date submitDate;
     private Date resultDate;
     private String content;
+    private Student student;
 
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * 
+     *
      * @return
      */
     @Id
@@ -94,5 +95,15 @@ public class Application {
         result = 31 * result + (resultDate != null ? resultDate.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

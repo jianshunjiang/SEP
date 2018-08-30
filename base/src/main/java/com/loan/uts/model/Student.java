@@ -1,8 +1,9 @@
 package com.loan.uts.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Collection;
-import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "student", schema = "uts_loan", catalog = "")
@@ -20,6 +21,8 @@ public class Student {
     private String gender;
     private String nationality;
     private String startYear;
+    private Set<Application> applications;
+
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -192,4 +195,12 @@ public class Student {
         return result;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    public Set<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(Set<Application> applications) {
+        this.applications = applications;
+    }
 }

@@ -1,13 +1,10 @@
 package com.loan.uts.service;
 
-import com.loan.uts.model.Application;
 import com.loan.uts.model.Student;
 import com.loan.uts.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Transactional
 @Service("studentService")
