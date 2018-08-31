@@ -85,7 +85,7 @@ public class LoginController {
         session.removeAttribute(userType);
         session.removeAttribute(USER_TYPE);
         session.invalidate();
-        return "logout";
+        return "index";
     }
 
 

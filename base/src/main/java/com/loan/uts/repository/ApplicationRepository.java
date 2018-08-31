@@ -4,7 +4,8 @@ import com.loan.uts.model.Application;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
+import java.util.Set;
 
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
-    Collection<Application> getApplicationsByStudentId(Integer studentId);
+    Set<Application> getApplicationsByStudentId(Integer studentId);
 }

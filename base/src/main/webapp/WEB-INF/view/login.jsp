@@ -19,6 +19,11 @@
     <h2>UTS Loan System</h2>
     <form:form action="loginAction" method="post" role="form">
         <div class="form-group">
+            <%--TODO:当user type 为student时，label显示为student id,检查Input是不是全为数字。
+                TODO：当user type为 loan manager时，label显示为email，检查input是不是为email.
+                TODO: 当user type为system admin时， label显示为username。
+                TODO：对于所有input，检查其是否为空。
+                --%>
             <label for="username">Student ID: </label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Student ID:"/>
         </div>
