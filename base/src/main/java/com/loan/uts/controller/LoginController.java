@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * This controller deal with the log in and log out request from all type of users.
+ */
 
 @Controller
 public class LoginController {
@@ -71,14 +74,24 @@ public class LoginController {
             }
         }
 
+        //TODO: deal with the log in fail operation.
         return "login";
     }
 
+    /**
+     * Return the log in page.
+     * @return
+     */
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login() {
         return "login";
     }
 
+    /**
+     * Deal with the log out operation.
+     * @param session
+     * @return index page.
+     */
     @RequestMapping(value = "/logoutAction", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         String userType = (String) session.getAttribute(USER_TYPE);

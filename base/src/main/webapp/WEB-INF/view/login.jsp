@@ -3,7 +3,7 @@
   User: tong
   Date: 8/29/18
   Time: 12:29 PM
-  To change this template use File | Settings | File Templates.
+  The log in page of this web app.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 <div class="container">
     <h2>UTS Loan System</h2>
+
+    <%--The form that used for log in action.--%>
     <form:form action="loginAction" method="post" role="form">
         <div class="form-group">
             <%--TODO:当user type 为student时，label显示为student id,检查Input是不是全为数字。
@@ -43,7 +45,9 @@
             <button type="submit" class="btn btn-sm btn-success">Login</button>
         </div>
     </form:form>
+    <%--TODO:Display log in fail meassage--%>
 </div>
-
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

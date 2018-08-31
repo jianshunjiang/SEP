@@ -15,6 +15,9 @@ import java.util.Set;
 
 import static com.loan.uts.controller.LoginController.STUDENT;
 
+/**
+ * Handle the requests that from the student operation in the front end..
+ */
 @Controller
 public class StudentController {
     public static final String APPLICATIONS = "applications";
@@ -22,16 +25,27 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
+    /**
+     * Search for the student's application records within the student.
+     * And go to the view application page.
+     * @param session
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = {"/student/applications"}, method = RequestMethod.GET)
     public String applications(HttpSession session, ModelMap modelMap) {
         Student student = (Student) session.getAttribute(STUDENT);
-        Set<Application> applications = studentService.getApplication(student.getId());
+        Set<Application> applications = studentService.getApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
         return "applications";
     }
 
+    /**
+     * Go to the homepage of the student.
+     * @return
+     */
     @RequestMapping(value = {"/student"}, method = RequestMethod.GET)
-    public String student(HttpSession session, ModelMap modelMap) {
+    public String student() {
         return "student";
     }
 }
