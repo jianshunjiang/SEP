@@ -19,8 +19,9 @@
         <div>
             <ul class="nav navbar-nav navbar-right">
                 <% HttpSession httpSession = request.getSession(false);
+                    String user_type = "";
                     if (httpSession != null) {
-                        String user_type = (String) httpSession.getAttribute(USER_TYPE);
+                         user_type = (String) httpSession.getAttribute(USER_TYPE);
                         if (user_type != null && !user_type.equals("")) {
                 %>
                 <li><a href="/logoutAction">Log out</a></li>

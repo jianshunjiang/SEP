@@ -50,4 +50,14 @@ public class StudentService {
     public Set<Application> getApplication(Student student){
         return applicationRepository.getApplicationsByStudentId(student.getId());
     }
+
+    /**
+     * Submit new application in the database.
+     * @param application
+     */
+    public Integer submitApplication(Application application){
+        Integer id = applicationRepository.save(application).getId();
+        return id;
+    }
+
 }

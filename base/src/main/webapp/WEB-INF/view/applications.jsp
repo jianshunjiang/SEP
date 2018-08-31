@@ -21,7 +21,7 @@
 <%@ include file="sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <button type="button" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-pencil"></span>Create</button>
+    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/newApplication"><span class="glyphicon glyphicon-pencil"></span>Create</a>
     <table class="table table-condensed">
         <thead>
         <tr>

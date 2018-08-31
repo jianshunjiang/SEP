@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
     Set<Application> getApplicationsByStudentId(Integer studentId);
+
 }

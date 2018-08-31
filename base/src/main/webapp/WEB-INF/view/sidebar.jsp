@@ -1,4 +1,5 @@
-<%@ page import="com.loan.uts.model.Student" %><%--
+<%@ page import="com.loan.uts.model.Student" %>
+<%@ page import="static com.loan.uts.controller.LoginController.STUDENT" %><%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 31/08/18
@@ -6,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Student student = (Student) session.getAttribute("Student");%>
+<% Student student = (Student) session.getAttribute(STUDENT);%>
 <%--<div class="container navigation">--%>
     <%--<div class="row">--%>
     <div class="col-md-2">

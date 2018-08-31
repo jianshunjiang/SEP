@@ -1,11 +1,16 @@
 package com.loan.uts.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "application", schema = "uts_loan", catalog = "")
 public class Application {
+
+    public static final String SUBMITTED = "Submitted";
+    public static final String ACCEPTED = "Accepted";
+    public static final String REFUSED = "Refused";
+    public static final String PROCESSING = "Processing";
     private Integer id;
     private String status;
     private Date submitDate;
@@ -13,15 +18,22 @@ public class Application {
     private String content;
     private Student student;
 
-    public void setId(int id) {
-        this.id = id;
+    public Application(){}
+
+    public Application(String content, Date submitDate, String status, Student student){
+        this.content = content;
+        this.submitDate = submitDate;
+        this.status = status;
+        this.student = student;
     }
+
 
     /**
      *
      * @return
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
