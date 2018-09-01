@@ -60,7 +60,7 @@ CREATE TABLE `application` (
   KEY `application_manager__fk` (`manager_id`),
   CONSTRAINT `application_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
   CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
+INSERT INTO `application` VALUES (1,'Accepted',2,'2018-08-17','2018-08-22','I love this world.',12345678),(2,'Submitted',1,'2018-08-30',NULL,'Olo',12345678),(3,'Submitted',NULL,'2018-08-31',NULL,'dsdfs',87654321),(4,'Submitted',NULL,'2018-08-31',NULL,'testospaj\r\n\r\nidsjfsi',87654321),(5,'Submitted',NULL,'2018-08-31',NULL,'sdf',87654321),(6,'Submitted',NULL,'2018-08-31',NULL,'Ahihihisdf',87654321);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,7 @@ DROP TABLE IF EXISTS `manager`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `manager` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `fistname` varchar(10) DEFAULT NULL,
+  `firstname` varchar(10) DEFAULT NULL,
   `lastname` varchar(10) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
@@ -199,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-29 15:11:38
+-- Dump completed on 2018-09-01 20:51:09
