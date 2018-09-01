@@ -26,21 +26,22 @@
                 TODO: 当user type为system admin时， label显示为username。
                 TODO：对于所有input，检查其是否为空。
                 --%>
+         <div class="form-group">
+             <label for="userType">Log in as: </label>
+                    <select class="form-control" id="userType" name="userType">
+                        <option>Student</option>
+                        <option>Loan Manager</option>
+                        <option>System Administrator</option>
+                    </select>
+         </div>
             <label for="username">Student ID: </label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Student ID:"/>
+            <input type="text" class="form-control" id="username" name="username" pattern="[0-9]{10}" placeholder="Enter Student ID:"/>
         </div>
         <div class="form-group">
             <label for="password">Password: </label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
         </div>
-    <div class="form-group">
-        <label for="userType">Log in as: </label>
-        <select class="form-control" id="userType" name="userType">
-            <option>Student</option>
-            <option>Loan Manager</option>
-            <option>System Administrator</option>
-        </select>
-    </div>
+
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success">Login</button>
         </div>
