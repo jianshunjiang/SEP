@@ -35,11 +35,11 @@
                     </select>
          </div>
             <label for="username">Student ID: </label>
-            <input type="text" class="form-control" id="username" name="username" pattern="[0-9]{10}" placeholder="Enter Student ID:"/>
+            <input type="text" class="form-control" id="username" name="username" pattern="[0-9]{8}" placeholder="Enter Student ID"/>
         </div>
         <div class="form-group">
             <label for="password">Password: </label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"/>
         </div>
         <div class="checkbox">
             <label><input type="checkbox" name="remember"> Remember me</label>
