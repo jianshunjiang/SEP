@@ -10,6 +10,12 @@ This is the github for the 48440 Software Engineering Practice Tut8 group 2 asse
 4. Java: Oracal JDK 1.8
 5. Maven: 3.3.9
 
+#Complete functions in current stage.
+1. Log in and log out function for student, staff, and system admin(No error message diplayed yet when wrong information are entered).
+2. View application function for student.
+3. Create application function for student.
+Hint: to test log in and log out, account detail can be found in the database file.
+
 #Configurations
 --The configuration is based on Intellj
 ==Local database configuration on linux
