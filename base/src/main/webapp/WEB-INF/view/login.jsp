@@ -41,7 +41,9 @@
             <label for="password">Password: </label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
         </div>
-
+        <div class="checkbox">
+            <label><input type="checkbox" name="remember"> Remember me</label>
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success">Login</button>
         </div>
