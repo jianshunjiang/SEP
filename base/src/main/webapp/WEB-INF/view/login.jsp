@@ -26,6 +26,64 @@
                 TODO: 当user type为system admin时， label显示为username。
                 TODO：对于所有input，检查其是否为空。
                 --%>
+            <script language="JavaScript">
+                var result = LoginController.login();
+                function userType() {
+                    if(result != null && login.userType().equals(student)) {
+
+                    }
+                    if(result != null && login.userType().equals(manager)) {
+
+                    }
+                    if(result != null && login.userType().equals(admin)) {
+
+                    }
+                    else {
+                        
+                    }
+                }
+            </script>
+
+            <script language="JavaScript">
+                function checkEmail( str ){
+                    var myReg = /^[-_A-Za-z0-9]+@([_A-Za-z0-9]+\.)+[A-Za-z0-9]{2,3}$/;
+                    if(myReg.test(str)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            </script>
+                
+            <script language="JavaScript">
+                function checkNumber() {
+                    if(parseFloat(inputData).toString() == "NaN") {
+                        alert("Please enter numbers only");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            </script>
+
+            <script language="JavaScript">
+                function checkInput(form) {
+                    if(form.username.value=="") {
+                        alert("User Name CANNOT be empty");
+                        form.username.focus();
+                        return false;
+                    }
+                    if(form.password.value=="") {
+                        alert("Password CANNOT be empty");
+                        form.password.focus();
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+
          <div class="form-group">
              <label for="userType">Log in as: </label>
                     <select class="form-control" id="userType" name="userType">
@@ -35,12 +93,16 @@
                     </select>
          </div>
             <label for="username">Student ID: </label>
+<<<<<<< Updated upstream
             <input type="text" class="form-control" id="username" name="username" pattern="[0-9]{8}" placeholder="Enter Student ID:"/>
+=======
+            <input type="text" onsubmit="checkInput()" class="form-control" id="username" name="username" pattern="[0-9]{10}" placeholder="Enter Student ID:"/>
+>>>>>>> Stashed changes
                 <%--<input type="text" class="form-control" id="username" name="username" placeholder="Enter email for manager, student id for student, username for admin"/>--%>
         </div>
         <div class="form-group">
             <label for="password">Password: </label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
+            <input type="password" onsubmit="checkInput()" class="form-control" id="password" name="password" placeholder="Enter Password:"/>
         </div>
         <div class="checkbox">
             <label><input type="checkbox" name="remember"> Remember me</label>
