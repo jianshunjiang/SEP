@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +15,12 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-
 <div class="container">
     <h2>UTS Loan System</h2>
-    <p>${error}</p>
+    <c:if test="${! empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
+
     <form:form action="login" method="post" role="form">
     <%--The form that used for log in action.--%>
         <div class="form-group">
