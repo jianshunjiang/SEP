@@ -17,7 +17,8 @@
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <div class="container">
     <h2>UTS Loan System</h2>
-    <form:form action="loginAction" method="post" role="form">
+    <p>${error}</p>
+    <form:form action="login" method="post" role="form">
         <div class="form-group">
             <label for="username">Student ID: </label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Student ID:"/>
@@ -34,6 +35,7 @@
             <option>System Administrator</option>
         </select>
     </div>
+
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success">Login</button>
         </div>

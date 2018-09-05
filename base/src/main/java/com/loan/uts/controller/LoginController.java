@@ -8,6 +8,7 @@ import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,11 +41,11 @@ public class LoginController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/loginAction", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         @RequestParam("userType") String userType,
-                        HttpSession session) {
+                        HttpSession session, ModelMap modelMap) {
         if (userType.equals(STUDENT)) {
             Student student = studentService.login(username, password);
             if (student != null) {
@@ -71,6 +72,7 @@ public class LoginController {
             }
         }
 
+        modelMap.addAttribute("error", "Incorrect account or password");
         return "login";
     }
 
@@ -79,7 +81,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/logoutAction", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         String userType = (String) session.getAttribute(USER_TYPE);
         session.removeAttribute(userType);
