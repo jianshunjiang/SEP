@@ -26,16 +26,16 @@
                 TODO: 当user type为system admin时， label显示为username。
                 TODO：对于所有input，检查其是否为空。
                 --%>
-            <script language="JavaScript">
+            <script language="JavaScript" class="loginController">
                 var result = LoginController.login();
                 function userType() {
-                    if(result != null && login.userType().equals(student)) {
+                    if(result != null && login().equals(student)) {
 
                     }
-                    if(result != null && login.userType().equals(manager)) {
+                    if(result != null && login().equals(manager)) {
 
                     }
-                    if(result != null && login.userType().equals(admin)) {
+                    if(result != null && login().equals(admin)) {
 
                     }
                     else {
@@ -51,6 +51,7 @@
                         return true;
                     }
                     else {
+                        alert("Please enter email address only");
                         return false;
                     }
                 }
