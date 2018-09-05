@@ -17,9 +17,9 @@
 
 <div class="container">
     <h2>UTS Loan System</h2>
-
+    <p>${error}</p>
+    <form:form action="login" method="post" role="form">
     <%--The form that used for log in action.--%>
-    <form:form action="loginAction" method="post" role="form">
         <div class="form-group">
             <%--TODO:当user type 为student时，label显示为student id,检查Input是不是全为数字。
                 TODO：当user type为 loan manager时，label显示为email，检查input是不是为email.

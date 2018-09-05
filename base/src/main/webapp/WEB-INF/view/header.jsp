@@ -18,13 +18,15 @@
         </div>
         <div>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Log out</a></li>
+                <%--<li><a href="#">SVN</a></li>--%>
                 <% HttpSession httpSession = request.getSession(false);
                     String user_type = "";
                     if (httpSession != null) {
                          user_type = (String) httpSession.getAttribute(USER_TYPE);
                         if (user_type != null && !user_type.equals("")) {
                 %>
-                <li><a href="/logoutAction">Log out</a></li>
+                <li><a href="/logout">Log out</a></li>
                 <%
 
                 } else {
