@@ -94,8 +94,7 @@
                     </select>
          </div>
             <label for="username">Student ID: </label>
-            <input type="text" class="form-control" id="username" name="username" pattern="[0-9]{8}" placeholder="Enter Student ID:"/>
-            <input type="text" onsubmit="checkInput()" class="form-control" id="username" name="username" pattern="[0-9]{10}" placeholder="Enter Student ID:"/>
+                      <input type="text" onsubmit="checkInput()" class="form-control" id="username" name="username"  placeholder="Enter Student ID:"/>
                 <%--<input type="text" class="form-control" id="username" name="username" placeholder="Enter email for manager, student id for student, username for admin"/>--%>
         </div>
         <div class="form-group">
