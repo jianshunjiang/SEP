@@ -18,10 +18,8 @@
         </div>
         <div>
             <ul class="nav navbar-nav navbar-right">
-<<<<<<< HEAD
                 <li><a href="/logout">Log out</a></li>
                 <%--<li><a href="#">SVN</a></li>--%>
-=======
                 <% HttpSession httpSession = request.getSession(false);
                     String user_type = "";
                     if (httpSession != null) {
