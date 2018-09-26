@@ -1,6 +1,7 @@
 package com.loan.uts.service;
 
 import com.loan.uts.model.Application;
+import com.loan.uts.model.Email;
 import com.loan.uts.model.Student;
 import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.StudentRepository;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
+
+import static com.loan.uts.model.Application.SUBMITTED;
 
 /**
  * This service deal with the operations that a student might conduct.
@@ -20,6 +23,8 @@ public class StudentService {
     StudentRepository studentRepository;
     @Autowired
     ApplicationRepository applicationRepository;
+    @Autowired
+    EmailService emailService;
 
     /**
      * Search in the database for the student authentication details.
@@ -52,11 +57,22 @@ public class StudentService {
     }
 
     /**
+     * Get the student by id.
+     * @param id
+     * @return
+     */
+    public Student get(Integer id){
+        return studentRepository.findOne(id);
+    }
+
+    /**
      * Submit new application in the database.
      * @param application
      */
     public Integer submitApplication(Application application){
         Integer id = applicationRepository.save(application).getId();
+        Email email = new Email(id, application.getStudent(), SUBMITTED);
+        emailService.sendEmail(email);
         return id;
     }
 

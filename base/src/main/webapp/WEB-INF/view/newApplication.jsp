@@ -19,9 +19,8 @@
 <body>
 <%@ include file="header.jsp" %>
 <%@ include file="sidebar.jsp" %>
-<%--<div class="container main">--%>
 <div class="col-md-9">
-    <form:form action="/student/newApplication/submit" method="post" role="form">
+    <form:form action="/student/applications/add" method="post" role="form" id="app_form">
         <div class="form-group">
             <label>Student ID: </label>
             <label><%=student.getId()%>
@@ -42,8 +41,7 @@
             <textarea class="form-control" id="content" name="content" rows="10"></textarea>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-sm btn-success">Submit</button>
-            <%--<button type="submit" class="btn btn-sm btn-success">Save draft</button>--%>
+            <button type="submit" class="btn btn-sm btn-success" id="app_btn">Submit</button>
         </div>
     </form:form>
 </div>

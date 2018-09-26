@@ -2,8 +2,6 @@
 <%@ page import="com.loan.uts.model.Student" %><%--
   Created by IntelliJ IDEA.
   User: tong
-  Date: 8/19/18
-  Time: 2:33 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,34 +19,25 @@
 <%@ include file="sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>Create</a>
-    <c:if test="${empty applications}"><h1>You have no applications yet.</h1></c:if>
-    <c:if test="${not empty applications}">
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <th>Application</th>
-            <th>Submit Date</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${applications}" var="application">
-            <tr class="active">
-                <td>${application.id}</td>
-                <td>${application.submitDate}</td>
-                <td>${application.status}</td>
-                <td>
-                    <button type="button" class="btn btn-info">Detail</button>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-
-    </table>
-    </c:if>
-</div>
-<%--</div>--%>
+    <h1>You application is successfully submitted.</h1>
+    <p style="text-indent: 2em; margin-top: 30px;">
+        The system will go back in <span id="time">5</span> seconds automatically.
+        If it didn't go back, click <a href="/student/applications" title="Go back">link</a> to get back</p>
+    <script type="text/javascript">
+        delayURL();
+        function delayURL() {
+            var delay = document.getElementById("time").innerHTML;
+            var t = setTimeout("delayURL()", 1000);
+            if (delay > 0) {
+                delay--;
+                document.getElementById("time").innerHTML = delay;
+            } else {
+                clearTimeout(t);
+                window.location.href = "/student/applications";
+            }
+        }
+    </script>
+<%--<%response.setHeader("refresh","3; /student/applications");%>--%>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

@@ -56,7 +56,7 @@ public class StudentController {
      * Go to the homepage of the student.
      * @return
      */
-    @RequestMapping(value = {"/student/newApplication"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.GET)
     public String newApplication() {
         return "newApplication";
     }
@@ -65,12 +65,12 @@ public class StudentController {
      * Submit the application and go to the homepage of the student.
      * @return
      */
-    @RequestMapping(value = {"/student/newApplication/submit"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.POST)
     public String submitApplication(@RequestParam("content") String content, HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
         Application application = new Application(content, new Date(), SUBMITTED, student);
         studentService.submitApplication(application);
 
-        return "redirect:/student/applications";
+        return "success";
     }
 }
