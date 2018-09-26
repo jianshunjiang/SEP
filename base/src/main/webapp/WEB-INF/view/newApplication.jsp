@@ -15,6 +15,7 @@
     <title>UTS loan system</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
+
 </head>
 <body>
 <%@ include file="header.jsp" %>
@@ -45,7 +46,39 @@
         </div>
     </form:form>
 </div>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!--  Bootstrap Validator JS文件 -->
+<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+　　<!-- Bootstrap Validator 样式文件 -->
+<link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+　　
+<script>
+    $(document).ready(function () {
+        $('#app_form').bootstrapValidator({
+            message: 'This value is not valid',        //验证错误时的信息
+            feedbackIcons: {        //验证时显示的图标
+                valid: 'glyphicon glyphicon-ok',      //正确图标
+                invalid: 'glyphicon glyphicon-remove',        //错误图标
+                validating: 'glyphicon glyphicon-refresh'        //正在更新图标
+            },
+            fields: {
+                content: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter the description of your application.'
+                        },
+                    }
+                }
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
