@@ -94,10 +94,9 @@ public class StudentService {
      * @param application
      */
     public Application submitApplication(Application application){
-        Integer id = applicationRepository.save(application).getId();
-        Email email = new Email( id,application.getTitle(), application.getStudent(), SUBMITTED);
-        emailService.sendEmail(email);
-        return applicationRepository.findOne(id);
+        application = applicationRepository.save(application);
+        emailService.notifyStudent(application);
+        return application;
     }
 
     /**

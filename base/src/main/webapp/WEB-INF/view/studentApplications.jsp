@@ -21,12 +21,12 @@
 <%@ include file="sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>　　Create</a>
+    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>　Create</a>
 <%
     if( student.getDraft() != null){
 %>
-    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=<%=student.getDraft().getId()%>"><span class="glyphicon glyphicon-floppy-open"></span>　　Open Draft</a>
-    <a role="button" class="btn btn-danger btn-lg btn-block" href="/student/draft/delete"><span class="glyphicon glyphicon-trash"></span>　　Delete Draft</a>
+    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=<%=student.getDraft().getId()%>"><span class="glyphicon glyphicon-floppy-open"></span>　Open Draft</a>
+    <a role="button" class="btn btn-danger btn-lg btn-block" href="/student/draft/delete"><span class="glyphicon glyphicon-trash"></span>　Delete Draft</a>
     <%
         }
     %>

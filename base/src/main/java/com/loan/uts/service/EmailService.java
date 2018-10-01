@@ -1,5 +1,6 @@
 package com.loan.uts.service;
 
+import com.loan.uts.model.Application;
 import com.loan.uts.model.Email;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import static com.loan.uts.model.Application.ACCEPTED;
 
 /**
  * Service for sending emails.
@@ -21,7 +24,25 @@ public class EmailService {
     @Resource
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(Email email){
+    /**
+     * Notify students the status of the application has changed by email
+     * @param application
+     */
+    public void notifyStudent(Application application){
+        Email email = new Email(application, application.getStudent());
+        sendEmail(email);
+    }
+
+    /**
+     * Notify manager that an application is assigned to him/her by email.
+     * @param application
+     */
+    public void notifyManager(Application application){
+        Email email = new Email(application, application.getManager());
+        sendEmail(email);
+    }
+
+    private void sendEmail(Email email){
         final MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message,

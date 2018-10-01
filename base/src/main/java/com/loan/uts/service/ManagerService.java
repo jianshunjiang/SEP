@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.print.attribute.standard.MediaName;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import static com.loan.uts.model.Application.ACCEPTED;
 
 @Transactional
 @Service
@@ -28,12 +32,15 @@ public class ManagerService {
         return managerRepository.findByEmailAndPassword(email, password);
     }
 
+    /**
+     * Assign an application to a manager.
+     * @param application
+     */
     public void AssignApplication(Application application){
         Manager manager = getRandomManager();
         application.setManager(manager);
-        applicationRepository.save(application);
-        Email email = new Email(application.getId(), application.getTitle(), manager, Email.ASSIGNED);
-        emailService.sendEmail(email);
+        application = applicationRepository.save(application);
+        emailService.notifyManager(application);
     }
 
     private Manager getRandomManager(){
@@ -41,4 +48,47 @@ public class ManagerService {
         int index = (int)(Math.random()*(managers.size()));
         return managers.get(index);
     }
+
+    /**
+     * Get all unhandled applications for the manager.
+     * @param manager
+     * @return
+     */
+    public Set<Application> getUnhandledApp(Manager manager){
+        return applicationRepository.getApplicationsByManagerIdAndResultDateIsNull(manager.getId());
+    }
+
+    /**
+     * Find a specific application.
+     * @param id
+     * @return
+     */
+    public Application getApplication(Integer id){
+        return applicationRepository.findOne(id);
+    }
+
+    /**
+     * Notify the student that the application is processing.
+     * @param application
+     * @return
+     */
+    public void manageApp(Application application, String result){
+        application.setStatus(result);
+        applicationRepository.save(application);
+        emailService.notifyStudent(application);
+    }
+
+    /**
+     * Approve or decline the application and notify the student.
+     * @param applicationId
+     * @return
+     */
+    public void manageApp(Integer applicationId, String result, Date date, String comment){
+        Application application = getApplication(applicationId);
+        application.setResultDate(date);
+        application.setComment(comment);
+        manageApp(application, result);
+    }
+
+
 }

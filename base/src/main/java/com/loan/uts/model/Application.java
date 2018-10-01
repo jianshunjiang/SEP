@@ -19,7 +19,7 @@ public class Application {
     private Student student;
     private Manager manager;
     private String title;
-
+    private String comment;
 
     public Application(){}
 
@@ -148,5 +148,15 @@ public class Application {
 
     public String submitDateString(){
         return submitDate.toString().split(" ")[0];
+    }
+
+    @Basic
+    @Column(name = "comment", nullable = true, length = 1000)
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

@@ -12,6 +12,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     Set<Application> getApplicationsByStudentIdAndResultDateIsNull(Integer studentId);
     Set<Application> getApplicationsByStudentIdAndResultDateIsNotNull(Integer studentId);
     Set<Application> getApplicationsByStudentIdAndResultDateIsNotNullAndTitleContaining(Integer studentId, String title);
+    Set<Application> getApplicationsByManagerIdAndResultDateIsNull(Integer managerId);
     @Query(
             value = "SELECT * FROM application a WHERE a.student_id =?1 AND a.result_date IS NOT NULL AND a.submit_date like ?2% ",
             nativeQuery = true)

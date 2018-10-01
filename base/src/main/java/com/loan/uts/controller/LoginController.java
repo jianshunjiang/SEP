@@ -63,7 +63,7 @@ public class LoginController {
                 if(manager != null){
                     session.setAttribute(userType, manager);
                     session.setAttribute(USER_TYPE, userType);
-                    return "manager";
+                    return "redirect:/loanManager";
                 }
             }
 

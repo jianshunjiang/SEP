@@ -2,7 +2,6 @@ package com.loan.uts.controller;
 
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
-import com.loan.uts.model.Manager;
 import com.loan.uts.model.Student;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
@@ -25,6 +24,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
  * Handle the requests that from the student operation in the front end..
  */
 @Controller
+@RequestMapping("/student")
 public class StudentController {
     public static final String APPLICATIONS = "applications";
     public static final String DRAFT = "draft";
@@ -44,19 +44,19 @@ public class StudentController {
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = {"/student/applications"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/applications"}, method = RequestMethod.GET)
     public String applications(HttpSession session, ModelMap modelMap) {
         Student student = (Student) session.getAttribute(STUDENT);
         Set<Application> applications = studentService.getUnFinishedApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
-        return "applications";
+        return "studentApplications";
     }
 
     /**
      * Go to the homepage of the student.
      * @return
      */
-    @RequestMapping(value = {"/student"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String student() {
         return "student";
     }
@@ -65,7 +65,7 @@ public class StudentController {
      * Go to the homepage of the adding new applications.
      * @return
      */
-    @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
     public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
         if(draftId != null) modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
         return "newApplication";
@@ -75,7 +75,7 @@ public class StudentController {
      * Submit the application and go to the homepage of the student.
      * @return
      */
-    @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.POST)
     public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
         Application application = new Application(title, content, new Date(), SUBMITTED, student);
@@ -92,7 +92,7 @@ public class StudentController {
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = {"/student/history"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/history"}, method = RequestMethod.GET)
     public String history(HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         modelMap.addAttribute("applications", studentService.getHistoricalApplication(student));
@@ -108,7 +108,7 @@ public class StudentController {
      * @param month
      * @return
      */
-    @RequestMapping(value = {"/student/history"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/history"}, method = RequestMethod.POST)
     public String history(HttpSession session, ModelMap modelMap,
                           @RequestParam("type") Integer type, @RequestParam("title") String title, @RequestParam("month") String month){
         Student student = (Student)session.getAttribute(STUDENT);

@@ -13,17 +13,17 @@ public class Email {
 
     public Email(){}
 
-    public Email(int applicationId, String title, Student student, String messageType){
+    public Email(Application application, Student student){
         setRecipient(student.getEmail());
-        setContent(title,student.getFirstname() + " " +student.getLastname(),
-                applicationId, messageType);
+        setContent(application.getTitle(),student.getFirstname() + " " +student.getLastname(),
+                application.getId(), application.getStatus());
         setSubject("Application Notification");
     }
 
-    public Email(int applicationId, String title, Manager manager, String messageType){
+    public Email(Application application, Manager manager){
         setRecipient(manager.getEmail());
-        setContent(title,manager.getFirstname() + " " +manager.getLastname(),
-                applicationId, messageType);
+        setContent(application.getTitle(),manager.getFirstname() + " " +manager.getLastname(),
+                application.getId(), ASSIGNED);
         setSubject("Application Notification");
     }
 

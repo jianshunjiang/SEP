@@ -1,5 +1,4 @@
-<%@ page import="com.loan.uts.model.Manager" %>
-<%@ page import="static com.loan.uts.controller.LoginController.LOAN_MANAGER" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 8/29/18
@@ -15,8 +14,8 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<%Manager manager= (Manager) session.getAttribute(LOAN_MANAGER);%>
-<h1>Welcome <%=manager.getFirstname()%> <%=manager.getLastname()%></h1>
+<%@ include file="sidebar.jsp"%>
+<h1>Welcome to UTS Loan System</h1>
 
 </body>
 </html>
