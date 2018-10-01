@@ -27,6 +27,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @Controller
 public class StudentController {
     public static final String APPLICATIONS = "applications";
+    public static final String DRAFT = "draft";
     public static final int DATE = 1;
     public static final int TITLE = 0;
 
@@ -61,11 +62,12 @@ public class StudentController {
     }
 
     /**
-     * Go to the homepage of the student.
+     * Go to the homepage of the adding new applications.
      * @return
      */
     @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.GET)
-    public String newApplication() {
+    public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
+        if(draftId != null) modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
         return "newApplication";
     }
 
@@ -83,6 +85,13 @@ public class StudentController {
         return "success";
     }
 
+    /**
+     * Return the historical application page.
+     * Prepare the historical application datas.
+     * @param session
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = {"/student/history"}, method = RequestMethod.GET)
     public String history(HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
@@ -90,6 +99,15 @@ public class StudentController {
         return "history";
     }
 
+    /**
+     * Search for the historical applications by title or date.
+     * @param session
+     * @param modelMap
+     * @param type
+     * @param title
+     * @param month
+     * @return
+     */
     @RequestMapping(value = {"/student/history"}, method = RequestMethod.POST)
     public String history(HttpSession session, ModelMap modelMap,
                           @RequestParam("type") Integer type, @RequestParam("title") String title, @RequestParam("month") String month){
@@ -101,12 +119,36 @@ public class StudentController {
         return "history";
     }
 
+    /**
+     * Save the draft for student.
+     * @param title
+     * @param content
+     * @param session
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = {"/student/draft/save"}, method = RequestMethod.POST)
     public String saveDraft(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         Draft draft = new Draft(title, content, student);
         studentService.saveDraft(student, draft);
+        session.setAttribute(STUDENT, student);
         modelMap.addAttribute("filetype", "draft");
         return "success";
     }
+
+    /**
+     * Delete the draft for students.
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = {"/student/draft/delete"}, method = RequestMethod.GET)
+    public String deleteDraft(HttpSession session){
+        Student student = (Student) session.getAttribute(STUDENT);
+        studentService.deleteDraft(student.getDraft());
+        student.setDraft(null);
+        session.setAttribute(STUDENT, student);
+        return "redirect:/student/applications";
+    }
+
 }

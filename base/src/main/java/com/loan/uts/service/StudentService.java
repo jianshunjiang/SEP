@@ -144,4 +144,13 @@ public class StudentService {
         draftRepository.delete(draft);
     }
 
+    /**
+     * Get draft by draft id.
+     * @param draftId
+     * @return
+     */
+    public Draft getDraft(Integer draftId){
+       return  draftRepository.findOne(draftId);
+    }
+
 }

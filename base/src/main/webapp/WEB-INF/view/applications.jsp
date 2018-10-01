@@ -21,13 +21,22 @@
 <%@ include file="sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>Create</a>
+    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>　　Create</a>
+<%
+    if( student.getDraft() != null){
+%>
+    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=<%=student.getDraft().getId()%>"><span class="glyphicon glyphicon-floppy-open"></span>　　Open Draft</a>
+    <a role="button" class="btn btn-danger btn-lg btn-block" href="/student/draft/delete"><span class="glyphicon glyphicon-trash"></span>　　Delete Draft</a>
+    <%
+        }
+    %>
     <c:if test="${empty applications}"><h1>You have no applications yet.</h1></c:if>
     <c:if test="${not empty applications}">
     <table class="table table-condensed">
         <thead>
         <tr>
             <th>Application</th>
+            <th>Title</th>
             <th>Submit Date</th>
             <th>Status</th>
         </tr>
@@ -36,6 +45,7 @@
         <c:forEach items="${applications}" var="application">
             <tr class="active">
                 <td>${application.id}</td>
+                <td>${application.title}</td>
                 <td>${application.submitDateString()}</td>
                 <td>${application.status}</td>
                 <td>

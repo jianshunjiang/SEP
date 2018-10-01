@@ -24,7 +24,7 @@
     <form:form action="" method="post" role="form" id="app_form" name="app_form">
         <div class="form-group">
             <label for="title">Application title</label>
-            <input type="text" class="form-control" id="title" name="title">
+            <input type="text" class="form-control" id="title" name="title" value="${draft.title}">
         </div>
         <div class="form-group">
             <label>Student ID: </label>
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="content">Description of your reason: </label>
-            <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+            <textarea class="form-control" id="content" name="content" rows="10" >${draft.content}</textarea>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success" id="app_btn"
