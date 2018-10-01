@@ -1,7 +1,9 @@
 package com.loan.uts.controller;
 
 import com.loan.uts.model.Application;
+import com.loan.uts.model.Manager;
 import com.loan.uts.model.Student;
+import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,9 +26,14 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @Controller
 public class StudentController {
     public static final String APPLICATIONS = "applications";
+    public static final int DATE = 1;
+    public static final int TITLE = 0;
 
     @Autowired
     StudentService studentService;
+
+    @Autowired
+    ManagerService managerService;
 
     /**
      * Search for the student's application records within the student.
@@ -38,7 +45,7 @@ public class StudentController {
     @RequestMapping(value = {"/student/applications"}, method = RequestMethod.GET)
     public String applications(HttpSession session, ModelMap modelMap) {
         Student student = (Student) session.getAttribute(STUDENT);
-        Set<Application> applications = studentService.getApplication(student);
+        Set<Application> applications = studentService.getUnFinishedApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
         return "applications";
     }
@@ -66,11 +73,29 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/student/applications/add"}, method = RequestMethod.POST)
-    public String submitApplication(@RequestParam("content") String content, HttpSession session, ModelMap modelMap) {
+    public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
-        Application application = new Application(content, new Date(), SUBMITTED, student);
-        studentService.submitApplication(application);
-
+        Application application = new Application(title, content, new Date(), SUBMITTED, student);
+        Application savedApp = studentService.submitApplication(application);
+        managerService.AssignApplication(savedApp);
         return "success";
+    }
+
+    @RequestMapping(value = {"/student/history"}, method = RequestMethod.GET)
+    public String history(HttpSession session, ModelMap modelMap){
+        Student student = (Student)session.getAttribute(STUDENT);
+        modelMap.addAttribute("applications", studentService.getHistoricalApplication(student));
+        return "history";
+    }
+
+    @RequestMapping(value = {"/student/history"}, method = RequestMethod.POST)
+    public String history(HttpSession session, ModelMap modelMap,
+                          @RequestParam("type") Integer type, @RequestParam("title") String title, @RequestParam("month") String month){
+        Student student = (Student)session.getAttribute(STUDENT);
+        Set<Application> applications;
+        if (type == DATE) applications = studentService.searchByMonth(student, month);
+        else applications = studentService.searchByTitle(student, title);
+        modelMap.addAttribute("applications", applications);
+        return "history";
     }
 }

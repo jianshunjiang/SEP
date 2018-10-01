@@ -1,9 +1,10 @@
 package com.loan.uts.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "manager", schema = "uts_loan", catalog = "")
+@Table(name = "manager", schema = "uts_loan")
 public class Manager {
     private Integer id;
     private String firstname;
@@ -13,6 +14,7 @@ public class Manager {
     private String password;
     private byte delete;
     private Integer adminId;
+    private Collection<Application> applicationsById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -122,5 +124,14 @@ public class Manager {
 
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
+    }
+
+    @OneToMany(mappedBy = "manager")
+    public Collection<Application> getApplicationsById() {
+        return applicationsById;
+    }
+
+    public void setApplicationsById(Collection<Application> applicationsById) {
+        this.applicationsById = applicationsById;
     }
 }

@@ -4,6 +4,8 @@ import com.loan.uts.model.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * This interface handles the data operations of Manager entity.
  */
@@ -16,4 +18,10 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
      * @return
      */
     Manager findByEmailAndPassword(String email, String password);
+
+    /**
+     * Get all undeleted manager.
+     * @return
+     */
+    List<Manager> findAllByDeleteFalse();
 }

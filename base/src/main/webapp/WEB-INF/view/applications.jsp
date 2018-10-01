@@ -36,7 +36,7 @@
         <c:forEach items="${applications}" var="application">
             <tr class="active">
                 <td>${application.id}</td>
-                <td>${application.submitDate}</td>
+                <td>${application.submitDateString()}</td>
                 <td>${application.status}</td>
                 <td>
                     <button type="button" class="btn btn-info">Detail</button>

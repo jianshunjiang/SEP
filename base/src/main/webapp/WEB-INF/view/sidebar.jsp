@@ -15,7 +15,7 @@
             <li class="nav-header">Welcome <%=student.getFirstname()%>  <%=student.getLastname()%></li>
             <li class="active"><a href="/student"><i class="icon-white icon-home"></i> Home</a></li>
             <li><a href="/student/applications"><span class="glyphicon glyphicon-file"></span> Applications</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-dashboard"></span> History</a></li>
+            <li><a href="/student/history"><span class="glyphicon glyphicon-dashboard"></span> History</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
         </ul>
     </div>

@@ -23,6 +23,10 @@
 <div class="col-md-9">
     <form:form action="/student/applications/add" method="post" role="form" id="app_form">
         <div class="form-group">
+            <label for="title">Application title</label>
+            <input type="text" class="form-control" id="title" name="title" >
+        </div>
+        <div class="form-group">
             <label>Student ID: </label>
             <label><%=student.getId()%>
             </label>

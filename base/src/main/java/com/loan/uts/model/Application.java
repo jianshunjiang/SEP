@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "application", schema = "uts_loan", catalog = "")
+@Table(name = "application", schema = "uts_loan")
 public class Application {
 
     public static final String SUBMITTED = "Submitted";
@@ -17,16 +17,19 @@ public class Application {
     private Date resultDate;
     private String content;
     private Student student;
+    private Manager manager;
+    private String title;
+
 
     public Application(){}
 
-    public Application(String content, Date submitDate, String status, Student student){
+    public Application(String title, String content, Date submitDate, String status, Student student){
+        this.title = title;
         this.content = content;
         this.submitDate = submitDate;
         this.status = status;
         this.student = student;
     }
-
 
     /**
      *
@@ -117,5 +120,33 @@ public class Application {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id", referencedColumnName = "id")
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    @Basic
+    @Column(name = "title", nullable = true, length = 50)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String resultDateString(){
+        return resultDate.toString().split(" ")[0];
+    }
+
+    public String submitDateString(){
+        return submitDate.toString().split(" ")[0];
     }
 }

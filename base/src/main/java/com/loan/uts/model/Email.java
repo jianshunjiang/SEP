@@ -5,6 +5,7 @@ package com.loan.uts.model;
  */
 public class Email {
 
+    public static final String ASSIGNED = "assigned to you.";
 
     private String[] recipients;
     private String subject;
@@ -12,9 +13,16 @@ public class Email {
 
     public Email(){}
 
-    public Email(int applicationId, Student student, String messageType){
+    public Email(int applicationId, String title, Student student, String messageType){
         setRecipient(student.getEmail());
-        setContent(student.getFirstname() + " " +student.getLastname(),
+        setContent(title,student.getFirstname() + " " +student.getLastname(),
+                applicationId, messageType);
+        setSubject("Application Notification");
+    }
+
+    public Email(int applicationId, String title, Manager manager, String messageType){
+        setRecipient(manager.getEmail());
+        setContent(title,manager.getFirstname() + " " +manager.getLastname(),
                 applicationId, messageType);
         setSubject("Application Notification");
     }
@@ -44,9 +52,9 @@ public class Email {
         return content;
     }
 
-    public void setContent(String name, int id, String messageType) {
+    public void setContent(String title, String name, int id, String messageType) {
         this.content = "<html><body>Dear " + name +", <br/><br/>";
-        this.content +="Your application No. " + id + " is " + messageType;
+        this.content +="Application No. " + id + " " + title +" is " + messageType;
         this.content +="<br/>For further information, check uts loan system.";
 
         this.content +="<br/><br/>Best Regards, <br/>UTS Loan System" +

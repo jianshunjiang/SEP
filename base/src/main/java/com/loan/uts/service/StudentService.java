@@ -57,6 +57,26 @@ public class StudentService {
     }
 
     /**
+     * Get the applications that are not finished.
+     * @param student
+     * @return
+     */
+    public Set<Application> getUnFinishedApplication(Student student){
+        return applicationRepository
+                .getApplicationsByStudentIdAndResultDateIsNull(student.getId());
+    }
+
+    /**
+     * Get the applications that are finished.
+     * @param student
+     * @return
+     */
+    public Set<Application> getHistoricalApplication(Student student){
+        return applicationRepository
+                .getApplicationsByStudentIdAndResultDateIsNotNull(student.getId());
+    }
+
+    /**
      * Get the student by id.
      * @param id
      * @return
@@ -66,14 +86,37 @@ public class StudentService {
     }
 
     /**
-     * Submit new application in the database.
+     * Submit new application in the database and notify the student.
      * @param application
      */
-    public Integer submitApplication(Application application){
+    public Application submitApplication(Application application){
         Integer id = applicationRepository.save(application).getId();
-        Email email = new Email(id, application.getStudent(), SUBMITTED);
+        Email email = new Email( id,application.getTitle(), application.getStudent(), SUBMITTED);
         emailService.sendEmail(email);
-        return id;
+        return applicationRepository.findOne(id);
+    }
+
+    /**
+     * Get the historical applications that is in a month.
+     * @param student
+     * @param timeStr
+     * @return
+     */
+    public Set<Application> searchByMonth(Student student, String timeStr){
+        return applicationRepository
+                .getApplicationsByStudentIdAndResultDateIsNotNullAndSubmitDate(
+                        student.getId(),timeStr);
+    }
+
+    /**
+     * Get the historical applications that has some title.
+     * @param student
+     * @param title
+     * @return
+     */
+    public Set<Application> searchByTitle(Student student, String title){
+        return applicationRepository
+                .getApplicationsByStudentIdAndResultDateIsNotNullAndTitleContaining(student.getId(), title);
     }
 
 }
