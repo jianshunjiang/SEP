@@ -21,10 +21,10 @@
 <%@ include file="header.jsp" %>
 <%@ include file="sidebar.jsp" %>
 <div class="col-md-9">
-    <form:form action="/student/applications/add" method="post" role="form" id="app_form">
+    <form:form action="" method="post" role="form" id="app_form" name="app_form">
         <div class="form-group">
             <label for="title">Application title</label>
-            <input type="text" class="form-control" id="title" name="title" >
+            <input type="text" class="form-control" id="title" name="title">
         </div>
         <div class="form-group">
             <label>Student ID: </label>
@@ -46,7 +46,10 @@
             <textarea class="form-control" id="content" name="content" rows="10"></textarea>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-sm btn-success" id="app_btn">Submit</button>
+            <button type="submit" class="btn btn-sm btn-success" id="app_btn"
+                    onclick="submitApp()">Submit</button>
+            <button type="submit" class="btn btn-sm btn-warning" id="draft_btn"
+                    onclick="saveDraft()">Save draft</button>
         </div>
     </form:form>
 </div>
@@ -82,6 +85,20 @@
             }
         });
     });
+
+    function submitApp() {
+        document.getElementById("app_form").action = "/student/applications/add";
+        document.getElementById("app_form").submit();
+        console.log("Submit application");
+    }
+
+    function saveDraft() {
+        document.getElementById("app_form").action = "/student/draft/save";
+        document.getElementById("app_form").submit();
+        console.log("Submit draft")
+    }
+
+
 </script>
 
 </body>

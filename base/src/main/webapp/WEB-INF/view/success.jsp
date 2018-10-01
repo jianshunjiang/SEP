@@ -19,10 +19,11 @@
 <%@ include file="sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <h1>You application is successfully submitted.</h1>
+    <h1>Your ${filetype} is successfully saved.</h1>
     <p style="text-indent: 2em; margin-top: 30px;">
         The system will go back in <span id="time">5</span> seconds automatically.
         If it didn't go back, click <a href="/student/applications" title="Go back">link</a> to get back</p>
+</div>
     <script type="text/javascript">
         delayURL();
         function delayURL() {
@@ -37,7 +38,6 @@
             }
         }
     </script>
-<%--<%response.setHeader("refresh","3; /student/applications");%>--%>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

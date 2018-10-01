@@ -1,9 +1,11 @@
 package com.loan.uts.service;
 
 import com.loan.uts.model.Application;
+import com.loan.uts.model.Draft;
 import com.loan.uts.model.Email;
 import com.loan.uts.model.Student;
 import com.loan.uts.repository.ApplicationRepository;
+import com.loan.uts.repository.DraftRepository;
 import com.loan.uts.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class StudentService {
     StudentRepository studentRepository;
     @Autowired
     ApplicationRepository applicationRepository;
+    @Autowired
+    DraftRepository draftRepository;
     @Autowired
     EmailService emailService;
 
@@ -117,6 +121,27 @@ public class StudentService {
     public Set<Application> searchByTitle(Student student, String title){
         return applicationRepository
                 .getApplicationsByStudentIdAndResultDateIsNotNullAndTitleContaining(student.getId(), title);
+    }
+
+    /**
+     * Save the draft.
+     * @param student
+     * @param draft
+     */
+    public Draft saveDraft(Student student, Draft draft){
+        if (student.getDraft() != null) draft.setId(student.getDraft().getId());
+        Draft savedDraft = draftRepository.save(draft);
+        student.setDraft(savedDraft);
+        studentRepository.save(student);
+        return savedDraft;
+    }
+
+    /**
+     * Delete the draft.
+     * @param draft
+     */
+    public void deleteDraft(Draft draft){
+        draftRepository.delete(draft);
     }
 
 }

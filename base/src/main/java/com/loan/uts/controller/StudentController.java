@@ -1,6 +1,7 @@
 package com.loan.uts.controller;
 
 import com.loan.uts.model.Application;
+import com.loan.uts.model.Draft;
 import com.loan.uts.model.Manager;
 import com.loan.uts.model.Student;
 import com.loan.uts.service.ManagerService;
@@ -78,6 +79,7 @@ public class StudentController {
         Application application = new Application(title, content, new Date(), SUBMITTED, student);
         Application savedApp = studentService.submitApplication(application);
         managerService.AssignApplication(savedApp);
+        modelMap.addAttribute("filetype", "draft");
         return "success";
     }
 
@@ -97,5 +99,14 @@ public class StudentController {
         else applications = studentService.searchByTitle(student, title);
         modelMap.addAttribute("applications", applications);
         return "history";
+    }
+
+    @RequestMapping(value = {"/student/draft/save"}, method = RequestMethod.POST)
+    public String saveDraft(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
+        Student student = (Student)session.getAttribute(STUDENT);
+        Draft draft = new Draft(title, content, student);
+        studentService.saveDraft(student, draft);
+        modelMap.addAttribute("filetype", "draft");
+        return "success";
     }
 }

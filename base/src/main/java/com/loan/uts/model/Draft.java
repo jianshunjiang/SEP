@@ -10,12 +10,33 @@ public class Draft {
     private String content;
     private Integer studentId;
     private java.util.Date lastEdit;
+    private Student student;
+    private String title;
+
+    public Draft(){}
+
+    public Draft(String title, String content, Student student){
+        this.title = title;
+        this.student = student;
+        this.content = content;
+        this.lastEdit = new java.util.Date();
+    }
+
+    @OneToOne(mappedBy = "draft")
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public void setLastEdit(java.util.Date lastEdit) {
         this.lastEdit = lastEdit;
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
@@ -33,16 +54,6 @@ public class Draft {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    @Basic
-    @Column(name = "student_id", nullable = true)
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
     }
 
     @Basic
@@ -77,5 +88,15 @@ public class Draft {
         result = 31 * result + (studentId != null ? studentId.hashCode() : 0);
         result = 31 * result + (lastEdit != null ? lastEdit.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "title", nullable = true, length = 50)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

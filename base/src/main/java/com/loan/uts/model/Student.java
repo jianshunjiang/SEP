@@ -2,7 +2,6 @@ package com.loan.uts.model;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -22,6 +21,17 @@ public class Student {
     private String nationality;
     private String startYear;
     private Set<Application> applications;
+    private Draft draft;
+
+    @OneToOne
+    @JoinColumn(name = "draft_id", referencedColumnName = "id")
+    public Draft getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Draft draft) {
+        this.draft = draft;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -203,4 +213,5 @@ public class Student {
     public void setApplications(Set<Application> applications) {
         this.applications = applications;
     }
+
 }
