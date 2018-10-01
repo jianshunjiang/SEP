@@ -49,33 +49,38 @@ public class LoginController {
                         @RequestParam("password") String password,
                         @RequestParam("userType") String userType,
                         HttpSession session, ModelMap modelMap) {
-        if (userType.equals(STUDENT)) {
-            Student student = studentService.login(username, password);
-            if (student != null) {
-                session.setAttribute(userType, student);
-                session.setAttribute(USER_TYPE, userType);
-                return "student";
+        try {
+            if (userType.equals(STUDENT)) {
+                Student student = studentService.login(username, password);
+                if (student != null) {
+                    session.setAttribute(userType, student);
+                    session.setAttribute(USER_TYPE, userType);
+                    return "student";
+                }
             }
+            if(userType.equals(LOAN_MANAGER)){
+                Manager manager = managerService.login(username, password);
+                if(manager != null){
+                    session.setAttribute(userType, manager);
+                    session.setAttribute(USER_TYPE, userType);
+                    return "manager";
+                }
+            }
+
+            if(userType.equals(SYSTEM_ADMIN)){
+                Administrator admin = adminService.login(username, password);
+                if(admin != null){
+                    session.setAttribute(userType, admin);
+                    session.setAttribute(USER_TYPE, userType);
+                    return "admin";
+                }
+            }
+            modelMap.addAttribute("error", "Incorrect account or password");
         }
-        if(userType.equals(LOAN_MANAGER)){
-            Manager manager = managerService.login(username, password);
-            if(manager != null){
-                session.setAttribute(userType, manager);
-                session.setAttribute(USER_TYPE, userType);
-                return "manager";
-            }
+        catch (Exception e){
+            modelMap.addAttribute("error", "Incorrect account or password");
         }
 
-        if(userType.equals(SYSTEM_ADMIN)){
-            Administrator admin = adminService.login(username, password);
-            if(admin != null){
-                session.setAttribute(userType, admin);
-                session.setAttribute(USER_TYPE, userType);
-                return "admin";
-            }
-        }
-        modelMap.addAttribute("error", "Incorrect account or password");
-        //TODO: deal with the log in fail operation.
         return "login";
     }
 
