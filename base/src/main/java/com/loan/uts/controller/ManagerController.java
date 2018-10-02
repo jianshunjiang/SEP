@@ -3,6 +3,8 @@ package com.loan.uts.controller;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
 import com.loan.uts.service.ManagerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @RequestMapping("/loanManager")
 public class ManagerController {
 
+    private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
     public static final String APPLICATION = "application";
 
     @Autowired
@@ -62,6 +65,7 @@ public class ManagerController {
         Application application = managerService.getApplication(id);
         if(application.getStatus().equals(SUBMITTED)) managerService.manageApp(application, PROCESSING);
         modelMap.addAttribute(APPLICATION, application);
+        logger.info("Application detail: " + application.toString());
         return "appDetail";
     }
 

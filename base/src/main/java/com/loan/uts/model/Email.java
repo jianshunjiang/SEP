@@ -10,6 +10,7 @@ public class Email {
     private String[] recipients;
     private String subject;
     private String content;
+    private String type;
 
     public Email(){}
 
@@ -18,6 +19,7 @@ public class Email {
         setContent(application.getTitle(),student.getFirstname() + " " +student.getLastname(),
                 application.getId(), application.getStatus());
         setSubject("Application Notification");
+        type = application.getStatus();
     }
 
     public Email(Application application, Manager manager){
@@ -25,6 +27,7 @@ public class Email {
         setContent(application.getTitle(),manager.getFirstname() + " " +manager.getLastname(),
                 application.getId(), ASSIGNED);
         setSubject("Application Notification");
+        type = ASSIGNED;
     }
 
     public String[] getRecipients() {
@@ -59,5 +62,10 @@ public class Email {
 
         this.content +="<br/><br/>Best Regards, <br/>UTS Loan System" +
                 "</body></html>";
+    }
+
+    @Override
+    public String toString() {
+        return "Recipient: " + recipients[0] + "; Type: " + type;
     }
 }

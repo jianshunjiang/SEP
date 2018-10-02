@@ -123,4 +123,9 @@ public class Manager {
     public void setApplications(Collection<Application> applications) {
         this.applications = applications;
     }
+
+    @Override
+    public String toString() {
+        return "No. " + getId() + " " + getFirstname() + " " + getLastname();
+    }
 }

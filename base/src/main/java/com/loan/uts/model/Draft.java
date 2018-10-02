@@ -110,4 +110,10 @@ public class Draft {
     public void setAttachments(Collection<Attachment> attachments) {
         this.attachments = attachments;
     }
+
+    @Override
+    public String toString() {
+        return "{ID: " + id +"; Title: " + title + "; Date: " + lastEdit.toString() +
+                "; Student: " + student.toString();
+    }
 }

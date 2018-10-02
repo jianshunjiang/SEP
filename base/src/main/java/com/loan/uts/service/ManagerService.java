@@ -4,6 +4,8 @@ import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
 import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.ManagerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,9 @@ import java.util.Set;
 @Transactional
 @Service
 public class ManagerService {
+
+    private static Logger logger = LoggerFactory.getLogger(ManagerService.class);
+
     @Autowired
     ManagerRepository managerRepository;
 
@@ -32,11 +37,13 @@ public class ManagerService {
      * Assign an application to a manager.
      * @param application
      */
-    public void AssignApplication(Application application){
+    public Manager AssignApplication(Application application){
         Manager manager = getRandomManager();
         application.setManager(manager);
         application = applicationRepository.save(application);
+        logger.info("Application No." + application.getId() + " assigned: Manager " + manager.toString());
         emailService.notifyManager(application);
+        return manager;
     }
 
     private Manager getRandomManager(){
@@ -72,6 +79,7 @@ public class ManagerService {
         application.setStatus(result);
         applicationRepository.save(application);
         emailService.notifyStudent(application);
+       logger.info("Application No. " + application.getId() + result);
     }
 
     /**
@@ -84,6 +92,7 @@ public class ManagerService {
         application.setResultDate(date);
         application.setComment(comment);
         manageApp(application, result);
+        logger.info("Application No. " + application.getId() + result);
     }
 
 

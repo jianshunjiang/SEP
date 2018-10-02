@@ -3,9 +3,12 @@ package com.loan.uts.controller;
 import com.loan.uts.exception.AttachFailException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
+import com.loan.uts.model.Manager;
 import com.loan.uts.model.Student;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +35,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+    private static Logger logger = LoggerFactory.getLogger(StudentController.class);
     public static final String APPLICATIONS = "applications";
     public static final String DRAFT = "draft";
     public static final int DATE = 1;
@@ -73,7 +77,11 @@ public class StudentController {
      */
     @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
     public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
-        if(draftId != null) modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
+        logger.info("Request for creating new application.");
+        if(draftId != null) {
+            modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
+            logger.info("Load draft: " + draftId);
+        }
         return "newApplication";
     }
 
@@ -98,6 +106,7 @@ public class StudentController {
 //            e.printStackTrace();
 //        }
         managerService.AssignApplication(savedApp);
+        logger.info("Application submitted.");
         if(draftId != null) {
             student.setDraft(null);
             session.setAttribute(STUDENT, student);
@@ -135,8 +144,13 @@ public class StudentController {
                           @RequestParam("type") Integer type, @RequestParam("title") String title, @RequestParam("month") String month){
         Student student = (Student)session.getAttribute(STUDENT);
         Set<Application> applications;
-        if (type == DATE) applications = studentService.searchByMonth(student, month);
-        else applications = studentService.searchByTitle(student, title);
+        if (type == DATE) {
+            applications = studentService.searchByMonth(student, month);
+        }
+        else {
+            applications = studentService.searchByTitle(student, title);
+        }
+        logger.info("Application history searched");
         modelMap.addAttribute("applications", applications);
         return "history";
     }
@@ -150,12 +164,15 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/student/draft/save"}, method = RequestMethod.POST)
-    public String saveDraft(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
+    public String saveDraft(@RequestParam("title") String title, @RequestParam("draft_id") Integer draftId,
+                            @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         Draft draft = new Draft(title, content, student);
-        studentService.saveDraft(student, draft);
+        if (draftId != null) draft.setId(draftId);
+        draft = studentService.saveDraft(student, draft);
         session.setAttribute(STUDENT, student);
         modelMap.addAttribute("filetype", "draft");
+        logger.info("Save draft.");
         return "success";
     }
 
@@ -167,9 +184,11 @@ public class StudentController {
     @RequestMapping(value = {"/student/draft/delete"}, method = RequestMethod.GET)
     public String deleteDraft(HttpSession session){
         Student student = (Student) session.getAttribute(STUDENT);
-        studentService.deleteDraft(student.getDraft());
+        Draft draft = student.getDraft();
+        studentService.deleteDraft(draft);
         student.setDraft(null);
         session.setAttribute(STUDENT, student);
+        logger.info("Delete draft");
         return "redirect:/student/applications";
     }
 

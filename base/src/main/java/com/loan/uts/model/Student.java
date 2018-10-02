@@ -214,4 +214,8 @@ public class Student {
         this.applications = applications;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id +"; Name: " + firstname + " " + lastname;
+    }
 }

@@ -6,6 +6,8 @@ import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.AttachmentRepository;
 import com.loan.uts.repository.DraftRepository;
 import com.loan.uts.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ import java.util.Set;
 @Transactional
 @Service("studentService")
 public class StudentService {
+
+    private static Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     @Autowired
     StudentRepository studentRepository;
     @Autowired
@@ -128,9 +133,11 @@ public class StudentService {
      * @return
      */
     public Set<Application> searchByMonth(Student student, String timeStr){
-        return applicationRepository
+        Set<Application> applications = applicationRepository
                 .getApplicationsByStudentIdAndResultDateIsNotNullAndSubmitDate(
                         student.getId(),timeStr);
+        logger.info("Searched application by date ' " + timeStr + "' result: " + applications.size());
+        return applications;
     }
 
     /**
@@ -140,8 +147,10 @@ public class StudentService {
      * @return
      */
     public Set<Application> searchByTitle(Student student, String title){
-        return applicationRepository
+        Set<Application> applications = applicationRepository
                 .getApplicationsByStudentIdAndResultDateIsNotNullAndTitleContaining(student.getId(), title);
+        logger.info("Searched application by title ' " + title + "' result: " + applications.size());
+        return applications;
     }
 
     /**
@@ -150,10 +159,11 @@ public class StudentService {
      * @param draft
      */
     public Draft saveDraft(Student student, Draft draft){
-        if (student.getDraft() != null) draft.setId(student.getDraft().getId());
+        if (draft.getId() == null && student.getDraft() != null) draft.setId(student.getDraft().getId());
         Draft savedDraft = draftRepository.save(draft);
         student.setDraft(savedDraft);
         studentRepository.save(student);
+        logger.info("Draft saved: " + draft.toString());
         return savedDraft;
     }
 
@@ -162,6 +172,7 @@ public class StudentService {
      * @param draft
      */
     public void deleteDraft(Draft draft){
+        logger.info("Draft deleted: " + draft.toString());
         draftRepository.delete(draft);
     }
 
@@ -171,6 +182,7 @@ public class StudentService {
      */
     public void deleteDraft(Integer id){
         draftRepository.delete(id);
+        logger.info("Draft deleted: " + id);
     }
 
     /**

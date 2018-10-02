@@ -1,7 +1,10 @@
 package com.loan.uts.service;
 
+import com.loan.uts.controller.StudentController;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,14 +14,13 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import static com.loan.uts.model.Application.ACCEPTED;
-
 /**
  * Service for sending emails.
  * @Author Tong Lei
  */
 @Service
 public class EmailService {
+    private static Logger logger = LoggerFactory.getLogger(EmailService.class);
     @Resource
     private TaskExecutor taskExecutor;
     @Resource
@@ -42,7 +44,7 @@ public class EmailService {
         sendEmail(email);
     }
 
-    private void sendEmail(Email email){
+    private void sendEmail(final Email email){
         final MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message,
@@ -54,10 +56,12 @@ public class EmailService {
             taskExecutor.execute(new Runnable() {
                 public void run() {
                     javaMailSender.send(message);
+                    logger.info("Email sent: " + email.toString());
                 }
             });
         } catch (MessagingException e) {
-            e.printStackTrace();
+           logger.error("Email sending fail: " + email.toString());
+           e.printStackTrace();
         }
     }
 }

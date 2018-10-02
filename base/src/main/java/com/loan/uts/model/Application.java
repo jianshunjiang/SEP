@@ -171,5 +171,10 @@ public class Application {
         this.attachmentsById = attachmentsById;
     }
 
-
+    @Override
+    public String toString() {
+        return "{ID: " + this.getId() + "; Title: " + this.getTitle() + "; Student: "
+                + student.getFirstname() + " " +student.getLastname() + " ("
+                + student.getId() + ")}";
+    }
 }
