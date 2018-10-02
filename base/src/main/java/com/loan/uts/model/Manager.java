@@ -6,23 +6,22 @@ import java.util.Collection;
 @Entity
 @Table(name = "manager", schema = "uts_loan")
 public class Manager {
-    private Integer id;
+    private int id;
     private String firstname;
     private String lastname;
     private String email;
     private String mobile;
     private String password;
-    private byte delete;
-    private Integer adminId;
-    private Collection<Application> applicationsById;
+    private boolean deleted;
+    private Collection<Application> applications;
 
     @Id
     @Column(name = "id", nullable = false)
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -32,8 +31,8 @@ public class Manager {
         return firstname;
     }
 
-    public void setFirstname(String fistname) {
-        this.firstname = fistname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     @Basic
@@ -77,13 +76,13 @@ public class Manager {
     }
 
     @Basic
-    @Column(name = "delete", nullable = false)
-    public byte getDelete() {
-        return delete;
+    @Column(name = "deleted", nullable = false)
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setDelete(byte delete) {
-        this.delete = delete;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
@@ -93,8 +92,8 @@ public class Manager {
 
         Manager manager = (Manager) o;
 
-        if (delete != manager.delete) return false;
-        if (id != null ? !id.equals(manager.id) : manager.id != null) return false;
+        if (id != manager.id) return false;
+        if (deleted != manager.deleted) return false;
         if (firstname != null ? !firstname.equals(manager.firstname) : manager.firstname != null) return false;
         if (lastname != null ? !lastname.equals(manager.lastname) : manager.lastname != null) return false;
         if (email != null ? !email.equals(manager.email) : manager.email != null) return false;
@@ -106,32 +105,22 @@ public class Manager {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = id;
         result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (int) delete;
+        result = 31 * result + (deleted ? 1 : 0);
         return result;
     }
 
-    @Basic
-    @Column(name = "admin_id", nullable = false)
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
     @OneToMany(mappedBy = "manager")
-    public Collection<Application> getApplicationsById() {
-        return applicationsById;
+    public Collection<Application> getApplications() {
+        return applications;
     }
 
-    public void setApplicationsById(Collection<Application> applicationsById) {
-        this.applicationsById = applicationsById;
+    public void setApplications(Collection<Application> applications) {
+        this.applications = applications;
     }
 }

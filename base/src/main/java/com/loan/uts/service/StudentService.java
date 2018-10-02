@@ -1,19 +1,20 @@
 package com.loan.uts.service;
 
-import com.loan.uts.model.Application;
-import com.loan.uts.model.Draft;
-import com.loan.uts.model.Email;
-import com.loan.uts.model.Student;
+import com.loan.uts.exception.AttachFailException;
+import com.loan.uts.model.*;
 import com.loan.uts.repository.ApplicationRepository;
+import com.loan.uts.repository.AttachmentRepository;
 import com.loan.uts.repository.DraftRepository;
 import com.loan.uts.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Set;
-
-import static com.loan.uts.model.Application.SUBMITTED;
 
 /**
  * This service deal with the operations that a student might conduct.
@@ -29,6 +30,8 @@ public class StudentService {
     DraftRepository draftRepository;
     @Autowired
     EmailService emailService;
+    @Autowired
+    AttachmentRepository attachmentRepository;
 
     /**
      * Search in the database for the student authentication details.
@@ -93,9 +96,28 @@ public class StudentService {
      * Submit new application in the database and notify the student.
      * @param application
      */
-    public Application submitApplication(Application application){
+    public Application submitApplication(Application application, MultipartFile[] attachments, String uploadPath, Integer draftId)
+//            throws AttachFailException
+    {
+        if( draftId != null ) deleteDraft(draftId);
+
+//        if(attachments != null && attachments.length != 0){
+//            for(MultipartFile file: attachments){
+//                if(file.isEmpty()) continue;
+//                try {
+//                    String path = uploadPath + file.getOriginalFilename();
+//                    file.transferTo(new File(path));
+//                    Attachment attachment = new Attachment(path, application, new Date());
+//                    attachmentRepository.save(attachment);
+//                } catch (IOException e) {
+//                    throw new AttachFailException();
+//                }
+//            }
+//        }
+
         application = applicationRepository.save(application);
         emailService.notifyStudent(application);
+
         return application;
     }
 
@@ -141,6 +163,14 @@ public class StudentService {
      */
     public void deleteDraft(Draft draft){
         draftRepository.delete(draft);
+    }
+
+    /**
+     * Delete the draft.
+     * @param id
+     */
+    public void deleteDraft(Integer id){
+        draftRepository.delete(id);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.loan.uts.service;
 
 import com.loan.uts.model.Application;
-import com.loan.uts.model.Email;
 import com.loan.uts.model.Manager;
 import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.ManagerRepository;
@@ -9,12 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.attribute.standard.MediaName;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import static com.loan.uts.model.Application.ACCEPTED;
 
 @Transactional
 @Service
@@ -44,7 +40,7 @@ public class ManagerService {
     }
 
     private Manager getRandomManager(){
-        List<Manager> managers = managerRepository.findAllByDeleteFalse();
+        List<Manager> managers = managerRepository.findAllByDeletedFalse();
         int index = (int)(Math.random()*(managers.size()));
         return managers.get(index);
     }

@@ -21,7 +21,8 @@
 <%@ include file="header.jsp" %>
 <%@ include file="sidebar.jsp" %>
 <div class="col-md-9">
-    <form:form action="" method="post" role="form" id="app_form" name="app_form">
+    <form:form action="" method="post" role="form" id="app_form" name="app_form" >
+               <%--enctype="multipart/form-data">--%>
         <div class="form-group">
             <label for="title">Application title</label>
             <input type="text" class="form-control" id="title" name="title" value="${draft.title}">
@@ -43,14 +44,26 @@
         </div>
         <div class="form-group">
             <label for="content">Description of your reason: </label>
-            <textarea class="form-control" id="content" name="content" rows="10" >${draft.content}</textarea>
+            <textarea class="form-control" id="content" name="content" rows="10">${draft.content}</textarea>
+            <input type="hidden" name="draft_id" id="draft_id" value="${draft.id}">
         </div>
+
+
+        <%--<div class="form-group">--%>
+            <%--<p>--%>
+            <%--<input id="addAttachment" type="button" name="addAttachment" class="btn btn-success" value="Add Attachment"/>--%>
+            <%--</p>--%>
+        <%--</div>--%>
+
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success" id="app_btn"
-                    onclick="submitApp()">Submit</button>
+                    onclick="submitApp()">Submit
+            </button>
             <button type="submit" class="btn btn-sm btn-warning" id="draft_btn"
-                    onclick="saveDraft()">Save draft</button>
+                    onclick="saveDraft()">Save draft
+            </button>
         </div>
+
     </form:form>
 </div>
 
@@ -97,7 +110,34 @@
         document.getElementById("app_form").submit();
         console.log("Submit draft")
     }
-
+    //
+    // $("#attachments").change(function () {
+    //     $("#uploadBtn").val("Upload");
+    //     $("#progressBar").width("0%");
+    //     var file = $(this).prop('files');
+    //     if (file.length != 0) {
+    //         $("#uploadBtn").attr('disabled', false);
+    //     }
+    //
+    // });
+    //    $("#addAttachment").click(function () {
+    //     var $this = $(this);
+    //     var btnCtn = $this.parent();
+    //
+    //     var p = $("<p/>").insertBefore(btnCtn);
+    //     p.append($("<input/>", {
+    //         type: "file",
+    //         name: "attachments",
+    //         style: "float:left"
+    //     })).append($("<a/>", {
+    //         href: "#",
+    //         type: "button",
+    //         text: "delete ",
+    //     }).click(function () {
+    //         var $delBtn = $(this);
+    //         $delBtn.parent().remove();
+    //     }));
+    // });
 
 </script>
 

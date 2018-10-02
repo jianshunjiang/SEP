@@ -2,6 +2,7 @@ package com.loan.uts.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity
 @Table(name = "draft", schema = "uts_loan", catalog = "")
@@ -12,6 +13,7 @@ public class Draft {
     private java.util.Date lastEdit;
     private Student student;
     private String title;
+    private Collection<Attachment> attachments;
 
     public Draft(){}
 
@@ -98,5 +100,14 @@ public class Draft {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @OneToMany(mappedBy = "draft")
+    public Collection<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Collection<Attachment> attachments) {
+        this.attachments = attachments;
     }
 }

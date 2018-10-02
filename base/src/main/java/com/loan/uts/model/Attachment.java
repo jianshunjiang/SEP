@@ -7,14 +7,18 @@ import java.util.Date;
 @Table(name = "attachment", schema = "uts_loan", catalog = "")
 public class Attachment {
     private Integer id;
-    private Integer draftId;
-    private Integer applicationId;
     private Date uploadDate;
     private String path;
+    private Draft draft;
+    private Application application;
 
-//    public void setUploadDate(java.util.Date uploadDate) {
-//        this.uploadDate = uploadDate;
-//    }
+    public Attachment(){}
+
+    public Attachment(String path, Application application, Date uploadDate){
+        this.path = path;
+        this.application = application;
+        this.uploadDate = uploadDate;
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -24,26 +28,6 @@ public class Attachment {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "draft_id", nullable = true)
-    public Integer getDraftId() {
-        return draftId;
-    }
-
-    public void setDraftId(Integer draftId) {
-        this.draftId = draftId;
-    }
-
-    @Basic
-    @Column(name = "application_id", nullable = true)
-    public Integer getApplicationId() {
-        return applicationId;
-    }
-
-    public void setApplicationId(Integer applicationId) {
-        this.applicationId = applicationId;
     }
 
     @Basic
@@ -74,9 +58,6 @@ public class Attachment {
         Attachment that = (Attachment) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (draftId != null ? !draftId.equals(that.draftId) : that.draftId != null) return false;
-        if (applicationId != null ? !applicationId.equals(that.applicationId) : that.applicationId != null)
-            return false;
         if (uploadDate != null ? !uploadDate.equals(that.uploadDate) : that.uploadDate != null) return false;
         if (path != null ? !path.equals(that.path) : that.path != null) return false;
 
@@ -86,10 +67,28 @@ public class Attachment {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (draftId != null ? draftId.hashCode() : 0);
-        result = 31 * result + (applicationId != null ? applicationId.hashCode() : 0);
         result = 31 * result + (uploadDate != null ? uploadDate.hashCode() : 0);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "draft_id", referencedColumnName = "id")
+    public Draft getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Draft draft) {
+        this.draft = draft;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "application_id", referencedColumnName = "id")
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
     }
 }

@@ -7,6 +7,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="com.loan.uts.controller"/>
+    <context:component-scan base-package="com.loan.uts.listener"/>
 
     <context:component-scan base-package="com.loan.uts.service"/>
     <context:property-placeholder location="email.properties"/>
@@ -66,6 +67,9 @@
         <!-- 线程池维护线程所允许的空闲时间 -->
         <property name="keepAliveSeconds" value="60" />
     </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
 
     <!-- 开启事务管理注解 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>

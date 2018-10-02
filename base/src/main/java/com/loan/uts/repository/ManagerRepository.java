@@ -23,5 +23,5 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
      * Get all undeleted manager.
      * @return
      */
-    List<Manager> findAllByDeleteFalse();
+    List<Manager> findAllByDeletedFalse();
 }

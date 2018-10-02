@@ -1,6 +1,7 @@
 package com.loan.uts.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -20,6 +21,7 @@ public class Application {
     private Manager manager;
     private String title;
     private String comment;
+    private Collection<Attachment> attachmentsById;
 
     public Application(){}
 
@@ -159,4 +161,15 @@ public class Application {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @OneToMany(mappedBy = "application")
+    public Collection<Attachment> getAttachmentsById() {
+        return attachmentsById;
+    }
+
+    public void setAttachmentsById(Collection<Attachment> attachmentsById) {
+        this.attachmentsById = attachmentsById;
+    }
+
+
 }

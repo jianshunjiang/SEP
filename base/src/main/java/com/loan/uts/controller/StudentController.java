@@ -1,5 +1,6 @@
 package com.loan.uts.controller;
 
+import com.loan.uts.exception.AttachFailException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
 import com.loan.uts.model.Student;
@@ -11,9 +12,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
@@ -76,14 +82,30 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/applications/add"}, method = RequestMethod.POST)
-    public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content, HttpSession session, ModelMap modelMap) {
+    public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content,
+                                    @RequestParam("draft_id") Integer draftId,
+//                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                                    HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
+//        String uploadPath = session.getServletContext().getRealPath("/upload/");
+
         Application application = new Application(title, content, new Date(), SUBMITTED, student);
-        Application savedApp = studentService.submitApplication(application);
+        Application savedApp = null;
+        savedApp = studentService.submitApplication(application, null, null, draftId);
+//        try {
+//            savedApp = studentService.submitApplication(application, attachments, uploadPath);
+//        } catch (AttachFailException e) {
+//            e.printStackTrace();
+//        }
         managerService.AssignApplication(savedApp);
-        modelMap.addAttribute("filetype", "draft");
+        if(draftId != null) {
+            student.setDraft(null);
+            session.setAttribute(STUDENT, student);
+        }
+        modelMap.addAttribute("filetype", "application");
         return "success";
     }
+
 
     /**
      * Return the historical application page.
