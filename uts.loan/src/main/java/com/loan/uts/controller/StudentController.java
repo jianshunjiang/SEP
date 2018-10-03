@@ -163,7 +163,7 @@ public class StudentController {
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = {"/student/draft/save"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/draft/save"}, method = RequestMethod.POST)
     public String saveDraft(@RequestParam("title") String title, @RequestParam("draft_id") Integer draftId,
                             @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
@@ -181,7 +181,7 @@ public class StudentController {
      * @param session
      * @return
      */
-    @RequestMapping(value = {"/student/draft/delete"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/draft/delete"}, method = RequestMethod.GET)
     public String deleteDraft(HttpSession session){
         Student student = (Student) session.getAttribute(STUDENT);
         Draft draft = student.getDraft();
