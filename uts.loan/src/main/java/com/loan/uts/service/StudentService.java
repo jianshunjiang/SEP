@@ -172,8 +172,11 @@ public class StudentService {
      * @param draft
      */
     public void deleteDraft(Draft draft){
+        Student student = draft.getStudent();
+        student.setDraft(null);
+        studentRepository.save(student);
         logger.info("Draft deleted: " + draft.toString());
-        draftRepository.delete(draft);
+        draftRepository.delete(draft.getId());
     }
 
     /**
@@ -181,7 +184,7 @@ public class StudentService {
      * @param id
      */
     public void deleteDraft(Integer id){
-        draftRepository.delete(id);
+        deleteDraft(getDraft(id));
         logger.info("Draft deleted: " + id);
     }
 

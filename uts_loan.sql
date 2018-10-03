@@ -122,7 +122,7 @@ CREATE TABLE `draft` (
   `last_edit` date DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,9 +189,9 @@ CREATE TABLE `student` (
   `start_year` varchar(4) DEFAULT NULL,
   `draft_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK2el0f631jhyc46ocyyjsk4h53` (`draft_id`),
+  KEY `student_draft__fk` (`draft_id`),
   CONSTRAINT `FK2el0f631jhyc46ocyyjsk4h53` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
-  CONSTRAINT `student_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`) ON DELETE SET NULL
+  CONSTRAINT `student_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -214,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-03 14:04:52
+-- Dump completed on 2018-10-03 15:24:25
