@@ -54,7 +54,7 @@
        </tr>
        </tbody>
    </table>
-    <a role="button" class="btn btn-success btn-lg" href="/loanManager/applications/manage?id=${application.id}&result=<%=ACCEPTED%>" onclick="confirm('Approve this application?')"><span class="glyphicon glyphicon-ok"></span> Approve</a>
+    <a role="button" class="btn btn-success btn-lg" href="/loanManager/applications/manage?id=${application.id}&result=<%=ACCEPTED%>" onclick="return confirm('Approve this application?')"><span class="glyphicon glyphicon-ok"></span> Approve</a>
     <a role="button" class="btn btn-danger btn-lg" href="/loanManager/applications/decline?id=${application.id}"><span class="glyphicon glyphicon-remove"></span> Decline</a>
 </div>
 <script src="https://code.jquery.com/jquery.js"></script>
