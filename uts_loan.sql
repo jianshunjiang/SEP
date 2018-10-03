@@ -54,13 +54,17 @@ CREATE TABLE `application` (
   `submit_date` date DEFAULT NULL,
   `result_date` date DEFAULT NULL,
   `content` varchar(5000) DEFAULT NULL,
-  `student_id` int(8) NOT NULL,
+  `student_id` int(10) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `comment` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `application_student__fk` (`student_id`),
-  KEY `application_manager__fk` (`manager_id`),
+  KEY `FKigm5jb0xdqnqjelaagm14dcva` (`student_id`),
+  KEY `FKc9isrtiiftpc70gviknc26635` (`manager_id`),
+  CONSTRAINT `FKc9isrtiiftpc70gviknc26635` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
+  CONSTRAINT `FKigm5jb0xdqnqjelaagm14dcva` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
   CONSTRAINT `application_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
-  CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +73,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (1,'Accepted',2,'2018-08-17','2018-08-22','I love this world.',12345678),(2,'Submitted',1,'2018-08-30',NULL,'Olo',12345678),(3,'Submitted',NULL,'2018-08-31',NULL,'dsdfs',87654321),(4,'Submitted',NULL,'2018-08-31',NULL,'testospaj\r\n\r\nidsjfsi',87654321),(5,'Submitted',NULL,'2018-08-31',NULL,'sdf',87654321),(6,'Submitted',NULL,'2018-08-31',NULL,'Ahihihisdf',87654321);
+INSERT INTO `application` VALUES (10,'Refused',1,'2018-09-26','2018-08-01','Hi, I want to apply for financial support because I am poor.',12345678,'666',NULL),(11,'Accepted',1,'2018-06-05','2018-09-04','Hi ...................',12345678,'not null',NULL),(12,'Accepted',2,'2018-05-07','2018-08-10','jdpaoidjapsoidfjaodsijf',12345678,'uts online',NULL),(13,'Refused',1,'2018-09-26','2018-10-01','',12345678,'668','Please provide more information.'),(14,'Submitted',NULL,'2018-09-26',NULL,'Yes I am',12345678,'886',NULL),(34,'Submitted',1,'2018-10-02',NULL,'adsafsds',12345678,'Test Draft',NULL),(35,'Submitted',5,'2018-10-02',NULL,'Hello, I am Jiangjianshun',12345678,'Test Draft',NULL),(36,'Submitted',4,'2018-10-02',NULL,'asdfa',12345678,'Test Draft',NULL);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +90,13 @@ CREATE TABLE `attachment` (
   `application_id` int(10) DEFAULT NULL,
   `upload_date` date DEFAULT NULL,
   `path` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK6v9kv390t8e3ljkbs3gjfy3pe` (`application_id`),
+  KEY `FK7tvrig72fsw5pcpde3vm4x1yx` (`draft_id`),
+  CONSTRAINT `FK6v9kv390t8e3ljkbs3gjfy3pe` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`),
+  CONSTRAINT `FK7tvrig72fsw5pcpde3vm4x1yx` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
+  CONSTRAINT `attachment_application__fk` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `attachment_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,10 +119,10 @@ DROP TABLE IF EXISTS `draft`;
 CREATE TABLE `draft` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `content` varchar(5000) DEFAULT NULL,
-  `student_id` int(10) DEFAULT NULL,
   `last_edit` date DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,12 +148,12 @@ CREATE TABLE `manager` (
   `email` varchar(100) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `delete` tinyint(1) NOT NULL DEFAULT '0',
   `admin_id` int(10) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `manager_admin__fk` (`admin_id`),
   CONSTRAINT `manager_admin__fk` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +162,7 @@ CREATE TABLE `manager` (
 
 LOCK TABLES `manager` WRITE;
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
-INSERT INTO `manager` VALUES (1,'Manager','Test','12416881@student.uts.edu.au','12344556','111',0,1),(2,'Olo','New','leighton070103@gmail.com','1234555','111',0,1);
+INSERT INTO `manager` VALUES (1,'Manager','Test','12416881@student.uts.edu.au','12344556','111',1,0),(2,'Olo','New','leighton070103@gmail.com','1234555','111',1,0),(3,'Manager','Jiang','shunj110@gmail.com','3456789','111',1,0),(4,'Manager','Qi','qiwenbo1996@gmail.com','098765456','111',1,0),(5,'Manager','Zhan','jenny.zhan.yh@gmail.com','923884939','111',1,0),(6,'Manager','Lu','0424390218lu@gmail.com','23412341','111',1,0),(7,'Manager','Eric','stradlin0518@gmail.com','2341324','111',1,0);
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +187,11 @@ CREATE TABLE `student` (
   `gender` varchar(6) DEFAULT NULL,
   `nationality` varchar(20) DEFAULT NULL,
   `start_year` varchar(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `draft_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK2el0f631jhyc46ocyyjsk4h53` (`draft_id`),
+  CONSTRAINT `FK2el0f631jhyc46ocyyjsk4h53` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
+  CONSTRAINT `student_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -187,7 +201,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (12345678,'12345678','00000000','might_103@yeah.net','1111111','FEIT','Ayman','Jiang','C8990','1989-08-18','Male','mongo','2015'),(87654321,'87654321','Tree new bee','shunj110@gmail.com','202929292','FASS','Spring','Test','D909','2015-08-07','Female','Australia','2011');
+INSERT INTO `student` VALUES (12201846,'12201846','china number one','12201846@student.uts.edu.au','42679513','FEIT','Jianshun','Jiang','C3838','1983-10-13','Female','America','2011',NULL),(12345678,'12345678','00000000','leighton070103@gmail.com','1111111','FEIT','Ayman','Jiang','C8990','1989-08-18','Male','mongo','2015',NULL),(12665396,'12665396','Badminton Love','12665396@student.uts.edu.au','88887777','LOL','Wenbo','Qi','U666','1995-10-06','Female','England','2007',NULL),(12701759,'12701759','Niubility','12701759@student.uts.edu.au','999000','FEIT','Shan','Lu','a888','1987-10-02','Male','Brazil','2016',NULL),(12840211,'12840211','Yunhan Zhan','12840211@student.uts.edu.au','68237461','SOSO','Yunhan','Zhan','D999','1997-10-16','Female','China','2013',NULL),(87654321,'87654321','Tree new bee','shunj110@gmail.com','202929292','FASS','Spring','Test','D909','2015-08-07','Female','Australia','2011',NULL),(99196305,'99196305','I love Germany','99196305@student.uts.edu.au','88888888','FEIT','Xiaoyang','Wang','I000','1990-10-05','Male','Japan','2009',NULL);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -200,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-01 20:51:09
+-- Dump completed on 2018-10-03 14:04:52
