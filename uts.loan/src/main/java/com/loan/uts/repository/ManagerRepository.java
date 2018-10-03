@@ -17,7 +17,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
      * @param password
      * @return
      */
-    Manager findByEmailAndPassword(String email, String password);
+    Manager findByEmailAndPasswordAndDeletedFalse(String email, String password);
 
     /**
      * Get all undeleted manager.
