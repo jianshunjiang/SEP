@@ -30,7 +30,7 @@ public class ManagerService {
     EmailService emailService;
 
     public Manager login(String email, String password){
-        return managerRepository.findByEmailAndPassword(email, password);
+        return managerRepository.findByEmailAndPasswordAndDeletedFalse(email, password);
     }
 
     /**
