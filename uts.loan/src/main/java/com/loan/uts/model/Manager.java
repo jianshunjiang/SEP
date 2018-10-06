@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * The constructor of manager.
+ * Define Manager Class.
  */
 @Entity
 @Table(name = "manager", schema = "uts_loan")
@@ -85,7 +85,7 @@ public class Manager implements Serializable {
         this.password = password;
     }
 
-    // The getter/setter function of variable deleted.
+    // The judge function of deleted or not.
     @Basic
     @Column(name = "deleted", nullable = false)
     public boolean isDeleted() {
@@ -133,7 +133,7 @@ public class Manager implements Serializable {
         return result;
     }
 
-    // The getter/setter function of variable Applications.
+    // The getter/setter function of Collections Applications.
     @OneToMany(mappedBy = "manager")
     public Collection<Application> getApplications() {
         return applications;

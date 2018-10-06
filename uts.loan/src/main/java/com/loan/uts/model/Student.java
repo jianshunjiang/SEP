@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Set;
 
 /**
- * The constructor of student.
+ * Define Student Class.
  */
 @Entity
 @Table(name = "student", schema = "uts_loan", catalog = "")
@@ -230,7 +230,7 @@ public class Student implements Serializable {
         return result;
     }
 
-    // The getter/setter function of variable applications.
+    // The getter/setter function of Set of applications.
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     public Set<Application> getApplications() {
         return applications;
