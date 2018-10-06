@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- *
+ * a
  */
 @Entity
 @Table(name = "manager", schema = "uts_loan")
