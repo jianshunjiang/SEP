@@ -86,7 +86,8 @@ public class Draft implements Serializable {
     }
 
     /*
-    Overridex
+    Override equals function
+    Judge the equation of two Administrator classes through all the variables above.
      */
     @Override
     public boolean equals(Object o) {
@@ -103,7 +104,9 @@ public class Draft implements Serializable {
         return true;
     }
 
-    //
+    /*
+    Override hashCode function.
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -113,7 +116,7 @@ public class Draft implements Serializable {
         return result;
     }
 
-    //
+    // The getter/setter function of variable title.
     @Basic
     @Column(name = "title", nullable = true, length = 50)
     public String getTitle() {
@@ -124,7 +127,7 @@ public class Draft implements Serializable {
         this.title = title;
     }
 
-    //
+    // The getter/setter function of variable attachments.
     @OneToMany(mappedBy = "draft")
     public Collection<Attachment> getAttachments() {
         return attachments;
@@ -134,7 +137,10 @@ public class Draft implements Serializable {
         this.attachments = attachments;
     }
 
-    //
+    /*
+    Override toString function
+    Return the string in the following format.
+     */
     @Override
     public String toString() {
         return "{ID: " + id +"; Title: " + title + "; Date: " + lastEdit.toString() +
