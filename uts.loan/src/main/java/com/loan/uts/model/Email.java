@@ -15,12 +15,12 @@ public class Email implements Serializable {
     private String type;
 
     /**
-     *
+     * The constructor of email.
      */
     public Email(){}
 
     /**
-     *
+     * The constructor of email.
      * @param application
      * @param student
      */
@@ -34,7 +34,7 @@ public class Email implements Serializable {
     }
 
     /**
-     *
+     * The constructor of email.
      * @param application
      * @param manager
      */
@@ -46,7 +46,7 @@ public class Email implements Serializable {
         type = ASSIGNED;
     }
 
-    //
+    // The getter/setter function of variable recipients.
     public String[] getRecipients() {
         return recipients;
     }
@@ -55,13 +55,13 @@ public class Email implements Serializable {
         this.recipients = recipients;
     }
 
-    //
+    // The getter/setter function of variable recipient.
     public void setRecipient(String recipient){
         this.recipients = new String[1];
         recipients[0] = recipient;
     }
 
-    //
+    // The getter/setter function of variable subject.
     public String getSubject() {
         return subject;
     }
@@ -70,7 +70,7 @@ public class Email implements Serializable {
         this.subject = subject;
     }
 
-    //
+    // The getter/setter function of variable content.
     public String getContent() {
         return content;
     }
@@ -85,7 +85,8 @@ public class Email implements Serializable {
     }
 
     /*
-
+    Override toString function
+    Return the string in the following format.
      */
     @Override
     public String toString() {
