@@ -14,7 +14,16 @@ public class Email implements Serializable {
     private String content;
     private String type;
 
+    /**
+     *
+     */
     public Email(){}
+
+    /**
+     *
+     * @param application
+     * @param student
+     */
 
     public Email(Application application, Student student){
         setRecipient(student.getEmail());
@@ -24,6 +33,11 @@ public class Email implements Serializable {
         type = application.getStatus();
     }
 
+    /**
+     *
+     * @param application
+     * @param manager
+     */
     public Email(Application application, Manager manager){
         setRecipient(manager.getEmail());
         setContent(application.getTitle(),manager.getFirstname() + " " +manager.getLastname(),
@@ -32,6 +46,7 @@ public class Email implements Serializable {
         type = ASSIGNED;
     }
 
+    //
     public String[] getRecipients() {
         return recipients;
     }
@@ -40,11 +55,13 @@ public class Email implements Serializable {
         this.recipients = recipients;
     }
 
+    //
     public void setRecipient(String recipient){
         this.recipients = new String[1];
         recipients[0] = recipient;
     }
 
+    //
     public String getSubject() {
         return subject;
     }
@@ -53,6 +70,7 @@ public class Email implements Serializable {
         this.subject = subject;
     }
 
+    //
     public String getContent() {
         return content;
     }
@@ -66,6 +84,9 @@ public class Email implements Serializable {
                 "</body></html>";
     }
 
+    /*
+
+     */
     @Override
     public String toString() {
         return "Recipient: " + recipients[0] + "; Type: " + type;

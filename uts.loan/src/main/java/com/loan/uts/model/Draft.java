@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 
+/**
+ * Define Draft class.
+ */
 @Entity
 @Table(name = "draft", schema = "uts_loan", catalog = "")
 public class Draft implements Serializable {
@@ -16,8 +19,17 @@ public class Draft implements Serializable {
     private String title;
     private Collection<Attachment> attachments;
 
+    /**
+     * The constructor of Draft.
+     */
     public Draft(){}
 
+    /**
+     * The constructor of Draft.
+     * @param title
+     * @param content
+     * @param student
+     */
     public Draft(String title, String content, Student student){
         this.title = title;
         this.student = student;
@@ -25,6 +37,7 @@ public class Draft implements Serializable {
         this.lastEdit = new java.util.Date();
     }
 
+    // The getter/setter function of variable student.
     @OneToOne(mappedBy = "draft")
     public Student getStudent() {
         return student;
@@ -38,6 +51,7 @@ public class Draft implements Serializable {
         this.lastEdit = lastEdit;
     }
 
+    // The getter/setter function of variable ID.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -49,6 +63,7 @@ public class Draft implements Serializable {
         this.id = id;
     }
 
+    // The getter/setter function of variable content.
     @Basic
     @Column(name = "content", nullable = true, length = 5000)
     public String getContent() {
@@ -59,6 +74,7 @@ public class Draft implements Serializable {
         this.content = content;
     }
 
+    // The getter/setter function of variable lastEdit.
     @Basic
     @Column(name = "last_edit", nullable = true)
     public java.util.Date getLastEdit() {
@@ -69,6 +85,9 @@ public class Draft implements Serializable {
         this.lastEdit = lastEdit;
     }
 
+    /*
+    Overridex
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,6 +103,7 @@ public class Draft implements Serializable {
         return true;
     }
 
+    //
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -93,6 +113,7 @@ public class Draft implements Serializable {
         return result;
     }
 
+    //
     @Basic
     @Column(name = "title", nullable = true, length = 50)
     public String getTitle() {
@@ -103,6 +124,7 @@ public class Draft implements Serializable {
         this.title = title;
     }
 
+    //
     @OneToMany(mappedBy = "draft")
     public Collection<Attachment> getAttachments() {
         return attachments;
@@ -112,6 +134,7 @@ public class Draft implements Serializable {
         this.attachments = attachments;
     }
 
+    //
     @Override
     public String toString() {
         return "{ID: " + id +"; Title: " + title + "; Date: " + lastEdit.toString() +

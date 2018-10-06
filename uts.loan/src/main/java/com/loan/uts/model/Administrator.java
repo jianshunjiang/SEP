@@ -4,17 +4,26 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
+/**
+ * Define Administrator class.
+ */
 @Entity
 @Table(name = "admin", schema = "uts_loan", catalog = "")
+
 public class Administrator implements Serializable {
     private Integer id;
     private String username;
     private String password;
 
+    /**
+     * the constructor of Administrator class.
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    // The getter/setter function of variable ID.
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -25,6 +34,7 @@ public class Administrator implements Serializable {
         this.id = id;
     }
 
+    // The getter/setter function of variable username.
     @Basic
     @Column(name = "username", nullable = false, length = 20)
     public String getUsername() {
@@ -35,6 +45,7 @@ public class Administrator implements Serializable {
         this.username = username;
     }
 
+    // The getter/setter function of variable password.
     @Basic
     @Column(name = "password", nullable = false, length = 50)
     public String getPassword() {
@@ -45,6 +56,10 @@ public class Administrator implements Serializable {
         this.password = password;
     }
 
+    /*
+    Override equals function
+    Judge the equation of two Administrator classes through ID, username and password.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,6 +74,9 @@ public class Administrator implements Serializable {
         return true;
     }
 
+    /*
+    Override hashCode function
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;

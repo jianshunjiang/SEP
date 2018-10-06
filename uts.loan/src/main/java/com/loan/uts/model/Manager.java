@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
+/**
+ *
+ */
 @Entity
 @Table(name = "manager", schema = "uts_loan")
 public class Manager implements Serializable {
@@ -16,6 +19,7 @@ public class Manager implements Serializable {
     private boolean deleted;
     private Collection<Application> applications;
 
+    //
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
@@ -26,6 +30,7 @@ public class Manager implements Serializable {
         this.id = id;
     }
 
+    //
     @Basic
     @Column(name = "firstname", nullable = true, length = 10)
     public String getFirstname() {
@@ -36,6 +41,7 @@ public class Manager implements Serializable {
         this.firstname = firstname;
     }
 
+    //
     @Basic
     @Column(name = "lastname", nullable = true, length = 10)
     public String getLastname() {
@@ -46,6 +52,7 @@ public class Manager implements Serializable {
         this.lastname = lastname;
     }
 
+    //
     @Basic
     @Column(name = "email", nullable = true, length = 100)
     public String getEmail() {
@@ -56,6 +63,7 @@ public class Manager implements Serializable {
         this.email = email;
     }
 
+    //
     @Basic
     @Column(name = "mobile", nullable = true, length = 20)
     public String getMobile() {
@@ -66,6 +74,7 @@ public class Manager implements Serializable {
         this.mobile = mobile;
     }
 
+    //
     @Basic
     @Column(name = "password", nullable = true, length = 50)
     public String getPassword() {
@@ -76,6 +85,7 @@ public class Manager implements Serializable {
         this.password = password;
     }
 
+    //
     @Basic
     @Column(name = "deleted", nullable = false)
     public boolean isDeleted() {
@@ -86,6 +96,9 @@ public class Manager implements Serializable {
         this.deleted = deleted;
     }
 
+    /*
+
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,6 +117,9 @@ public class Manager implements Serializable {
         return true;
     }
 
+    /*
+
+     */
     @Override
     public int hashCode() {
         int result = id;
@@ -116,6 +132,7 @@ public class Manager implements Serializable {
         return result;
     }
 
+    //
     @OneToMany(mappedBy = "manager")
     public Collection<Application> getApplications() {
         return applications;
@@ -125,6 +142,9 @@ public class Manager implements Serializable {
         this.applications = applications;
     }
 
+    /*
+
+     */
     @Override
     public String toString() {
         return "No. " + getId() + " " + getFirstname() + " " + getLastname();

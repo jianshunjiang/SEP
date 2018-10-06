@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
+/**
+ *
+ */
 @Entity
 @Table(name = "student", schema = "uts_loan", catalog = "")
 public class Student implements Serializable {
@@ -24,6 +27,7 @@ public class Student implements Serializable {
     private Set<Application> applications;
     private Draft draft;
 
+    //
     @OneToOne
     @JoinColumn(name = "draft_id", referencedColumnName = "id")
     public Draft getDraft() {
@@ -34,6 +38,7 @@ public class Student implements Serializable {
         this.draft = draft;
     }
 
+    //
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -44,6 +49,7 @@ public class Student implements Serializable {
         this.id = id;
     }
 
+    //
     @Basic
     @Column(name = "password", nullable = false, length = 50)
     public String getPassword() {
@@ -54,6 +60,7 @@ public class Student implements Serializable {
         this.password = password;
     }
 
+    //
     @Basic
     @Column(name = "bankaccount", nullable = true, length = 100)
     public String getBankaccount() {
@@ -64,6 +71,7 @@ public class Student implements Serializable {
         this.bankaccount = bankaccount;
     }
 
+    //
     @Basic
     @Column(name = "email", nullable = false, length = 100)
     public String getEmail() {
@@ -74,6 +82,7 @@ public class Student implements Serializable {
         this.email = email;
     }
 
+    //
     @Basic
     @Column(name = "phone", nullable = true, length = 50)
     public String getPhone() {
@@ -84,6 +93,7 @@ public class Student implements Serializable {
         this.phone = phone;
     }
 
+    //
     @Basic
     @Column(name = "faculty", nullable = true, length = 4)
     public String getFaculty() {
@@ -94,6 +104,7 @@ public class Student implements Serializable {
         this.faculty = faculty;
     }
 
+    //
     @Basic
     @Column(name = "firstname", nullable = true, length = 10)
     public String getFirstname() {
@@ -104,6 +115,7 @@ public class Student implements Serializable {
         this.firstname = firstname;
     }
 
+    //
     @Basic
     @Column(name = "lastname", nullable = true, length = 10)
     public String getLastname() {
@@ -114,6 +126,7 @@ public class Student implements Serializable {
         this.lastname = lastname;
     }
 
+    //
     @Basic
     @Column(name = "course", nullable = true, length = 6)
     public String getCourse() {
@@ -124,6 +137,7 @@ public class Student implements Serializable {
         this.course = course;
     }
 
+    //
     @Basic
     @Column(name = "dob", nullable = true)
     public Date getDob() {
@@ -134,6 +148,7 @@ public class Student implements Serializable {
         this.dob = dob;
     }
 
+    //
     @Basic
     @Column(name = "gender", nullable = true, length = 6)
     public String getGender() {
@@ -144,6 +159,7 @@ public class Student implements Serializable {
         this.gender = gender;
     }
 
+    //
     @Basic
     @Column(name = "nationality", nullable = true, length = 20)
     public String getNationality() {
@@ -154,6 +170,7 @@ public class Student implements Serializable {
         this.nationality = nationality;
     }
 
+    //
     @Basic
     @Column(name = "start_year", nullable = true, length = 4)
     public String getStartYear() {
@@ -164,6 +181,9 @@ public class Student implements Serializable {
         this.startYear = startYear;
     }
 
+    /*
+
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -188,6 +208,9 @@ public class Student implements Serializable {
         return true;
     }
 
+    /*
+
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -206,6 +229,7 @@ public class Student implements Serializable {
         return result;
     }
 
+    //
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     public Set<Application> getApplications() {
         return applications;
@@ -215,6 +239,9 @@ public class Student implements Serializable {
         this.applications = applications;
     }
 
+    /*
+
+     */
     @Override
     public String toString() {
         return "ID: " + id +"; Name: " + firstname + " " + lastname;

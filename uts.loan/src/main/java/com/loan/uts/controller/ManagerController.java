@@ -23,7 +23,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
 
 @Controller
 @RequestMapping("/loanManager")
-public class ManagerController {
+public class  ManagerController {
 
     private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
     public static final String APPLICATION = "application";
