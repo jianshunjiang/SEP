@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * Define Application class.
+ */
 @Entity
 @Table(name = "application", schema = "uts_loan")
 public class Application implements Serializable {
@@ -24,8 +27,19 @@ public class Application implements Serializable {
     private String comment;
     private Collection<Attachment> attachmentsById;
 
+    /**
+     * The constructor of Application class.
+     */
     public Application(){}
 
+    /**
+     * The constructor of Application class.
+     * @param title
+     * @param content
+     * @param submitDate
+     * @param status
+     * @param student
+     */
     public Application(String title, String content, Date submitDate, String status, Student student){
         this.title = title;
         this.content = content;
@@ -34,10 +48,7 @@ public class Application implements Serializable {
         this.student = student;
     }
 
-    /**
-     *
-     * @return
-     */
+    // The getter/setter function of variable ID.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -49,6 +60,7 @@ public class Application implements Serializable {
         this.id = id;
     }
 
+    // The getter/setter function of variable status.
     @Basic
     @Column(name = "status", nullable = true, length = 10)
     public String getStatus() {
@@ -59,6 +71,7 @@ public class Application implements Serializable {
         this.status = status;
     }
 
+    // The getter/setter function of variable submitDate.
     @Basic
     @Column(name = "submit_date", nullable = true)
     public Date getSubmitDate() {
@@ -69,6 +82,7 @@ public class Application implements Serializable {
         this.submitDate = submitDate;
     }
 
+    // The getter/setter function of variable resultDate.
     @Basic
     @Column(name = "result_date", nullable = true)
     public Date getResultDate() {
@@ -79,6 +93,7 @@ public class Application implements Serializable {
         this.resultDate = resultDate;
     }
 
+    // The getter/setter function of variable content.
     @Basic
     @Column(name = "content", nullable = true, length = 5000)
     public String getContent() {
@@ -89,6 +104,10 @@ public class Application implements Serializable {
         this.content = content;
     }
 
+    /*
+    Override equals function
+    Judge the equation of two Application classes through ID, status，submitDate, resultDate and content.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,6 +124,9 @@ public class Application implements Serializable {
         return true;
     }
 
+    /*
+    Override hashCode function.
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -115,6 +137,7 @@ public class Application implements Serializable {
         return result;
     }
 
+    // The getter/setter function of variable student.
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
     public Student getStudent() {
@@ -125,6 +148,7 @@ public class Application implements Serializable {
         this.student = student;
     }
 
+    // The getter/setter function of variable manager.
     @ManyToOne
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
     public Manager getManager() {
@@ -135,6 +159,7 @@ public class Application implements Serializable {
         this.manager = manager;
     }
 
+    // The getter/setter function of variable title.
     @Basic
     @Column(name = "title", nullable = true, length = 50)
     public String getTitle() {
@@ -145,14 +170,20 @@ public class Application implements Serializable {
         this.title = title;
     }
 
+    /*
+    Separate resultDateString by space and pick the first string.
+     */
     public String resultDateString(){
         return resultDate.toString().split(" ")[0];
     }
-
+    /*
+    Separate submitDateString by space and pick the first string.
+     */
     public String submitDateString(){
         return submitDate.toString().split(" ")[0];
     }
 
+    // The getter/setter function of variable comment.
     @Basic
     @Column(name = "comment", nullable = true, length = 1000)
     public String getComment() {
@@ -163,6 +194,7 @@ public class Application implements Serializable {
         this.comment = comment;
     }
 
+    // The getter/setter function of variable attachmentsById.
     @OneToMany(mappedBy = "application")
     public Collection<Attachment> getAttachmentsById() {
         return attachmentsById;
@@ -172,6 +204,10 @@ public class Application implements Serializable {
         this.attachmentsById = attachmentsById;
     }
 
+    /*
+    Override toString function
+    Return the string in the following format.
+     */
     @Override
     public String toString() {
         return "{ID: " + this.getId() + "; Title: " + this.getTitle() + "; Student: "

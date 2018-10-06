@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Define Attachment class.
+ */
 @Entity
 @Table(name = "attachment", schema = "uts_loan", catalog = "")
 public class Attachment implements Serializable {
@@ -13,14 +16,23 @@ public class Attachment implements Serializable {
     private Draft draft;
     private Application application;
 
+    /**
+     * The constructor of Attachment.
+     */
     public Attachment(){}
 
+    /**
+     * The constructor of Attachment.
+     * @param path
+     * @param application
+     * @param uploadDate
+     */
     public Attachment(String path, Application application, Date uploadDate){
         this.path = path;
         this.application = application;
         this.uploadDate = uploadDate;
     }
-
+    // The getter/setter function of variable ID.
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -31,6 +43,7 @@ public class Attachment implements Serializable {
         this.id = id;
     }
 
+    // The getter/setter function of variable upLoadDate.
     @Basic
     @Column(name = "upload_date", nullable = true)
     public Date getUploadDate() {
@@ -41,6 +54,7 @@ public class Attachment implements Serializable {
         this.uploadDate = uploadDate;
     }
 
+    // The getter/setter function of variable path.
     @Basic
     @Column(name = "path", nullable = true, length = 200)
     public String getPath() {
@@ -51,6 +65,10 @@ public class Attachment implements Serializable {
         this.path = path;
     }
 
+    /*
+    Override equals function
+    Judge the equation of two Attachment classes through the variables above.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +83,9 @@ public class Attachment implements Serializable {
         return true;
     }
 
+    /*
+    Override hashCode function.
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -73,6 +94,7 @@ public class Attachment implements Serializable {
         return result;
     }
 
+    // The getter/setter function of variable draft.
     @ManyToOne
     @JoinColumn(name = "draft_id", referencedColumnName = "id")
     public Draft getDraft() {
@@ -83,6 +105,7 @@ public class Attachment implements Serializable {
         this.draft = draft;
     }
 
+    // The getter/setter function of variable application.
     @ManyToOne
     @JoinColumn(name = "application_id", referencedColumnName = "id")
     public Application getApplication() {
