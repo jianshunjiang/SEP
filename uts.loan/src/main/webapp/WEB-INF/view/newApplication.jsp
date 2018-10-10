@@ -1,3 +1,4 @@
+<%@ page import="javax.persistence.criteria.CriteriaBuilder" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %><%--
   Created by IntelliJ IDEA.
@@ -42,12 +43,88 @@
             <label><%=student.getEmail()%>
             </label>
         </div>
+
+        <div class="form-group">
+            <label>Gender: </label>
+            <label><%=student.getGender()%></label>
+        </div>
+
+        <div class="form-group">
+            <label>Date of Birth: </label>
+            <input type="date" id="dob" name="dob"/>
+        </div>
+
+        <div class="form-group">
+            <label>Bank Account: </label>
+            <input type="number" id="bac" name="bac" placeholder="Numbers Only"/>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number: </label>
+            <input type="number" id="phone" name="phone" placeholder="Numbers Only">
+        </div>
+
+        <div class="form-group">
+            <label>Faculty: </label>
+            <select id="faculty" name="faculty">
+                <option>FEIT</option>
+                <option>FASS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Nationality: </label>
+            <select id="nationality" name="nationality">
+                <option>Australian</option>
+                <option>New Zealand</option>
+                <option>Others</option>
+            </select>
+            <label>If you choose others, please specify: </label>
+            <input type="text" placeholder="Please Specify" />
+        </div>
+
+        <div class="form-group">
+            <label>Start Year: </label>
+            <input type="date" id="start" name="start"/>
+        </div>
+
+        <div class="form-group">
+            <label>Amount: </label>
+            <input type="number" id="amount" name="amount" placeholder="Apply Amount" onchange="rate_cal()"/>
+        </div>
+
+        <div class="form-group">
+            <label>Years to pay back: </label>
+            <input type="number" id="years" name="years" placeholder="Years" onchange="rate_cal()"/>
+        </div>
+
+        <script>
+            function rate_cal() {
+                var amount = document.getElementById("amount");
+                var years = document.getElementById("years");
+                var year_rate = 0.15;
+                var sum = 0;
+                var rate = amount * years * year_rate;
+
+                if (amount != null && years != null) {
+                    sum = amount + rate;
+                    return sum;
+                    console.log("The amount needs to pay back is: " + sum);
+                }
+            }
+        </script>
+
+        <div class="form-group">
+            <button type="submit" class="rate_cal" id="rate_cal"
+                    onclick="rate_cal()">Calculate
+            </button>
+        </div>
+
         <div class="form-group">
             <label for="content">Description of your reason: </label>
             <textarea class="form-control" id="content" name="content" rows="10">${draft.content}</textarea>
             <input type="hidden" name="draft_id" id="draft_id" value="${draft.id}">
         </div>
-
 
         <%--<div class="form-group">--%>
             <%--<p>--%>

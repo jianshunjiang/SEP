@@ -33,6 +33,25 @@ public class ManagerService {
         return managerRepository.findByEmailAndPasswordAndDeletedFalse(email, password);
     }
 
+    public Manager get(Integer id) {
+        return managerRepository.findOne(id);
+    }
+
+    public void modify(Integer id, String password, String email, Manager manager, String mobile) {
+        manager.setId(id);
+        manager.setPassword(password);
+        manager.setEmail(email);
+        //manager.setManagerByManagerId(manager);
+        manager.setMobile(mobile);
+        managerRepository.saveAndFlush(manager);
+    }
+
+    public void delete(Integer id) {
+        Manager manager = managerRepository.findById(id);
+        manager.setDeleted(true);
+        managerRepository.saveAndFlush(manager);
+    }
+
     /**
      * Assign an application to a manager.
      * @param application
