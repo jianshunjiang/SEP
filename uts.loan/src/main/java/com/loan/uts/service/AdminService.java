@@ -54,6 +54,11 @@ public class AdminService {
     }
 
     // Return list of manager
+
+    /**
+     *
+     * @return
+     */
     public List<Manager> getManagers(){
         return managerRepository.findAllByDeletedFalse();
     }
@@ -61,5 +66,15 @@ public class AdminService {
     // Delete application through id
     public void deleteApplication(Integer id){
         applicationRepository.delete(id);
+    }
+
+    public Administrator get(Integer id){
+        return administratorRepository.findOne(id);
+    }
+
+    public void resetPassword(String password, Integer id){
+        Administrator admin = get(id);
+        admin.setPassword(password);
+        administratorRepository.save(admin);
     }
 }

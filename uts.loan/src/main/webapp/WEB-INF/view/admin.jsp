@@ -15,7 +15,7 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
-<%Administrator admin= (Administrator) session.getAttribute(SYSTEM_ADMIN);%>
+<%@ include file="sidebar.jsp"%>
 <h1>Welcome <%=admin.getUsername()%></h1>
 
 </body>
