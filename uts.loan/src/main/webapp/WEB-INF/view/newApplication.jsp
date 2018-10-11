@@ -188,33 +188,33 @@
         console.log("Submit draft")
     }
     //
-    // $("#attachments").change(function () {
-    //     $("#uploadBtn").val("Upload");
-    //     $("#progressBar").width("0%");
-    //     var file = $(this).prop('files');
-    //     if (file.length != 0) {
-    //         $("#uploadBtn").attr('disabled', false);
-    //     }
-    //
-    // });
-    //    $("#addAttachment").click(function () {
-    //     var $this = $(this);
-    //     var btnCtn = $this.parent();
-    //
-    //     var p = $("<p/>").insertBefore(btnCtn);
-    //     p.append($("<input/>", {
-    //         type: "file",
-    //         name: "attachments",
-    //         style: "float:left"
-    //     })).append($("<a/>", {
-    //         href: "#",
-    //         type: "button",
-    //         text: "delete ",
-    //     }).click(function () {
-    //         var $delBtn = $(this);
-    //         $delBtn.parent().remove();
-    //     }));
-    // });
+    $("#attachments").change(function () {
+        $("#uploadBtn").val("Upload");
+        $("#progressBar").width("0%");
+        var file = $(this).prop('files');
+        if (file.length != 0) {
+            $("#uploadBtn").attr('disabled', false);
+        }
+
+    });
+       $("#addAttachment").click(function () {
+        var $this = $(this);
+        var btnCtn = $this.parent();
+
+        var p = $("<p/>").insertBefore(btnCtn);
+        p.append($("<input/>", {
+            type: "file",
+            name: "attachments",
+            style: "float:left"
+        })).append($("<a/>", {
+            href: "#",
+            type: "button",
+            text: "delete ",
+        }).click(function () {
+            var $delBtn = $(this);
+            $delBtn.parent().remove();
+        }));
+    });
 
 </script>
 

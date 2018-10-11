@@ -1,13 +1,16 @@
 package com.loan.uts.controller;
 
+import com.loan.uts.model.Administrator;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
+import com.loan.uts.repository.ManagerRepository;
 import com.loan.uts.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 import java.util.Date;
+import java.util.List;
 
 import static com.loan.uts.controller.LoginController.LOAN_MANAGER;
 import static com.loan.uts.controller.StudentController.APPLICATIONS;
@@ -86,14 +90,16 @@ public class  ManagerController {
      * @return
      */
     @RequestMapping(value = "/applications/manage", method = RequestMethod.POST)
-    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam("comment") String comment) {
+    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam("comment") String comment,
+                         @ModelAttribute("userAttribute") Manager manager) {
         managerService.manageApp(id, result, new Date(), comment);
         return "redirect:/loanManager/applications";
     }
 
     @RequestMapping(value = "/modify_account", method = RequestMethod.GET)
-    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @RequestParam(required = false, name = "error") String error) {
-        modelMap.addAttribute("manager", managerService.get(id));
+    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @ModelAttribute("userAttribute") Manager manager,
+                                @RequestParam(required = false, name = "error") String error) {
+        modelMap.addAttribute("id", managerService.get(id));
         if(error != null) modelMap.addAttribute("error", error);
         return "modify_account";
     }
@@ -107,9 +113,9 @@ public class  ManagerController {
         if(password.equals(repeatPassword)) {
             Manager manager = (Manager) session.getAttribute("manager");;
             managerService.modify(id, password, email, manager, mobile);
-            return "redirect:/manager/";
+            return "redirect:/loanManager/";
         }
-        return "redirect:/manager/modify_account?id=" + id + "&error=" + "Passwords do not match";
+        return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";
     }
 
     /**

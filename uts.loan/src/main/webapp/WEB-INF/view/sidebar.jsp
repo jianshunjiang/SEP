@@ -38,7 +38,8 @@
         </li>
         <li class="active"><a href="/loanManager"><i class="icon-white icon-home"></i> Home</a></li>
         <li><a href="/loanManager/applications"><span class="glyphicon glyphicon-file"></span> Applications</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <%--<li><a href="/loanManager/modify_account"><span class="glyphicon glyphicon-file"></span>Profile</a></li>--%>
+        <li><a href="/loanManager/modify_account?id=<%=session.getAttribute("id")%>"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
         <%
             }
         %>
