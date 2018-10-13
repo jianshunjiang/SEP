@@ -101,15 +101,16 @@ public class  ManagerController {
         return "manager/editAccount";
     }
 
-    @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.PUT)
     public String saveChanges(@RequestParam("id") Integer id,
+                              @RequestParam("firstname") String firstname,
+                              @RequestParam("firstname") String lastname,
                               @RequestParam("password") String password,
                               @RequestParam("repeatPassword") String repeatPassword,
                               @RequestParam("mobile") String mobile,
-                              @RequestParam("email") String email, HttpSession session) {
+                              @RequestParam("email") String email) {
         if(password.equals(repeatPassword)) {
-            Manager manager = (Manager) session.getAttribute("manager");;
-            managerService.modify(id, password, email, mobile);
+            managerService.edit(id, password, email, mobile, firstname, lastname);
             return "redirect:/loanManager/";
         }
         return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";

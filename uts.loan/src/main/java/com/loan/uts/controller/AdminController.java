@@ -1,8 +1,7 @@
 package com.loan.uts.controller;
 
-import com.loan.uts.model.Administrator;
-import com.loan.uts.model.Manager;
-import com.loan.uts.service.ManagerService;
+
+import com.loan.uts.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,58 +15,57 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/admin")
 public class AdminController {
     @Autowired
-    ManagerService managerService;
+    AdminService adminService;
 
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String home(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
-        modelMap.addAttribute("managers", managerService.getAll());
-        if(error != null)modelMap.addAttribute("error", error);
-            return "admin/home";
+        return "admin/home";
     }
 
-    @RequestMapping(value = "/create_manager", method = RequestMethod.POST)
-    public String createManager(HttpSession session, ModelMap modelMap, @RequestParam("email") String email, @RequestParam("password") String password){
-        try{
-            managerService.create(session, email, password);
-            return "redirect:/admin/";
-        }catch (Exception e){
-            modelMap.addAttribute("error", e.getMessage());
-            return "admin/newManager";
-        }
+    @RequestMapping(value = {"/managers"}, method = RequestMethod.GET)
+    public String managers(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
+        modelMap.addAttribute("managers", adminService.getManagers());
+        if (error != null) modelMap.addAttribute("error", error);
+        return "admin/home";
     }
 
-    @RequestMapping(value = "/modify_account", method = RequestMethod.GET)
-    public String modifyManager(@RequestParam("id")Integer id, ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
-        modelMap.addAttribute("manager", managerService.get(id));
-        if(error != null) modelMap.addAttribute("error", error);
+    @RequestMapping(value = "/managers/add", method = RequestMethod.GET)
+    public String addManager() {
+       return "admin/newManager";
+    }
+
+    @RequestMapping(value = "/managers/edit", method = RequestMethod.GET)
+    public String editManager(ModelMap modelMap, @RequestParam("managerId") Integer managerId, @RequestParam(name = "error", required = false) String error) {
+        if (error != null) modelMap.addAttribute("error", error);
+        modelMap.addAttribute("manager", adminService.getManager(managerId));
         return "manager/editAccount";
     }
 
-    @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
-    public String saveChanges(@RequestParam("id")Integer id,
-                              @RequestParam("username")String username,
-                              @RequestParam("password")String password,
-                              @RequestParam("repeatPassword")String repeatPassword,
-                              @RequestParam("mobile")String mobile,
-                              @RequestParam("email")String email, HttpSession session){
-        if(password.equals(repeatPassword)){
-            Administrator admin = (Administrator)session.getAttribute("admin");
-            managerService.modify(id, username, password, mobile);
-            return "redirect:/admin/";
+    @RequestMapping(value = "/managers/edit", method = RequestMethod.POST)
+    public String editManager(@RequestParam(name = "id", required = false) Integer id,
+                              @RequestParam("firstname") String firstname,
+                              @RequestParam("lastname") String lastname,
+                              @RequestParam("password") String password,
+                              @RequestParam("repeatPassword") String repeatPassword,
+                              @RequestParam("mobile") String mobile,
+                              @RequestParam("email") String email) {
+        if (password.equals(repeatPassword)) {
+            if (id == null) adminService.addManager(email, password, firstname, lastname, mobile);
+            else adminService.editManager(id, password, email, mobile, firstname, lastname);
+            return "redirect:/admin/managers";
         }
-        return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";
+        return "";
     }
 
-    @RequestMapping(value = "delete_manager", method = RequestMethod.POST)
-    public String deleteManager(@RequestParam("id")Integer id, ModelMap modelMap){
+    @RequestMapping(value = "managers/delete", method = RequestMethod.POST)
+    public String deleteManager(@RequestParam("managerId") Integer id, ModelMap modelMap) {
         try {
-            managerService.delete(id);
-        }catch (Exception e){
+            adminService.deleteManager(id);
+        } catch (Exception e) {
             modelMap.addAttribute("error", e.getMessage());
         }
-        return "redirect:/admin";
+        return "redirect:/admin/managers";
     }
-
 
 
 }

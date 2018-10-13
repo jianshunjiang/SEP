@@ -53,7 +53,29 @@ public class AdminService {
         managerRepository.save(manager);
     }
 
-    // Return list of manager
+    /**
+     * Add new manager.
+     * @param email
+     * @param password
+     * @param firstname
+     * @param lastname
+     * @param mobile
+     */
+    public void addManager(String email, String password, String firstname, String lastname, String mobile){
+        Manager manager = new Manager(firstname, lastname, email, mobile, password);
+        managerRepository.save(manager);
+    }
+
+    public void editManager(Integer id, String password, String email, String mobile, String firstname, String lastname) {
+        Manager manager = getManager(id);
+        manager.setId(id);
+        manager.setPassword(password);
+        manager.setEmail(email);
+        manager.setMobile(mobile);
+        manager.setFirstname(firstname);
+        manager.setLastname(lastname);
+        managerRepository.saveAndFlush(manager);
+    }
 
     /**
      *

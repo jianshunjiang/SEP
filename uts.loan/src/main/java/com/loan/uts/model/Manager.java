@@ -20,6 +20,17 @@ public class Manager implements Serializable {
     private Collection<Application> applications;
     private Administrator adminByAdminId;
 
+    public Manager(){}
+
+    public Manager(String firstname, String lastname, String email, String mobile, String password){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.deleted = false;
+        this.mobile = mobile;
+        this.password = password;
+    }
+
     // The getter/setter function of variable Id.
     @Id
     @Column(name = "id", nullable = false)

@@ -50,15 +50,16 @@ public class ManagerService {
         managerRepository.save(manager);
     }
 
-    public void modify(Integer id, String password, String email, String mobile) {
+    public void edit(Integer id, String password, String email, String mobile, String firstname, String lastname) {
         Manager manager = get(id);
         manager.setId(id);
         manager.setPassword(password);
         manager.setEmail(email);
         manager.setMobile(mobile);
+        manager.setFirstname(firstname);
+        manager.setLastname(lastname);
         managerRepository.saveAndFlush(manager);
     }
-
     public List<Manager> getAll() {
 
         return managerRepository.findAllByDeletedFalse();
