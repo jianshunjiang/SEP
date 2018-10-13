@@ -121,7 +121,7 @@
 
         if (usertype.options[index].value === "Student") {
             label.innerText = "Student id";
-            $("#username_label").html("Student Id");
+            $("#username_label").html("Student ID");
             document.getElementById("username").setAttribute("placeholder", "Enter student ID...");
         }
         if (usertype.options[index].value === "Loan Manager") {
