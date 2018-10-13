@@ -6,13 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Modify Account</title>
 </head>
 <body>
-<form:form action="/loanManager/modify_account" method="post">
+<c:url var="saveUrl" value="/loanManager/modify_account?id=${userAttribute.id}"/>
+<form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
     <table>
         <tr>
             <td>
@@ -70,6 +72,6 @@
     </table>
 </form:form>
 <h1>${error}</h1>
-<a href="/loanManager/"></a>
+<a href="/manager/modify_account/"></a>
 </body>
 </html>

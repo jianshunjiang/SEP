@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
     <div class="form-group">
         <form:form action="/loanManager/applications/manage" method="post">

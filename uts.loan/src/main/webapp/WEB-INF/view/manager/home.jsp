@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp"%>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp"%>
 <h1>Welcome to UTS Loan System</h1>
 
 </body>

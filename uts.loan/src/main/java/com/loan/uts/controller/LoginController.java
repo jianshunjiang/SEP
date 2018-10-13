@@ -24,10 +24,10 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    public static final String STUDENT = "Student";
-    public static final String LOAN_MANAGER = "Loan Manager";
-    public static final String SYSTEM_ADMIN = "System Administrator";
-    public static final String USER_TYPE = "User type";
+    public static final String STUDENT = "student";
+    public static final String LOAN_MANAGER = "manager";
+    public static final String SYSTEM_ADMIN = "admin";
+    public static final String USER_TYPE = "type";
 
 
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -62,7 +62,7 @@ public class LoginController {
                     session.setAttribute(userType, student);
                     session.setAttribute(USER_TYPE, userType);
                     logger.info("Logged in (" + userType + " ): " + username);
-                    return "student";
+                    return "redirect:/student";
                 }
             }
             if (userType.equals(LOAN_MANAGER)) {
@@ -81,7 +81,7 @@ public class LoginController {
                     session.setAttribute(userType, admin);
                     session.setAttribute(USER_TYPE, userType);
                     logger.info("Logged in (" + userType + " ): " + username);
-                    return "admin";
+                    return "redirect:/admin";
                 }
             }
             modelMap.addAttribute("error", "Incorrect account or password");
@@ -124,8 +124,8 @@ public class LoginController {
             Manager manager = (Manager) session.getAttribute(LOAN_MANAGER);
             username = manager.getEmail();
         } else if (userType.equals(SYSTEM_ADMIN)) {
-            Manager manager = (Manager) session.getAttribute(LOAN_MANAGER);
-            username = manager.getEmail();
+            Administrator admin = (Administrator) session.getAttribute(SYSTEM_ADMIN);
+            username = admin.getUsername();
         }
         session.removeAttribute(userType);
         logger.info("Log out( " + userType + " ): " + username);

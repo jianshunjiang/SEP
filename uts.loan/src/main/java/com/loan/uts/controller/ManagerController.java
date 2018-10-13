@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,7 @@ public class  ManagerController {
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String home(){
 
-        return "manager";
+        return "manager/home";
     }
 
     /**
@@ -51,7 +52,7 @@ public class  ManagerController {
     public String getApplications(HttpSession session, ModelMap modelMap){
         Manager manager = (Manager) session.getAttribute(LOAN_MANAGER);
         modelMap.addAttribute(APPLICATIONS, managerService.getUnhandledApp(manager));
-        return "managerApplications";
+        return "manager/applications";
     }
 
     /**
@@ -66,7 +67,7 @@ public class  ManagerController {
         if(application.getStatus().equals(SUBMITTED)) managerService.manageApp(application, PROCESSING);
         modelMap.addAttribute(APPLICATION, application);
         logger.info("Application detail: " + application.toString());
-        return "appDetail";
+        return "manager/appDetail";
     }
 
     /**
@@ -86,30 +87,33 @@ public class  ManagerController {
      * @return
      */
     @RequestMapping(value = "/applications/manage", method = RequestMethod.POST)
-    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam("comment") String comment) {
+    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam("comment") String comment,
+                         @ModelAttribute("userAttribute") Manager manager) {
         managerService.manageApp(id, result, new Date(), comment);
         return "redirect:/loanManager/applications";
     }
 
     @RequestMapping(value = "/modify_account", method = RequestMethod.GET)
-    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @RequestParam(required = false, name = "error") String error) {
-        modelMap.addAttribute("manager", managerService.get(id));
+    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @ModelAttribute("userAttribute") Manager manager,
+                                @RequestParam(required = false, name = "error") String error) {
+        modelMap.addAttribute("id", managerService.get(id));
         if(error != null) modelMap.addAttribute("error", error);
-        return "modify_account";
+        return "manager/editAccount";
     }
 
-    @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.PUT)
     public String saveChanges(@RequestParam("id") Integer id,
+                              @RequestParam("firstname") String firstname,
+                              @RequestParam("firstname") String lastname,
                               @RequestParam("password") String password,
                               @RequestParam("repeatPassword") String repeatPassword,
                               @RequestParam("mobile") String mobile,
-                              @RequestParam("email") String email, HttpSession session) {
+                              @RequestParam("email") String email) {
         if(password.equals(repeatPassword)) {
-            Manager manager = (Manager) session.getAttribute("manager");;
-            managerService.modify(id, password, email, manager, mobile);
-            return "redirect:/manager/";
+            managerService.edit(id, password, email, mobile, firstname, lastname);
+            return "redirect:/loanManager/";
         }
-        return "redirect:/manager/modify_account?id=" + id + "&error=" + "Passwords do not match";
+        return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";
     }
 
     /**
@@ -120,6 +124,6 @@ public class  ManagerController {
     @RequestMapping(value = "/applications/decline", method = RequestMethod.GET)
     public String decline(@RequestParam("id") Integer id, ModelMap modelMap) {
         modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
-        return "declineApp";
+        return "manager/declineApp";
     }
 }

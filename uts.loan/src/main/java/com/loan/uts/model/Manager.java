@@ -18,6 +18,18 @@ public class Manager implements Serializable {
     private String password;
     private boolean deleted;
     private Collection<Application> applications;
+    private Administrator adminByAdminId;
+
+    public Manager(){}
+
+    public Manager(String firstname, String lastname, String email, String mobile, String password){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.deleted = false;
+        this.mobile = mobile;
+        this.password = password;
+    }
 
     // The getter/setter function of variable Id.
     @Id
@@ -141,6 +153,16 @@ public class Manager implements Serializable {
 
     public void setApplications(Collection<Application> applications) {
         this.applications = applications;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", referencedColumnName = "id", nullable = false)
+    public Administrator getAdminByAdminId(){
+        return adminByAdminId;
+    }
+
+    public void setAdminByAdminId(Administrator adminByAdminId){
+        this.adminByAdminId = adminByAdminId;
     }
 
     /*

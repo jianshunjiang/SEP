@@ -19,8 +19,8 @@
 
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
     <form:form action="" method="post" role="form" id="app_form" name="app_form" >
                <%--enctype="multipart/form-data">--%>
@@ -30,23 +30,23 @@
         </div>
         <div class="form-group">
             <label>Student ID: </label>
-            <label><%=student.getId()%>
+            <label>${sessionScope.student.id}
             </label>
         </div>
         <div class="form-group">
             <label>Name: </label>
-            <label><%=student.getFirstname()%> <%=student.getLastname()%>
+            <label>${sessionScope.student.firstname} ${sessionScope.student.lastname}
             </label>
         </div>
         <div class="form-group">
             <label>Email: </label>
-            <label><%=student.getEmail()%>
+            <label>${sessionScope.student.email}
             </label>
         </div>
 
         <div class="form-group">
             <label>Gender: </label>
-            <label><%=student.getGender()%></label>
+            <label>${sessionScope.student.gender}</label>
         </div>
 
         <div class="form-group">
@@ -188,33 +188,33 @@
         console.log("Submit draft")
     }
     //
-    // $("#attachments").change(function () {
-    //     $("#uploadBtn").val("Upload");
-    //     $("#progressBar").width("0%");
-    //     var file = $(this).prop('files');
-    //     if (file.length != 0) {
-    //         $("#uploadBtn").attr('disabled', false);
-    //     }
-    //
-    // });
-    //    $("#addAttachment").click(function () {
-    //     var $this = $(this);
-    //     var btnCtn = $this.parent();
-    //
-    //     var p = $("<p/>").insertBefore(btnCtn);
-    //     p.append($("<input/>", {
-    //         type: "file",
-    //         name: "attachments",
-    //         style: "float:left"
-    //     })).append($("<a/>", {
-    //         href: "#",
-    //         type: "button",
-    //         text: "delete ",
-    //     }).click(function () {
-    //         var $delBtn = $(this);
-    //         $delBtn.parent().remove();
-    //     }));
-    // });
+    $("#attachments").change(function () {
+        $("#uploadBtn").val("Upload");
+        $("#progressBar").width("0%");
+        var file = $(this).prop('files');
+        if (file.length != 0) {
+            $("#uploadBtn").attr('disabled', false);
+        }
+
+    });
+       $("#addAttachment").click(function () {
+        var $this = $(this);
+        var btnCtn = $this.parent();
+
+        var p = $("<p/>").insertBefore(btnCtn);
+        p.append($("<input/>", {
+            type: "file",
+            name: "attachments",
+            style: "float:left"
+        })).append($("<a/>", {
+            href: "#",
+            type: "button",
+            text: "delete ",
+        }).click(function () {
+            var $delBtn = $(this);
+            $delBtn.parent().remove();
+        }));
+    });
 
 </script>
 

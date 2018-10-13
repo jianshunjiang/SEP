@@ -1,5 +1,6 @@
 package com.loan.uts.service;
 
+import com.loan.uts.model.Administrator;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
 import com.loan.uts.repository.ApplicationRepository;
@@ -7,9 +8,12 @@ import com.loan.uts.repository.ManagerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.objenesis.instantiator.sun.MagicInstantiator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.Session;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -37,13 +41,28 @@ public class ManagerService {
         return managerRepository.findOne(id);
     }
 
-    public void modify(Integer id, String password, String email, Manager manager, String mobile) {
+    public void create(HttpSession session, String email, String password){
+        Administrator admin = (Administrator) session.getAttribute("admin");
+        Manager manager = new Manager();
+        manager.setEmail(email);
+        manager.setPassword(password);
+        manager.setAdminByAdminId(admin);
+        managerRepository.save(manager);
+    }
+
+    public void edit(Integer id, String password, String email, String mobile, String firstname, String lastname) {
+        Manager manager = get(id);
         manager.setId(id);
         manager.setPassword(password);
         manager.setEmail(email);
-        //manager.setManagerByManagerId(manager);
         manager.setMobile(mobile);
+        manager.setFirstname(firstname);
+        manager.setLastname(lastname);
         managerRepository.saveAndFlush(manager);
+    }
+    public List<Manager> getAll() {
+
+        return managerRepository.findAllByDeletedFalse();
     }
 
     public void delete(Integer id) {

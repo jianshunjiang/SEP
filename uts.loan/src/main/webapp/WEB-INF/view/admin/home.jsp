@@ -1,5 +1,4 @@
-<%@ page import="com.loan.uts.model.Administrator" %>
-<%@ page import="static com.loan.uts.controller.LoginController.SYSTEM_ADMIN" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 8/29/18
@@ -14,9 +13,9 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%Administrator admin= (Administrator) session.getAttribute(SYSTEM_ADMIN);%>
-<h1>Welcome <%=admin.getUsername()%></h1>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp"%>
+<h1>Welcome ${sessionScope.admin.username}</h1>
 
 </body>
 </html>
