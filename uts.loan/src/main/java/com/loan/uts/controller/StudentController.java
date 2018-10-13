@@ -1,9 +1,7 @@
 package com.loan.uts.controller;
 
-import com.loan.uts.exception.AttachFailException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
-import com.loan.uts.model.Manager;
 import com.loan.uts.model.Student;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
@@ -15,14 +13,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
@@ -59,7 +52,7 @@ public class StudentController {
         Student student = (Student) session.getAttribute(STUDENT);
         Set<Application> applications = studentService.getUnFinishedApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
-        return "studentApplications";
+        return "student/applications";
     }
 
     /**
@@ -68,7 +61,7 @@ public class StudentController {
      */
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String student() {
-        return "student";
+        return "student/home";
     }
 
     /**
@@ -82,7 +75,7 @@ public class StudentController {
             modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
             logger.info("Load draft: " + draftId);
         }
-        return "newApplication";
+        return "student/newApplication";
     }
 
     /**
@@ -127,7 +120,7 @@ public class StudentController {
     public String history(HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         modelMap.addAttribute("applications", studentService.getHistoricalApplication(student));
-        return "history";
+        return "student/history";
     }
 
     /**
@@ -152,7 +145,7 @@ public class StudentController {
         }
         logger.info("Application history searched");
         modelMap.addAttribute("applications", applications);
-        return "history";
+        return "student/history";
     }
 
     /**

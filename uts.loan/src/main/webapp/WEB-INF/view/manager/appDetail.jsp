@@ -1,6 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.loan.uts.model.Student" %>
-<%@ page import="static com.loan.uts.model.Application.ACCEPTED" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 8/19/18
@@ -18,8 +16,8 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
    <table class="table">
        <caption>Application Detail</caption>
@@ -54,7 +52,7 @@
        </tr>
        </tbody>
    </table>
-    <a role="button" class="btn btn-success btn-lg" href="/loanManager/applications/manage?id=${application.id}&result=<%=ACCEPTED%>" onclick="return confirm('Approve this application?')"><span class="glyphicon glyphicon-ok"></span> Approve</a>
+    <a role="button" class="btn btn-success btn-lg" href="/loanManager/applications/manage?id=${application.id}&result=Accepted" onclick="return confirm('Approve this application?')"><span class="glyphicon glyphicon-ok"></span> Approve</a>
     <a role="button" class="btn btn-danger btn-lg" href="/loanManager/applications/decline?id=${application.id}"><span class="glyphicon glyphicon-remove"></span> Decline</a>
 </div>
 <script src="https://code.jquery.com/jquery.js"></script>

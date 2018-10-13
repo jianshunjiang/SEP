@@ -4,7 +4,6 @@ import com.loan.uts.model.Administrator;
 import com.loan.uts.model.Manager;
 import com.loan.uts.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +18,11 @@ public class AdminController {
     @Autowired
     ManagerService managerService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String home(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
-        modelMap.addAttribute("manager", managerService.getAll());
+        modelMap.addAttribute("managers", managerService.getAll());
         if(error != null)modelMap.addAttribute("error", error);
-            return "admin";
+            return "admin/home";
     }
 
     @RequestMapping(value = "/create_manager", method = RequestMethod.POST)
@@ -33,7 +32,7 @@ public class AdminController {
             return "redirect:/admin/";
         }catch (Exception e){
             modelMap.addAttribute("error", e.getMessage());
-            return "create_manager";
+            return "admin/newManager";
         }
     }
 
@@ -41,7 +40,7 @@ public class AdminController {
     public String modifyManager(@RequestParam("id")Integer id, ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
         modelMap.addAttribute("manager", managerService.get(id));
         if(error != null) modelMap.addAttribute("error", error);
-        return "modify_account";
+        return "manager/editAccount";
     }
 
     @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
@@ -52,8 +51,8 @@ public class AdminController {
                               @RequestParam("mobile")String mobile,
                               @RequestParam("email")String email, HttpSession session){
         if(password.equals(repeatPassword)){
-            Manager manager = (Manager)session.getAttribute("admin");
-            managerService.modify(id, username, password, manager, mobile);
+            Administrator admin = (Administrator)session.getAttribute("admin");
+            managerService.modify(id, username, password, mobile);
             return "redirect:/admin/";
         }
         return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";

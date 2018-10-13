@@ -50,11 +50,11 @@ public class ManagerService {
         managerRepository.save(manager);
     }
 
-    public void modify(Integer id, String password, String email, Manager manager, String mobile) {
+    public void modify(Integer id, String password, String email, String mobile) {
+        Manager manager = get(id);
         manager.setId(id);
         manager.setPassword(password);
         manager.setEmail(email);
-        manager.setManagerByManagerId(manager);
         manager.setMobile(mobile);
         managerRepository.saveAndFlush(manager);
     }

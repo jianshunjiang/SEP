@@ -18,7 +18,6 @@ public class Manager implements Serializable {
     private String password;
     private boolean deleted;
     private Collection<Application> applications;
-    private Manager managerByManagerId;
     private Administrator adminByAdminId;
 
     // The getter/setter function of variable Id.
@@ -143,16 +142,6 @@ public class Manager implements Serializable {
 
     public void setApplications(Collection<Application> applications) {
         this.applications = applications;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "id", nullable = false)
-    public Manager getManagerByManagerId() {
-        return managerByManagerId;
-    }
-
-    public void setManagerByManagerId(Manager managerByManagerId) {
-        this.managerByManagerId = managerByManagerId;
     }
 
     @ManyToOne

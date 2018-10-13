@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.loan.uts.model.Student" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 8/19/18
@@ -17,15 +16,22 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/newApplication"><span class="glyphicon glyphicon-pencil"></span>Create</a>
+    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>　Create</a>
+<c:if test="${not empty sessionScope.student.draft}">
+    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=${not empty sessionScope.student.draft.id}"><span class="glyphicon glyphicon-floppy-open"></span>　Open Draft</a>
+    <a role="button" class="btn btn-danger btn-lg btn-block" href="/student/draft/delete"><span class="glyphicon glyphicon-trash"></span>　Delete Draft</a>
+</c:if>
+    <c:if test="${empty applications}"><h1>You have no applications yet.</h1></c:if>
+    <c:if test="${not empty applications}">
     <table class="table table-condensed">
         <thead>
         <tr>
             <th>Application</th>
+            <th>Title</th>
             <th>Submit Date</th>
             <th>Status</th>
         </tr>
@@ -34,7 +40,8 @@
         <c:forEach items="${applications}" var="application">
             <tr class="active">
                 <td>${application.id}</td>
-                <td>${application.submitDate}</td>
+                <td>${application.title}</td>
+                <td>${application.submitDateString()}</td>
                 <td>${application.status}</td>
                 <td>
                     <button type="button" class="btn btn-info">Detail</button>
@@ -44,6 +51,7 @@
         </tbody>
 
     </table>
+    </c:if>
 </div>
 <%--</div>--%>
 <script src="https://code.jquery.com/jquery.js"></script>

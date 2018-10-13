@@ -1,4 +1,4 @@
-<%@ page import="com.loan.uts.model.Student" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tong
   Date: 8/19/18
@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all" />
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp"%>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp"%>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

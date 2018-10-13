@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="sidebar.jsp" %>
+<%@ include file="../header.jsp" %>
+<%@ include file="../sidebar.jsp" %>
 
 <div class="col-md-9">
     <form:form action="/student/history" method="post" role="form">
@@ -92,9 +92,5 @@
         }
     }
 </script>
-</body>
-</html>
-
-
 </body>
 </html>

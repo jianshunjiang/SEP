@@ -1,9 +1,7 @@
 package com.loan.uts.controller;
 
-import com.loan.uts.model.Administrator;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
-import com.loan.uts.repository.ManagerRepository;
 import com.loan.uts.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 import java.util.Date;
-import java.util.List;
 
 import static com.loan.uts.controller.LoginController.LOAN_MANAGER;
 import static com.loan.uts.controller.StudentController.APPLICATIONS;
@@ -42,7 +39,7 @@ public class  ManagerController {
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String home(){
 
-        return "manager";
+        return "manager/home";
     }
 
     /**
@@ -55,7 +52,7 @@ public class  ManagerController {
     public String getApplications(HttpSession session, ModelMap modelMap){
         Manager manager = (Manager) session.getAttribute(LOAN_MANAGER);
         modelMap.addAttribute(APPLICATIONS, managerService.getUnhandledApp(manager));
-        return "managerApplications";
+        return "manager/applications";
     }
 
     /**
@@ -70,7 +67,7 @@ public class  ManagerController {
         if(application.getStatus().equals(SUBMITTED)) managerService.manageApp(application, PROCESSING);
         modelMap.addAttribute(APPLICATION, application);
         logger.info("Application detail: " + application.toString());
-        return "appDetail";
+        return "manager/appDetail";
     }
 
     /**
@@ -101,7 +98,7 @@ public class  ManagerController {
                                 @RequestParam(required = false, name = "error") String error) {
         modelMap.addAttribute("id", managerService.get(id));
         if(error != null) modelMap.addAttribute("error", error);
-        return "modify_account";
+        return "manager/editAccount";
     }
 
     @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
@@ -112,7 +109,7 @@ public class  ManagerController {
                               @RequestParam("email") String email, HttpSession session) {
         if(password.equals(repeatPassword)) {
             Manager manager = (Manager) session.getAttribute("manager");;
-            managerService.modify(id, password, email, manager, mobile);
+            managerService.modify(id, password, email, mobile);
             return "redirect:/loanManager/";
         }
         return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";
@@ -126,6 +123,6 @@ public class  ManagerController {
     @RequestMapping(value = "/applications/decline", method = RequestMethod.GET)
     public String decline(@RequestParam("id") Integer id, ModelMap modelMap) {
         modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
-        return "declineApp";
+        return "manager/declineApp";
     }
 }
