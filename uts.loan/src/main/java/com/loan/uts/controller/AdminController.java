@@ -1,7 +1,8 @@
 package com.loan.uts.controller;
 
-
 import com.loan.uts.service.AdminService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,15 +13,59 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class AdminController {
+
+
+    private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+    public static final String PROFILE = "profile";
+
+
     @Autowired
     AdminService adminService;
 
-    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
-    public String home(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
+    /**
+     * Go to the home page of administrator.
+     * @return
+     */
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    public String home() {
         return "admin/home";
     }
+
+    /**
+     * Get to the profile page
+     * @param session
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping( value = {"/profile"}, method = RequestMethod.GET)
+    public String profile(HttpSession session, ModelMap modelMap){
+        return "admin/profile";
+    }
+
+    /**
+     * Go to the homepage of resetting password.
+     * @return
+     */
+    @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.GET)
+    public String resetPassword() {
+        return "admin/resetPassword";
+    }
+
+    /**
+     * Go to the homepage of staffs.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
+    public String staffs() {
+        return "admin/staffs";
+    }
+
+
+
+
+
 
     @RequestMapping(value = {"/managers"}, method = RequestMethod.GET)
     public String managers(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
