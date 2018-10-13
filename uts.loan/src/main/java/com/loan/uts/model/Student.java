@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Set;
 
 /**
- *
+ * Define Student Class.
  */
 @Entity
 @Table(name = "student", schema = "uts_loan", catalog = "")
@@ -27,7 +27,7 @@ public class Student implements Serializable {
     private Set<Application> applications;
     private Draft draft;
 
-    //
+    // The getter/setter function of variable draft.
     @OneToOne
     @JoinColumn(name = "draft_id", referencedColumnName = "id")
     public Draft getDraft() {
@@ -38,7 +38,7 @@ public class Student implements Serializable {
         this.draft = draft;
     }
 
-    //
+    // The getter/setter function of variable id.
     @Id
     @Column(name = "id", nullable = false)
     public Integer getId() {
@@ -49,7 +49,7 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    //
+    // The getter/setter function of variable password.
     @Basic
     @Column(name = "password", nullable = false, length = 50)
     public String getPassword() {
@@ -60,7 +60,7 @@ public class Student implements Serializable {
         this.password = password;
     }
 
-    //
+    // The getter/setter function of variable bankaccount.
     @Basic
     @Column(name = "bankaccount", nullable = true, length = 100)
     public String getBankaccount() {
@@ -71,7 +71,7 @@ public class Student implements Serializable {
         this.bankaccount = bankaccount;
     }
 
-    //
+    // The getter/setter function of variable email.
     @Basic
     @Column(name = "email", nullable = false, length = 100)
     public String getEmail() {
@@ -82,7 +82,7 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    //
+    // The getter/setter function of variable phone.
     @Basic
     @Column(name = "phone", nullable = true, length = 50)
     public String getPhone() {
@@ -93,7 +93,7 @@ public class Student implements Serializable {
         this.phone = phone;
     }
 
-    //
+    // The getter/setter function of variable faculty.
     @Basic
     @Column(name = "faculty", nullable = true, length = 4)
     public String getFaculty() {
@@ -104,7 +104,7 @@ public class Student implements Serializable {
         this.faculty = faculty;
     }
 
-    //
+    // The getter/setter function of variable firstname.
     @Basic
     @Column(name = "firstname", nullable = true, length = 10)
     public String getFirstname() {
@@ -115,7 +115,7 @@ public class Student implements Serializable {
         this.firstname = firstname;
     }
 
-    //
+    // The getter/setter function of variable lastname.
     @Basic
     @Column(name = "lastname", nullable = true, length = 10)
     public String getLastname() {
@@ -126,7 +126,7 @@ public class Student implements Serializable {
         this.lastname = lastname;
     }
 
-    //
+    // The getter/setter function of variable course.
     @Basic
     @Column(name = "course", nullable = true, length = 6)
     public String getCourse() {
@@ -137,7 +137,7 @@ public class Student implements Serializable {
         this.course = course;
     }
 
-    //
+    // The getter/setter function of variable dob.
     @Basic
     @Column(name = "dob", nullable = true)
     public Date getDob() {
@@ -148,7 +148,7 @@ public class Student implements Serializable {
         this.dob = dob;
     }
 
-    //
+    // The getter/setter function of variable gender.
     @Basic
     @Column(name = "gender", nullable = true, length = 6)
     public String getGender() {
@@ -159,7 +159,7 @@ public class Student implements Serializable {
         this.gender = gender;
     }
 
-    //
+    // The getter/setter function of variable nationality.
     @Basic
     @Column(name = "nationality", nullable = true, length = 20)
     public String getNationality() {
@@ -170,7 +170,7 @@ public class Student implements Serializable {
         this.nationality = nationality;
     }
 
-    //
+    // The getter/setter function of variable startyear.
     @Basic
     @Column(name = "start_year", nullable = true, length = 4)
     public String getStartYear() {
@@ -182,7 +182,8 @@ public class Student implements Serializable {
     }
 
     /*
-
+    Override equals function
+    Judge the equation of two Student classes through all variables above.
      */
     @Override
     public boolean equals(Object o) {
@@ -209,7 +210,7 @@ public class Student implements Serializable {
     }
 
     /*
-
+    Override hashCode function.
      */
     @Override
     public int hashCode() {
@@ -229,7 +230,7 @@ public class Student implements Serializable {
         return result;
     }
 
-    //
+    // The getter/setter function of Set of applications.
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     public Set<Application> getApplications() {
         return applications;
@@ -240,7 +241,8 @@ public class Student implements Serializable {
     }
 
     /*
-
+    Override toString function
+    Return the string in the following format.
      */
     @Override
     public String toString() {

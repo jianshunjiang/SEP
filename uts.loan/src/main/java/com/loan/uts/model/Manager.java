@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- *
+ * Define Manager Class.
  */
 @Entity
 @Table(name = "manager", schema = "uts_loan")
@@ -19,7 +19,7 @@ public class Manager implements Serializable {
     private boolean deleted;
     private Collection<Application> applications;
 
-    //
+    // The getter/setter function of variable Id.
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
@@ -30,7 +30,7 @@ public class Manager implements Serializable {
         this.id = id;
     }
 
-    //
+    // The getter/setter function of variable firstname.
     @Basic
     @Column(name = "firstname", nullable = true, length = 10)
     public String getFirstname() {
@@ -41,7 +41,7 @@ public class Manager implements Serializable {
         this.firstname = firstname;
     }
 
-    //
+    // The getter/setter function of variable lastname.
     @Basic
     @Column(name = "lastname", nullable = true, length = 10)
     public String getLastname() {
@@ -52,7 +52,7 @@ public class Manager implements Serializable {
         this.lastname = lastname;
     }
 
-    //
+    // The getter/setter function of variable email.
     @Basic
     @Column(name = "email", nullable = true, length = 100)
     public String getEmail() {
@@ -63,7 +63,7 @@ public class Manager implements Serializable {
         this.email = email;
     }
 
-    //
+    // The getter/setter function of variable mobile.
     @Basic
     @Column(name = "mobile", nullable = true, length = 20)
     public String getMobile() {
@@ -74,7 +74,7 @@ public class Manager implements Serializable {
         this.mobile = mobile;
     }
 
-    //
+    // The getter/setter function of variable password.
     @Basic
     @Column(name = "password", nullable = true, length = 50)
     public String getPassword() {
@@ -85,7 +85,7 @@ public class Manager implements Serializable {
         this.password = password;
     }
 
-    //
+    // The judge function of deleted or not.
     @Basic
     @Column(name = "deleted", nullable = false)
     public boolean isDeleted() {
@@ -97,7 +97,8 @@ public class Manager implements Serializable {
     }
 
     /*
-
+    Override equals function
+    Judge the equation of two Manager classes through all variables above.
      */
     @Override
     public boolean equals(Object o) {
@@ -118,7 +119,7 @@ public class Manager implements Serializable {
     }
 
     /*
-
+    Override hashCode function.
      */
     @Override
     public int hashCode() {
@@ -132,7 +133,7 @@ public class Manager implements Serializable {
         return result;
     }
 
-    //
+    // The getter/setter function of Collections Applications.
     @OneToMany(mappedBy = "manager")
     public Collection<Application> getApplications() {
         return applications;
@@ -143,7 +144,8 @@ public class Manager implements Serializable {
     }
 
     /*
-
+    Override toString function
+    Return the string in the following format.
      */
     @Override
     public String toString() {

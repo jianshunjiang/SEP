@@ -3,13 +3,10 @@ package com.loan.uts.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-<<<<<<< HEAD
-=======
 
 /**
  * Define Administrator class.
  */
->>>>>>> af0a558cbafd22ec1e8e57f321e385c17df965ba
 @Entity
 @Table(name = "admin", schema = "uts_loan", catalog = "")
 

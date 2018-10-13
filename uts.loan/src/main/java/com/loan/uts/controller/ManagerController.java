@@ -91,6 +91,27 @@ public class  ManagerController {
         return "redirect:/loanManager/applications";
     }
 
+    @RequestMapping(value = "/modify_account", method = RequestMethod.GET)
+    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @RequestParam(required = false, name = "error") String error) {
+        modelMap.addAttribute("manager", managerService.get(id));
+        if(error != null) modelMap.addAttribute("error", error);
+        return "modify_account";
+    }
+
+    @RequestMapping(value = "/modify_account", method = RequestMethod.POST)
+    public String saveChanges(@RequestParam("id") Integer id,
+                              @RequestParam("password") String password,
+                              @RequestParam("repeatPassword") String repeatPassword,
+                              @RequestParam("mobile") String mobile,
+                              @RequestParam("email") String email, HttpSession session) {
+        if(password.equals(repeatPassword)) {
+            Manager manager = (Manager) session.getAttribute("manager");;
+            managerService.modify(id, password, email, manager, mobile);
+            return "redirect:/manager/";
+        }
+        return "redirect:/manager/modify_account?id=" + id + "&error=" + "Passwords do not match";
+    }
+
     /**
      * Get to the decline page of application.
      * @param id The id of the application that is supposed to be declined.
