@@ -110,9 +110,9 @@ public class StudentService {
             for(MultipartFile file: attachments){
                 if(file.isEmpty()) continue;
                 try {
-                    String path = uploadPath + application.getStudent().getId() + new java.util.Date() + file.getOriginalFilename();
-                    file.transferTo(new File(path));
-                    Attachment attachment = new Attachment(path, application, new java.util.Date());
+                    String name = application.getStudent().getId() + new java.util.Date().toString() + file.getOriginalFilename();
+                    file.transferTo(new File(uploadPath + name));
+                    Attachment attachment = new Attachment(uploadPath, application, new java.util.Date(), name);
                     attachmentRepository.save(attachment);
                 } catch (IOException e) {
                     throw new AttachFailException();
