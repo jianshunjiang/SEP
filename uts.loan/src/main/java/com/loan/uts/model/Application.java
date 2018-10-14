@@ -15,6 +15,8 @@ public class Application implements Serializable {
     public static final String SUBMITTED = "Submitted";
     public static final String ACCEPTED = "Accepted";
     public static final String REFUSED = "Refused";
+    public static final String RESPONSED = "Responsed";
+    public static final String REPLIED = "Replied";
     public static final String PROCESSING = "Processing";
     private Integer id;
     private String status;
@@ -200,6 +202,11 @@ public class Application implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public void addComment(String comment){
+        if (this.comment == null) this.comment = "";
+        this.comment += comment;
     }
 
     // The getter/setter function of variable attachmentsById.

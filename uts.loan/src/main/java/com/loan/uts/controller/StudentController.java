@@ -82,6 +82,47 @@ public class StudentController {
     }
 
     /**
+     * Go to the homepage of the adding new applications.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.GET)
+    public String responseApp(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
+        logger.info("Request for response application");
+        modelMap.addAttribute("application", studentService.getApplication(id));
+        return "student/responseApp";
+    }
+
+    /**
+     * Go to the homepage of the adding new applications.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/detail"}, method = RequestMethod.GET)
+    public String detail(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
+        logger.info("Application detail");
+        modelMap.addAttribute("application", studentService.getApplication(id));
+        return "student/appDetail";
+    }
+
+    /**
+     * Go to the homepage of the adding new applications.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.POST)
+    public String responseApp(@RequestParam(name = "id") Integer id, @RequestParam(name = "result") String result,
+                              @RequestParam(name = "result") String content,
+                              @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                              HttpSession session) {
+        logger.info("Request for response application");
+        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
+        try {
+            studentService.responseApplication(id, result, content, attachments, uploadPath);
+        } catch (AttachFailException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/student/applications";
+    }
+
+    /**
      * Submit the application and go to the homepage of the student.
      * @return
      */
@@ -98,7 +139,6 @@ public class StudentController {
 
         Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
         Application savedApp = null;
-//        savedApp = studentService.submitApplication(application, null, null, draftId);
         try {
             savedApp = studentService.submitApplication(application, attachments, uploadPath, draftId);
         } catch (AttachFailException e) {

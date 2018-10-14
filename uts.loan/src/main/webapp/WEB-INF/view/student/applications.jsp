@@ -22,7 +22,7 @@
 <div class="col-md-9">
     <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/applications/add"><span class="glyphicon glyphicon-pencil"></span>　Create</a>
 <c:if test="${not empty sessionScope.student.draft}">
-    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=${not empty sessionScope.student.draft.id}"><span class="glyphicon glyphicon-floppy-open"></span>　Open Draft</a>
+    <a role="button" class="btn btn-success btn-lg btn-block" href="/student/applications/add?draftId=${sessionScope.student.draft.id}"><span class="glyphicon glyphicon-floppy-open"></span>　Open Draft</a>
     <a role="button" class="btn btn-danger btn-lg btn-block" href="/student/draft/delete"><span class="glyphicon glyphicon-trash"></span>　Delete Draft</a>
 </c:if>
     <c:if test="${empty applications}"><h1>You have no applications yet.</h1></c:if>
@@ -44,7 +44,7 @@
                 <td>${application.submitDateString()}</td>
                 <td>${application.status}</td>
                 <td>
-                    <button type="button" class="btn btn-info">Detail</button>
+                    <a role="button" class="btn btn-primary" href="/student/applications/detail?id=${application.id}">Detail</a>
                 </td>
             </tr>
         </c:forEach>

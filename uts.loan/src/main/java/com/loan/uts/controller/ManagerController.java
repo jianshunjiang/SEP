@@ -1,7 +1,9 @@
 package com.loan.uts.controller;
 
 import com.loan.uts.model.Application;
+import com.loan.uts.model.Attachment;
 import com.loan.uts.model.Manager;
+import com.loan.uts.service.AttachmentService;
 import com.loan.uts.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 import java.util.Date;
+import java.util.Set;
 
 import static com.loan.uts.controller.LoginController.LOAN_MANAGER;
 import static com.loan.uts.controller.StudentController.APPLICATIONS;
 import static com.loan.uts.model.Application.PROCESSING;
+import static com.loan.uts.model.Application.REPLIED;
 import static com.loan.uts.model.Application.SUBMITTED;
 
 @Controller
@@ -28,9 +32,12 @@ public class  ManagerController {
 
     private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
     public static final String APPLICATION = "application";
+    public static final String ATTACHMENTS = "attachments";
 
     @Autowired
     ManagerService managerService;
+    @Autowired
+    AttachmentService attachmentService;
 
     /**
      * Go to the home page of manager.
@@ -65,6 +72,8 @@ public class  ManagerController {
     public String detail(@RequestParam("id") Integer id, ModelMap modelMap){
         Application application = managerService.getApplication(id);
         if(application.getStatus().equals(SUBMITTED)) managerService.manageApp(application, PROCESSING);
+        Set<Attachment> attachmentSet = attachmentService.getAttachments(application);
+        modelMap.addAttribute(ATTACHMENTS, attachmentService.getAttachments(application));
         modelMap.addAttribute(APPLICATION, application);
         logger.info("Application detail: " + application.toString());
         return "manager/appDetail";
@@ -87,9 +96,9 @@ public class  ManagerController {
      * @return
      */
     @RequestMapping(value = "/applications/manage", method = RequestMethod.POST)
-    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam("comment") String comment,
-                         @ModelAttribute("userAttribute") Manager manager) {
-        managerService.manageApp(id, result, new Date(), comment);
+    public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result, @RequestParam(name = "comment", required = false) String comment) {
+        if (result.equals(REPLIED)) managerService.manageApp(id, result, null, comment);
+        else managerService.manageApp(id, result, new Date(), comment);
         return "redirect:/loanManager/applications";
     }
 
@@ -122,8 +131,10 @@ public class  ManagerController {
      * @return
      */
     @RequestMapping(value = "/applications/decline", method = RequestMethod.GET)
-    public String decline(@RequestParam("id") Integer id, ModelMap modelMap) {
+    public String decline(@RequestParam("id") Integer id, @RequestParam("result") String result, ModelMap modelMap) {
         modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
+        modelMap.addAttribute("result", result);
         return "manager/declineApp";
     }
+
 }

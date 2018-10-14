@@ -128,7 +128,7 @@ public class ManagerService {
     public void manageApp(Integer applicationId, String result, Date date, String comment){
         Application application = getApplication(applicationId);
         application.setResultDate(date);
-        application.setComment(comment);
+        application.addComment(comment);
         manageApp(application, result);
         logger.info("Application No. " + application.getId() + result);
     }
