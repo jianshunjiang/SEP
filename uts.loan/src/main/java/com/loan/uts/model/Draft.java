@@ -18,6 +18,9 @@ public class Draft implements Serializable {
     private Student student;
     private String title;
     private Collection<Attachment> attachments;
+    private Double amount;
+    private Double sum;
+    private Integer payBackYears;
 
     /**
      * The constructor of Draft.
@@ -30,11 +33,14 @@ public class Draft implements Serializable {
      * @param content
      * @param student
      */
-    public Draft(String title, String content, Student student){
+    public Draft(String title, String content, Student student, Integer payBackYears, Double amount, Double sum){
         this.title = title;
         this.student = student;
         this.content = content;
         this.lastEdit = new java.util.Date();
+        this.payBackYears = payBackYears;
+        this.amount = amount;
+        this.sum = sum;
     }
 
     // The getter/setter function of variable student.
@@ -145,5 +151,35 @@ public class Draft implements Serializable {
     public String toString() {
         return "{ID: " + id +"; Title: " + title + "; Date: " + lastEdit.toString() +
                 "; Student: " + student.toString();
+    }
+
+    @Basic
+    @Column(name = "amount", nullable = true, precision = 0)
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    @Basic
+    @Column(name = "sum", nullable = true, precision = 0)
+    public Double getSum() {
+        return sum;
+    }
+
+    public void setSum(Double sum) {
+        this.sum = sum;
+    }
+
+    @Basic
+    @Column(name = "pay_back_years", nullable = true)
+    public Integer getPayBackYears() {
+        return payBackYears;
+    }
+
+    public void setPayBackYears(Integer payBackYears) {
+        this.payBackYears = payBackYears;
     }
 }

@@ -33,6 +33,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String home() {
+        logger.info("Admin: home");
         return "admin/home";
     }
 
@@ -43,6 +44,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"/profile"}, method = RequestMethod.GET)
     public String getProfile() {
+        logger.info("Admin: profile");
         return "admin/profile";
     }
 

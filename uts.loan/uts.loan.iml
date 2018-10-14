@@ -17,6 +17,17 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="defaultPersistenceUnit" value="6b1dbed3-4e0c-4b77-a26a-9fb8681600ce" />
+          <factory-entry name="noname-a.xml@0" value="6b1dbed3-4e0c-4b77-a26a-9fb8681600ce" />
+        </datasource-mapping>
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/persistence.xml" />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/uts.loan-3.5/WEB-INF/classes" />
