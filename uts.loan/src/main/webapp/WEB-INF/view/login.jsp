@@ -25,7 +25,11 @@
     <script type="text/javascript" src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
     　　<!-- Bootstrap Validator 样式文件 -->
     <script type="text/javascript" src="/static/js/login.js"></script>
-
+    <style>
+     body{
+            background-image: linear-gradient(to bottom, #1a8cff, #e6f2ff);
+        }
+    </style>
 </head>
 <body>
 <div class="container">
