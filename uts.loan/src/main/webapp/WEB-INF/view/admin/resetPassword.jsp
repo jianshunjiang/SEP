@@ -33,14 +33,15 @@
     <form:form action="/admin/resetPassword" method="post" role="form" id="reset_pwd" name="reset_pwd" >
         <div class="form-group">
             <label for="newPassword">New Password</label>
-            <input type="password" class="form-control" id="newPassword" name="newPassword" value="">
+            <input type="password" class="form-control" id="newPassword" name="newPassword" value="${admin.password}">
         </div>
         <div class="form-group">
             <label for="repeatPassword">Re-type New Password</label>
-            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" value="">
+            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" value="${admin.password}">
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-success" value="Save">
+            <a href="/admin/modify_account" role="button" class="btn btn-primary">Return</a>
         </div>
     </form:form>
 
