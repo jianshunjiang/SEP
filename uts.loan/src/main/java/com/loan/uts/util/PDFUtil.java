@@ -1,8 +1,8 @@
 package com.loan.uts.util;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.loan.uts.model.Application;
@@ -20,11 +20,22 @@ public class PDFUtil {
         try {
             PdfWriter pw = PdfWriter.getInstance(doc, bos);
 
-            doc.open();
 
-            String header = "Loan Contact" + application.getId() + " - " + student.getId();
-            doc.add(new Paragraph(header));
+            doc.open();
+            PdfContentByte cb = pw.getDirectContent();
+            //Set header.
+            Font ffont = new Font(Font.FontFamily.UNDEFINED, 5, Font.ITALIC);
+            Phrase header = new Phrase("Loan Contact " + application.getId() + " - " + student.getId(), ffont);
+            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
+                    header,
+                    (doc.right() - doc.left()) / 2 + doc.leftMargin(),
+                    doc.top() + 10, 0);
+//            doc.add(new Paragraph(header));
+            //Initialize the style of the table;
             PdfPTable table = new PdfPTable(2);
+            table.setWidthPercentage(100);
+            table.getDefaultCell().setUseAscender(true);
+            table.getDefaultCell().setUseDescender(true);
             table.addCell("Student name");
             table.addCell(student.getFirstname() + student.getLastname());
             table.addCell("Signature");
