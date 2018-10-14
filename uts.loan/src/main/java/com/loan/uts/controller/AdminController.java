@@ -119,5 +119,15 @@ public class AdminController {
         return "redirect:/admin/managers";
     }
 
+    @RequestMapping(value = "applications/delete", method = RequestMethod.POST)
+    public String deleteApplication(@RequestParam("applicationId") Integer id, ModelMap modelMap) {
+        try {
+            adminService.deleteApplication(id);
+        } catch (Exception e) {
+            modelMap.addAttribute("error", e.getMessage());
+        }
+        return "redirect:/admin/applications";
+    }
+
 
 }
