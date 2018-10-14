@@ -15,23 +15,25 @@ public class Attachment implements Serializable {
     private String path;
     private Draft draft;
     private Application application;
+    private String name;
 
     /**
      * The constructor of Attachment.
      */
     public Attachment(){}
-
     /**
      * The constructor of Attachment.
      * @param path
      * @param application
      * @param uploadDate
      */
-    public Attachment(String path, Application application, Date uploadDate){
+    public Attachment(String path, Application application, Date uploadDate, String name){
         this.path = path;
         this.application = application;
         this.uploadDate = uploadDate;
+        this.name = name;
     }
+
     // The getter/setter function of variable ID.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -115,5 +117,15 @@ public class Attachment implements Serializable {
 
     public void setApplication(Application application) {
         this.application = application;
+    }
+
+    @Basic
+    @Column(name = "name", nullable = true, length = 200)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

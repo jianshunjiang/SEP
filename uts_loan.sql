@@ -67,7 +67,7 @@ CREATE TABLE `application` (
   CONSTRAINT `FKigm5jb0xdqnqjelaagm14dcva` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
   CONSTRAINT `application_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
   CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (10,'Refused',1,'2018-09-26','2018-08-01','Hi, I want to apply for financial support because I am poor.',12345678,'666',NULL,0,0,0),(11,'Accepted',1,'2018-06-05','2018-09-04','Hi ...................',12345678,'not null',NULL,0,0,0),(12,'Accepted',2,'2018-05-07','2018-08-10','jdpaoidjapsoidfjaodsijf',12345678,'uts online',NULL,0,0,0),(13,'Refused',1,'2018-09-26','2018-10-01','',12345678,'668','Please provide more information.',0,0,0),(14,'Submitted',NULL,'2018-09-26',NULL,'Yes I am',12345678,'886',NULL,0,0,0),(34,'Submitted',1,'2018-10-02',NULL,'adsafsds',12345678,'Test Draft',NULL,0,0,0),(35,'Submitted',5,'2018-10-02',NULL,'Hello, I am Jiangjianshun',12345678,'Test Draft',NULL,0,0,0),(36,'Submitted',4,'2018-10-02',NULL,'asdfa',12345678,'Test Draft',NULL,0,0,0),(37,'Submitted',6,'2018-10-14',NULL,'Nothing.',12345678,'Title',NULL,6,101,113.12);
+INSERT INTO `application` VALUES (10,'Refused',1,'2018-09-26','2018-08-01','Hi, I want to apply for financial support because I am poor.',12345678,'666',NULL,0,0,0),(11,'Accepted',1,'2018-06-05','2018-09-04','Hi ...................',12345678,'not null',NULL,0,0,0),(12,'Accepted',2,'2018-05-07','2018-08-10','jdpaoidjapsoidfjaodsijf',12345678,'uts online',NULL,0,0,0),(13,'Refused',1,'2018-09-26','2018-10-01','',12345678,'668','Please provide more information.',0,0,0),(14,'Submitted',NULL,'2018-09-26',NULL,'Yes I am',12345678,'886',NULL,0,0,0),(34,'Submitted',1,'2018-10-02',NULL,'adsafsds',12345678,'Test Draft',NULL,0,0,0),(35,'Submitted',5,'2018-10-02',NULL,'Hello, I am Jiangjianshun',12345678,'Test Draft',NULL,0,0,0),(36,'Submitted',4,'2018-10-02',NULL,'asdfa',12345678,'Test Draft',NULL,0,0,0),(37,'Submitted',6,'2018-10-14',NULL,'Nothing.',12345678,'Title',NULL,6,101,113.12),(38,'Submitted',4,'2018-10-14',NULL,'ugly',12345678,'Ugly',NULL,1,100,101.58),(39,'Submitted',4,'2018-10-14',NULL,'d',12345678,'Test',NULL,1,100,101.58),(40,'Submitted',7,'2018-10-14',NULL,'ddd',12345678,'ddd',NULL,1,100,101.58),(41,'Submitted',2,'2018-10-14',NULL,'dafds',12345678,'test',NULL,1,100,101.58);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,6 +93,7 @@ CREATE TABLE `attachment` (
   `application_id` int(10) DEFAULT NULL,
   `upload_date` date DEFAULT NULL,
   `path` varchar(200) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK6v9kv390t8e3ljkbs3gjfy3pe` (`application_id`),
   KEY `FK7tvrig72fsw5pcpde3vm4x1yx` (`draft_id`),
@@ -100,7 +101,7 @@ CREATE TABLE `attachment` (
   CONSTRAINT `FK7tvrig72fsw5pcpde3vm4x1yx` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
   CONSTRAINT `attachment_application__fk` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE CASCADE,
   CONSTRAINT `attachment_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,6 +110,7 @@ CREATE TABLE `attachment` (
 
 LOCK TABLES `attachment` WRITE;
 /*!40000 ALTER TABLE `attachment` DISABLE KEYS */;
+INSERT INTO `attachment` VALUES (1,NULL,39,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/target/uts.loan-3.5/WEB-INF/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(2,NULL,40,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/target/uts.loan-3.5/WEB-INF/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(3,NULL,41,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(4,NULL,41,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/upload/48440 SEP Spring 2018 Assignment 2 Marking Sheet.pdf',NULL);
 /*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,4 +223,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-14 17:29:30
+-- Dump completed on 2018-10-14 18:56:14
