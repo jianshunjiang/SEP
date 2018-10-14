@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -110,9 +110,9 @@ public class StudentService {
             for(MultipartFile file: attachments){
                 if(file.isEmpty()) continue;
                 try {
-                    String path = uploadPath + file.getOriginalFilename();
+                    String path = uploadPath + application.getStudent().getId() + new java.util.Date() + file.getOriginalFilename();
                     file.transferTo(new File(path));
-                    Attachment attachment = new Attachment(path, application, new Date());
+                    Attachment attachment = new Attachment(path, application, new java.util.Date());
                     attachmentRepository.save(attachment);
                 } catch (IOException e) {
                     throw new AttachFailException();
