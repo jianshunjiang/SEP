@@ -26,6 +26,9 @@ public class Application implements Serializable {
     private String title;
     private String comment;
     private Collection<Attachment> attachmentsById;
+    private Integer payBackYears;
+    private Double amount;
+    private Double sum;
 
     /**
      * The constructor of Application class.
@@ -40,12 +43,16 @@ public class Application implements Serializable {
      * @param status
      * @param student
      */
-    public Application(String title, String content, Date submitDate, String status, Student student){
+    public Application(String title, String content, Date submitDate, String status, Student student,
+                       Integer payBackYears, Double sum, Double amount){
         this.title = title;
         this.content = content;
         this.submitDate = submitDate;
         this.status = status;
         this.student = student;
+        this.payBackYears = payBackYears;
+        this.sum = sum;
+        this.amount = amount;
     }
 
     // The getter/setter function of variable ID.
@@ -176,6 +183,7 @@ public class Application implements Serializable {
     public String resultDateString(){
         return resultDate.toString().split(" ")[0];
     }
+
     /*
     Separate submitDateString by space and pick the first string.
      */
@@ -213,5 +221,35 @@ public class Application implements Serializable {
         return "{ID: " + this.getId() + "; Title: " + this.getTitle() + "; Student: "
                 + student.getFirstname() + " " +student.getLastname() + " ("
                 + student.getId() + ")}";
+    }
+
+    @Basic
+    @Column(name = "pay_back_years", nullable = true)
+    public Integer getPayBackYears() {
+        return payBackYears;
+    }
+
+    public void setPayBackYears(Integer payBackYears) {
+        this.payBackYears = payBackYears;
+    }
+
+    @Basic
+    @Column(name = "amount", nullable = true, precision = 0)
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    @Basic
+    @Column(name = "sum", nullable = true, precision = 0)
+    public Double getSum() {
+        return sum;
+    }
+
+    public void setSum(Double sum) {
+        this.sum = sum;
     }
 }

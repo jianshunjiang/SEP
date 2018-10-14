@@ -1,5 +1,7 @@
 package com.loan.uts.controller;
 
+import com.loan.uts.exception.EmailExistsException;
+import com.loan.uts.exception.HasUnhandledWorkException;
 import com.loan.uts.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String home() {
+        logger.info("Admin: home");
         return "admin/home";
     }
 
@@ -41,6 +44,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"/profile"}, method = RequestMethod.GET)
     public String getProfile() {
+        logger.info("Admin: profile");
         return "admin/profile";
     }
 
@@ -102,10 +106,26 @@ public class AdminController {
                               @RequestParam("lastname") String lastname,
                               @RequestParam("password") String password,
                               @RequestParam("mobile") String mobile,
-                              @RequestParam("email") String email) {
+                              @RequestParam("email") String email,
+                              ModelMap modelMap) {
 
-        if (id == null) adminService.addManager(email, password, firstname, lastname, mobile);
-        else adminService.editManager(id, password, email, mobile, firstname, lastname);
+        if (id == null) {
+            try {
+                adminService.addManager(email, password, firstname, lastname, mobile);
+            } catch (EmailExistsException e) {
+                modelMap.addAttribute("error", e.getMessage());
+                return "redirect:/admin/managers/add";
+            }
+        }
+        else {
+            try {
+                adminService.editManager(id, password, email, mobile, firstname, lastname);
+            } catch (EmailExistsException e) {
+                modelMap.addAttribute("error", e.getMessage());
+                modelMap.addAttribute("managerId", id);
+                return "redirect:/admin/managers/edit";
+            }
+        }
         return "redirect:/admin/managers";
     }
 
@@ -113,7 +133,7 @@ public class AdminController {
     public String deleteManager(@RequestParam("managerId") Integer id, ModelMap modelMap) {
         try {
             adminService.deleteManager(id);
-        } catch (Exception e) {
+        } catch (HasUnhandledWorkException e) {
             modelMap.addAttribute("error", e.getMessage());
         }
         return "redirect:/admin/managers";

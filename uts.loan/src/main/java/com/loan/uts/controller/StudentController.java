@@ -85,12 +85,15 @@ public class StudentController {
     @RequestMapping(value = {"/applications/add"}, method = RequestMethod.POST)
     public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content,
                                     @RequestParam("draft_id") Integer draftId,
+                                    @RequestParam("amount") Double amount,
+                                    @RequestParam("years") Integer paybackYears,
+                                    @RequestParam("sum") Double sum,
 //                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
                                     HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
 //        String uploadPath = session.getServletContext().getRealPath("/upload/");
 
-        Application application = new Application(title, content, new Date(), SUBMITTED, student);
+        Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
         Application savedApp = null;
         savedApp = studentService.submitApplication(application, null, null, draftId);
 //        try {
@@ -157,10 +160,15 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/draft/save"}, method = RequestMethod.POST)
-    public String saveDraft(@RequestParam("title") String title, @RequestParam("draft_id") Integer draftId,
-                            @RequestParam("content") String content, HttpSession session, ModelMap modelMap){
+    public String saveDraft(@RequestParam("title") String title,
+                            @RequestParam("draft_id") Integer draftId,
+                            @RequestParam("amount") Double amount,
+                            @RequestParam("years") Integer paybackYears,
+                            @RequestParam("sum") Double sum,
+                            @RequestParam("content") String content,
+                            HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
-        Draft draft = new Draft(title, content, student);
+        Draft draft = new Draft(title, content, student, paybackYears, amount, sum);
         if (draftId != null) draft.setId(draftId);
         draft = studentService.saveDraft(student, draft);
         session.setAttribute(STUDENT, student);

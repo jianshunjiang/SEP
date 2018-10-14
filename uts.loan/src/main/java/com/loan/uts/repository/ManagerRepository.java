@@ -25,4 +25,11 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
      * @return
      */
     List<Manager> findAllByDeletedFalse();
+
+    /**
+     * Find the manager that has the email.
+     * @param email
+     * @return
+     */
+    Manager findByEmailAndDeletedFalse(String email);
 }

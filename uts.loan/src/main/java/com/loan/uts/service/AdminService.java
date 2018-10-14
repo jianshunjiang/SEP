@@ -1,6 +1,9 @@
 package com.loan.uts.service;
 
+import com.loan.uts.exception.EmailExistsException;
+import com.loan.uts.exception.HasUnhandledWorkException;
 import com.loan.uts.model.Administrator;
+import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
 import com.loan.uts.repository.AdministratorRepository;
 import com.loan.uts.repository.ApplicationRepository;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Service for Administrator.
@@ -36,19 +40,32 @@ public class AdminService {
         return administratorRepository.findByUsernameAndPassword(username, password);
     }
 
-    // Find Manager by id.
+    /**
+     * Find manager by ID.
+     * @param id
+     * @return
+     */
     public Manager getManager(Integer id){
         return managerRepository.findOne(id);
     }
 
-    // Delete Manager by id.
-    public void deleteManager(Integer managerId){
+    /**
+     * Delete manager by id.
+     * @param managerId
+     */
+    public void deleteManager(Integer managerId) throws HasUnhandledWorkException {
         Manager manager = getManager(managerId);
         deleteManager(manager);
     }
 
-    // Delete manager
-    public void deleteManager(Manager manager){
+    /**
+     * Delete manager
+     * @param manager
+     */
+    public void deleteManager(Manager manager) throws HasUnhandledWorkException {
+        Set<Application> unhandledwork = applicationRepository
+                .getApplicationsByManagerIdAndResultDateIsNull(manager.getId());
+        if( unhandledwork != null && unhandledwork.size() != 0) throw new HasUnhandledWorkException(manager.getId());
         manager.setDeleted(true);
         managerRepository.save(manager);
     }
@@ -61,12 +78,15 @@ public class AdminService {
      * @param lastname
      * @param mobile
      */
-    public void addManager(String email, String password, String firstname, String lastname, String mobile){
+    public void addManager(String email, String password, String firstname, String lastname, String mobile) throws EmailExistsException {
+        if (managerRepository.findByEmailAndDeletedFalse(email) != null ) throw new EmailExistsException("Add", email);
         Manager manager = new Manager(firstname, lastname, email, mobile, password);
         managerRepository.save(manager);
     }
 
-    public void editManager(Integer id, String password, String email, String mobile, String firstname, String lastname) {
+    public void editManager(Integer id, String password, String email, String mobile, String firstname, String lastname) throws EmailExistsException {
+        Manager duplicated = managerRepository.findByEmailAndDeletedFalse(email);
+        if (duplicated.getId() != id) throw new EmailExistsException("Edit", email);
         Manager manager = getManager(id);
         manager.setId(id);
         manager.setPassword(password);
