@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'admin','111'),(2,'adminTest','111');
+INSERT INTO `admin` VALUES (1,'admin','123456'),(2,'adminTest','111');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,6 +57,9 @@ CREATE TABLE `application` (
   `student_id` int(10) NOT NULL,
   `title` varchar(50) DEFAULT NULL,
   `comment` varchar(1000) DEFAULT NULL,
+  `pay_back_years` int(11) DEFAULT NULL,
+  `amount` double DEFAULT NULL,
+  `sum` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKigm5jb0xdqnqjelaagm14dcva` (`student_id`),
   KEY `FKc9isrtiiftpc70gviknc26635` (`manager_id`),
@@ -64,7 +67,7 @@ CREATE TABLE `application` (
   CONSTRAINT `FKigm5jb0xdqnqjelaagm14dcva` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
   CONSTRAINT `application_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
   CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +76,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (10,'Refused',1,'2018-09-26','2018-08-01','Hi, I want to apply for financial support because I am poor.',12345678,'666',NULL),(11,'Accepted',1,'2018-06-05','2018-09-04','Hi ...................',12345678,'not null',NULL),(12,'Accepted',2,'2018-05-07','2018-08-10','jdpaoidjapsoidfjaodsijf',12345678,'uts online',NULL),(13,'Refused',1,'2018-09-26','2018-10-01','',12345678,'668','Please provide more information.'),(14,'Submitted',NULL,'2018-09-26',NULL,'Yes I am',12345678,'886',NULL),(34,'Submitted',1,'2018-10-02',NULL,'adsafsds',12345678,'Test Draft',NULL),(35,'Submitted',5,'2018-10-02',NULL,'Hello, I am Jiangjianshun',12345678,'Test Draft',NULL),(36,'Submitted',4,'2018-10-02',NULL,'asdfa',12345678,'Test Draft',NULL);
+INSERT INTO `application` VALUES (10,'Refused',1,'2018-09-26','2018-08-01','Hi, I want to apply for financial support because I am poor.',12345678,'666',NULL,0,0,0),(11,'Accepted',1,'2018-06-05','2018-09-04','Hi ...................',12345678,'not null',NULL,0,0,0),(12,'Accepted',2,'2018-05-07','2018-08-10','jdpaoidjapsoidfjaodsijf',12345678,'uts online',NULL,0,0,0),(13,'Refused',1,'2018-09-26','2018-10-01','',12345678,'668','Please provide more information.',0,0,0),(14,'Submitted',NULL,'2018-09-26',NULL,'Yes I am',12345678,'886',NULL,0,0,0),(34,'Submitted',1,'2018-10-02',NULL,'adsafsds',12345678,'Test Draft',NULL,0,0,0),(35,'Submitted',5,'2018-10-02',NULL,'Hello, I am Jiangjianshun',12345678,'Test Draft',NULL,0,0,0),(36,'Submitted',4,'2018-10-02',NULL,'asdfa',12345678,'Test Draft',NULL,0,0,0),(37,'Submitted',6,'2018-10-14',NULL,'Nothing.',12345678,'Title',NULL,6,101,113.12);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,6 +124,9 @@ CREATE TABLE `draft` (
   `content` varchar(5000) DEFAULT NULL,
   `last_edit` date DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
+  `pay_back_years` int(11) DEFAULT NULL,
+  `amount` double DEFAULT NULL,
+  `sum` double DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -151,7 +157,8 @@ CREATE TABLE `manager` (
   `admin_id` int(10) NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `manager_admin__fk` (`admin_id`),
+  KEY `FKk32qe1qwpdvedrn489nfhppkx` (`admin_id`),
+  CONSTRAINT `FKk32qe1qwpdvedrn489nfhppkx` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`),
   CONSTRAINT `manager_admin__fk` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -162,7 +169,7 @@ CREATE TABLE `manager` (
 
 LOCK TABLES `manager` WRITE;
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
-INSERT INTO `manager` VALUES (1,'Manager','Test','12416881@student.uts.edu.au','12344556','111',1,0),(2,'Olo','New','leighton070103@gmail.com','1234555','111',1,0),(3,'Manager','Jiang','shunj110@gmail.com','3456789','111',1,0),(4,'Manager','Qi','qiwenbo1996@gmail.com','098765456','111',1,0),(5,'Manager','Zhan','jenny.zhan.yh@gmail.com','923884939','111',1,0),(6,'Manager','Lu','0424390218lu@gmail.com','23412341','111',1,0),(7,'Manager','Eric','stradlin0518@gmail.com','2341324','111',1,0);
+INSERT INTO `manager` VALUES (1,'Manager','Test','12416881@student.uts.edu.au','123445567','111',1,0),(2,'Olo','New','leighton070103@gmail.com','1234555','111',1,0),(3,'Manager','Jiang','shunj110@gmail.com','3456789','111',1,0),(4,'Manager','Qi','qiwenbo1996@gmail.com','098765456','111',1,0),(5,'Manager','Zhan','jenny.zhan.yh@gmail.com','923884939','111',1,0),(6,'Manager','Lu','0424390218lu@gmail.com','23412341','111',1,0),(7,'Manager','Eric','stradlin0518@gmail.com','2341324','111',1,0);
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,4 +221,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-03 15:24:25
+-- Dump completed on 2018-10-14 17:29:30
