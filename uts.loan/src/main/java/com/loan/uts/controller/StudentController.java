@@ -6,9 +6,14 @@ import com.loan.uts.model.Draft;
 import com.loan.uts.model.Student;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
+import com.loan.uts.util.PDFUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -271,4 +276,16 @@ public class StudentController {
         return "redirect:/student/applications";
     }
 
+    @RequestMapping("/applications/contract")
+    public ResponseEntity<byte[]> download(@RequestParam("id") Integer id, HttpSession session){
+        Student student = (Student) session.getAttribute(STUDENT);
+        HttpHeaders headers = new HttpHeaders();
+        String fileName = "Loan Contact" + id + " - " + student.getId();
+
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(
+                PDFUtil.contract(studentService.getApplication(id), student),
+                headers, HttpStatus.OK);
+    }
 }

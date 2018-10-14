@@ -63,7 +63,7 @@
                     <td>${application.manager.firstname} ${application.manager.lastname}</td>
                     <td>${application.status}</td>
                     <td>
-                        <button type="button" class="btn btn-info">Detail</button>
+                        <a role="button" class="btn btn-primary" href="/student/applications/detail?id=${application.id}">Detail</a>
                     </td>
                 </tr>
             </c:forEach>

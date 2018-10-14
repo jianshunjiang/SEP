@@ -116,6 +116,10 @@
         <a role="button" class="btn btn-primary btn-lg" href="/student/applications/response?id=${application.id}"><span
                 class="glyphicon glyphicon-primary"></span> Response</a>
     </c:if>
+    <c:if test="${application.status.equals('Accepted')}">
+        <a role="button" class="btn btn-primary btn-lg" href="/student/applications/contract?id=${application.id}"><span
+                class="glyphicon glyphicon-primary"></span> Download Contract</a>
+    </c:if>
 
 </div>
 <script src="https://code.jquery.com/jquery.js"></script>
