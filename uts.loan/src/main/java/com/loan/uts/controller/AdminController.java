@@ -2,6 +2,7 @@ package com.loan.uts.controller;
 
 import com.loan.uts.exception.EmailExistsException;
 import com.loan.uts.exception.HasUnhandledWorkException;
+import com.loan.uts.model.Administrator;
 import com.loan.uts.service.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+
+import static com.loan.uts.controller.LoginController.SYSTEM_ADMIN;
 
 @Controller
 @RequestMapping("/admin")
@@ -65,9 +68,10 @@ public class AdminController {
      */
     @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.POST)
     public String resetPassword(@RequestParam("newPassword") String newPassword,
-                                @RequestParam("id") Integer id) {
-        adminService.resetPassword(newPassword, id);
-        return "admin/resetPassword";
+                                @RequestParam("id") Integer id, HttpSession httpSession) {
+        Administrator admin = adminService.resetPassword(newPassword, id);
+        httpSession.setAttribute(SYSTEM_ADMIN, admin);
+        return "admin/profile";
     }
 
     /**

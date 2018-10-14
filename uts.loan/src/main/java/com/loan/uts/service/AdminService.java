@@ -114,9 +114,10 @@ public class AdminService {
         return administratorRepository.findOne(id);
     }
 
-    public void resetPassword(String password, Integer id){
+    public Administrator resetPassword(String password, Integer id){
         Administrator admin = get(id);
         admin.setPassword(password);
         administratorRepository.save(admin);
+        return admin;
     }
 }

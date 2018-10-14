@@ -32,6 +32,7 @@
     <h1>Reset password for ${sessionScope.admin.username}</h1>
     <form:form action="/admin/resetPassword" method="post" role="form" id="reset_pwd" name="reset_pwd" >
         <div class="form-group">
+            <input type="hidden" id="id" name="id" value="${sessionScope.admin.id}">
             <label for="newPassword">New Password</label>
             <input type="password" class="form-control" id="newPassword" name="newPassword" value="${admin.password}">
         </div>
