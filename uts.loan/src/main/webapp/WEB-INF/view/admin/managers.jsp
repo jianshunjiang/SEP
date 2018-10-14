@@ -20,6 +20,9 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
     <a role="button" class="btn btn-primary btn-lg btn-block" href="/admin/managers/add"><span class="glyphicon glyphicon-pencil"></span>　Create</a>
     <c:if test="${empty managers}"><h1>No managers</h1></c:if>
     <c:if test="${not empty managers}">

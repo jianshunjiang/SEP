@@ -30,6 +30,9 @@
 <%@ include file="../sidebar.jsp"%>
 <body>
 <div class="col-md-9">
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
 <form:form action="/admin/managers/edit" method="post" id="manager_form" name="manager_form">
     <div class="form-group">
         <input type="hidden" name="id" id="id" value="${manager.id}">
