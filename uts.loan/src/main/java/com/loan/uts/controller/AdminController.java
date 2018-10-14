@@ -26,6 +26,7 @@ public class AdminController {
 
     /**
      * Go to the home page of administrator.
+     *
      * @return
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -34,18 +35,18 @@ public class AdminController {
     }
 
     /**
-     * Get to the profile page
-     * @param session
-     * @param modelMap
+     * Go to the profile page.
+     *
      * @return
      */
-    @RequestMapping( value = {"/profile"}, method = RequestMethod.GET)
-    public String profile(HttpSession session, ModelMap modelMap){
+    @RequestMapping(value = {"/profile"}, method = RequestMethod.GET)
+    public String getProfile() {
         return "admin/profile";
     }
 
     /**
      * Go to the homepage of resetting password.
+     *
      * @return
      */
     @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.GET)
@@ -54,7 +55,20 @@ public class AdminController {
     }
 
     /**
+     * Go to the homepage of resetting password.
+     *
+     * @return
+     */
+    @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.POST)
+    public String resetPassword(@RequestParam("newPassword") String newPassword,
+                                @RequestParam("id") Integer id) {
+        adminService.resetPassword(newPassword, id);
+        return "admin/resetPassword";
+    }
+
+    /**
      * Go to the homepage of staffs.
+     *
      * @return
      */
     @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
@@ -63,27 +77,23 @@ public class AdminController {
     }
 
 
-
-
-
-
     @RequestMapping(value = {"/managers"}, method = RequestMethod.GET)
     public String managers(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
         modelMap.addAttribute("managers", adminService.getManagers());
         if (error != null) modelMap.addAttribute("error", error);
-        return "admin/home";
+        return "admin/managers";
     }
 
     @RequestMapping(value = "/managers/add", method = RequestMethod.GET)
     public String addManager() {
-       return "admin/newManager";
+        return "admin/newManager";
     }
 
     @RequestMapping(value = "/managers/edit", method = RequestMethod.GET)
     public String editManager(ModelMap modelMap, @RequestParam("managerId") Integer managerId, @RequestParam(name = "error", required = false) String error) {
         if (error != null) modelMap.addAttribute("error", error);
         modelMap.addAttribute("manager", adminService.getManager(managerId));
-        return "manager/editAccount";
+        return "admin/newManager";
     }
 
     @RequestMapping(value = "/managers/edit", method = RequestMethod.POST)
@@ -91,15 +101,12 @@ public class AdminController {
                               @RequestParam("firstname") String firstname,
                               @RequestParam("lastname") String lastname,
                               @RequestParam("password") String password,
-                              @RequestParam("repeatPassword") String repeatPassword,
                               @RequestParam("mobile") String mobile,
                               @RequestParam("email") String email) {
-        if (password.equals(repeatPassword)) {
-            if (id == null) adminService.addManager(email, password, firstname, lastname, mobile);
-            else adminService.editManager(id, password, email, mobile, firstname, lastname);
-            return "redirect:/admin/managers";
-        }
-        return "";
+
+        if (id == null) adminService.addManager(email, password, firstname, lastname, mobile);
+        else adminService.editManager(id, password, email, mobile, firstname, lastname);
+        return "redirect:/admin/managers";
     }
 
     @RequestMapping(value = "managers/delete", method = RequestMethod.POST)

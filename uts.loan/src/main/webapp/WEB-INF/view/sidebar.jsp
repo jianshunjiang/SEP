@@ -26,8 +26,8 @@
 
         <c:if test="${not empty sessionScope.admin}">
             <li class="nav-header">Welcome ${sessionScope.admin.username}</li>
-            <li class="active"><a href="/loanManager"><i class="icon-white icon-home"></i> Home</a></li>
-            <li><a href="/loanManager/applications"><span class="glyphicon glyphicon-file"></span> Staffs</a></li>
+            <li class="active"><a href="/admin"><i class="icon-white icon-home"></i> Home</a></li>
+            <li><a href="/admin/managers"><span class="glyphicon glyphicon-user"></span> Staffs</a></li>
             <li><a href="/admin/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
         </c:if>
     </ul>

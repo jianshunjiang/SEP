@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: apple
@@ -11,83 +12,85 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Reset Password</title>
+    <title>UTS Loan System</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all"/>
+
+    <link href="//cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--  Bootstrap Validator JS文件 -->
+    <script type="text/javascript" src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
 </head>
 <body>
 <%@ include file="../header.jsp" %>
 <%@ include file="../sidebar.jsp" %>
 <%--<div class="container main">--%>
 <div class="col-md-9">
-
-    <form:form action="" method="post" role="form" id="reset_pwd" name="reset_pwd_form" >
+    <h1>Reset password for ${sessionScope.admin.username}</h1>
+    <form:form action="/admin/resetPassword" method="post" role="form" id="reset_pwd" name="reset_pwd" >
         <div class="form-group">
-            <label for="title">Current Password</label>
-            <input type="password" class="form-control" id="password" name="title" value="">
-            <p id="pwd"><span>Password do not correct</span></p>
+            <label for="newPassword">New Password</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword" value="">
         </div>
         <div class="form-group">
-            <label for="title">New Password</label>
-            <input type="password" class="form-control" id="repeatPassword" name="title" value="">
-            <p id="repeat_pwd1"><span>Too short</span></p>
+            <label for="repeatPassword">Re-type New Password</label>
+            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" value="">
         </div>
         <div class="form-group">
-            <label for="title">Re-type New Password</label>
-            <input type="password" class="form-control" id="repeatPassword2" name="title" value="">
-            <p id="repeat_pwd2"><span>Passwords do not match</span></p>
+            <input type="submit" class="btn btn-success" value="Save">
         </div>
     </form:form>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <a role="button" class="btn btn-primary btn-lg btn-block" id="button"><span class="glyphicon glyphicon-pencil"></span>　Save Changes</a>
-
 </div>
-<%--</div>--%>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#pwd").hide();
-        $("#repeat_pwd1").hide();
-        $("#repeat_pwd2").hide();
-    });
+        $('#reset_pwd').bootstrapValidator({
+            message: 'This value is not valid',        //验证错误时的信息
+            feedbackIcons: {        //验证时显示的图标
+                valid: 'glyphicon glyphicon-ok',      //正确图标
+                invalid: 'glyphicon glyphicon-remove',        //错误图标
+                validating: 'glyphicon glyphicon-refresh'        //正在更新图标
+            },
+            fields: {
+                newPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please enter password'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 18,
+                            message: 'Password should be longer than 6 characters and less than 18 characters'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: 'Password should only contains characters, number and underscore character.'
+                        }
+                    }
+                },
+                repeatPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Repeat password should not be null.'
+                        },
+                        callback: {
+                            message: "Inconsistent input before and after.",
+                            callback: function (value, validator) {
+                                var newPassword = document.getElementById("newPassword");
+                                return value === newPassword.value;
 
-    $("#password").change(function () {
-        var input = $(this).val();
-        if("111" != input) {
-            $("#pwd").show();
-        } else {
-            $("#pwd").hide();
-        }
-    });
+                            }
+                        }
+                    }
+                }
 
-    $("#repeatPassword").change(function () {
-        if($(this).val().length < 3) {
-            $("#repeat_pwd1").show();
-        } else {
-            $("#repeat_pwd1").hide();
-        }
-    });
+            }
 
-    $("#repeatPassword2").change(function () {
-        var reset = $("#repeatPassword").val();
-        var reset2 = $(this).val();
-        if(reset != reset2) {
-            $("#repeat_pwd2").show();
-        } else {
-            $("#repeat_pwd2").hide();
-        }
-    });
-
-    $("#button").click(function(){
-        $(this).submit();
-        alert("Reset password success");
-        window.location.href = "/admin";
-    });
+        });
+    })
 
 </script>
 </body>

@@ -19,6 +19,8 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../sidebar.jsp" %>
 <%--<div class="container main">--%>
+<h1>Account type: system administrator</h1>
+<h1>Username: ${sessionScope.admin.username}</h1>
 <div class="col-md-9">
     <a role="button" class="btn btn-primary btn-lg btn-block" href="/admin/resetPassword"><span class="glyphicon glyphicon-pencil"></span> Reset Password</a>
 </div>
