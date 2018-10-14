@@ -90,7 +90,7 @@
                             callback: {
                                 message: "Inconsistent input before and after.",
                                 callback: function (value, validator) {
-                                    var newPassword = document.getElementById("newPassword");
+                                    var newPassword = document.getElementById("password");
                                     return value === newPassword.value;
 
                                 }
