@@ -97,6 +97,21 @@ public class StudentService {
         return studentRepository.findOne(id);
     }
 
+    public void edit(Integer id, String password, String bankaccount, String phone, String faculty, String firstname, String lastname, String course, Date dob, String gender, String nationality, String start_year) {
+        Student student = get(id);
+        student.setPassword(password);
+        student.setBankaccount(bankaccount);
+        student.setPhone(phone);
+        student.setFaculty(faculty);
+        student.setFirstname(firstname);
+        student.setLastname(lastname);
+        student.setCourse(course);
+        student.setDob(dob);
+        student.setGender(gender);
+        student.setStartYear(start_year);
+        studentRepository.saveAndFlush(student);
+    }
+
     /**
      * Submit new application in the database and notify the student.
      * @param application

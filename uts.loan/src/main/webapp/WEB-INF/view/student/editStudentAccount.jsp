@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: eric_stradlin
-  Date: 8/10/18
-  Time: 8:15 PM
+  Date: 14/10/18
+  Time: 5:20 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Modify Account</title>
+    <title>Modify Student Account</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,37 +26,57 @@
     <!--  Bootstrap Validator JS文件 -->
     <script type="text/javascript" src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
 </head>
+
 <%@ include file="../header.jsp"%>
 <%@ include file="../sidebar.jsp"%>
+
 <body>
 <div class="col-md-9">
-<c:url var="saveUrl" value="/loanManager/modify_account?id=${userAttribute.id}" />
-<form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
+    <c:url var="saveUrl" value="/student/editStudentAccount?id=${userAttribute.id}" />
+    <form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
+
     <div class="form-group">
-        <input type="hidden" name="id" id="id" value="${manager.id}"/>
-        <input type="text" class="form-control" name="name" id="name" value="${manager.firstname}, ${manager.lastname}" readonly="readonly" />
+        <input type="hidden" name="id" id="id" value="${student.id}"/>
+        <input type="text" class="form-control" name="name" id="name" value="${student.firstname}, ${student.lastname}" readonly="readonly" />
+        <input type="text" class="form-control" name="gender" id="gender" value="${student.gender}" readonly="readonly" />
+        <input type="date" class="form-control" name="dob" id="dob" value="${student.dob}" readonly="readonly" />
+        <input type="text" class="form-control" name="nationality" id="nationality" value="${student.nationality}" readonly="readonly" />
+        <input type="date" class="form-control" name="start_year" id="start_year" value="${student.start_year}" readonly="readonly" />
     </div>
 
     <div class="form-group">
-        <input type="password" class="form-control" name="password" id="password" value="${manager.password}" placeholder="Password"/>
+        <input type="password" name="password" id="password" value="${student.password}" placeholder="Password" />
     </div>
 
     <div class="form-group">
-        <input type="password" class="form-control" name="repeatpassword" id="repeatpassword" value="${manager.password}" placeholder="Repeat Password"/>
+        <input type="password" name="repeatpassword" id="repeatpassword" value="${student.password}" placeholder="Confirm Password" />
     </div>
 
     <div class="form-group">
-        <input type="email" class="form-control" name="email" id="email" value="${manager.email}" placeholder="Email Address">
+        <input type="email" name="email" id="email" value="${student.email}" placeholder="Email Address" />
     </div>
 
     <div class="form-group">
-        <input type="number" class="form-control" name="mobile" id="mobile" value="${manager.mobile}" placeholder="Numbers Only"/>
+        <input type="phone" name="phone" id="phone" value="${student.phone}" placeholder="Phone Number" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="faculty" id="faculty" value="${student.faculty}" placeholder="Faculty Name" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="course" id="course" value="${student.course}" placeholder="Course Name/Number"/>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="bankaccount" id="bankaccount" value="${student.bankaccount}" placeholder="Bank Account" />
     </div>
 
     <div class="form-group">
         <input type="submit" class="btn btn-success" value="Save"/>
-        <a href="/loanManager/modify_account" role="button" class="btn btn-primary">Return</a>
+        <a href="/student/editStudentAccount" role="button" class="btn btn-primary">Return</a>
     </div>
+
 </div>
 </form:form>
 <script>
@@ -102,7 +122,5 @@
     })
 
 </script>
-<h1>${error}</h1>
-<a href="/manager/modify_account/"></a>
 </body>
 </html>

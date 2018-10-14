@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -113,6 +114,41 @@ public class StudentController {
         return "success";
     }
 
+    @RequestMapping(value = {"/editStudentAccount"}, method = RequestMethod.GET)
+    public String editStudentAccount(@RequestParam("id")Integer id, ModelMap modelMap,
+                                     @ModelAttribute("userAttribute") Student student,
+                                     @RequestParam(required = false, name = "error") String error) {
+        modelMap.addAttribute("id", studentService.get(id));
+        if(error != null) modelMap.addAttribute("error", error);
+        return "student/editStudentAccount";
+    }
+
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.PUT)
+    public String saveStudentChanges(@RequestParam("id")Integer id,
+                                     @RequestParam("password") String password,
+                                     @RequestParam("repeatPassword")String repeatPassword,
+                                     @RequestParam("bankaccount")String bankaccount,
+                                     @RequestParam("phone")String phone,
+                                     @RequestParam("faculty")String faculty,
+                                     @RequestParam("firstname")String firstname,
+                                     @RequestParam("lastname")String lastname,
+                                     @RequestParam("course")String course,
+                                     @RequestParam("dob") java.sql.Date dob,
+                                     @RequestParam("gender")String gender,
+                                     @RequestParam("nationality")String nationality,
+                                     @RequestParam("start_year")String start_year) {
+        if(password.equals(repeatPassword)) {
+            studentService.edit(id, password, bankaccount, phone, faculty, firstname, lastname, course, dob, gender, nationality, start_year);
+            return "redirect:/student/";
+        }
+        return "redirect:/student/editStudentAccount?id=" + id + "&error=" + "Passwords do not match!";
+    }
+
+    @RequestMapping(value = {"/studentProfile"}, method = RequestMethod.GET)
+    public String getStudentProfile() {
+        logger.info("Student: studentProfile");
+        return "/student/studentProfile";
+    }
 
     /**
      * Return the historical application page.
