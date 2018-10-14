@@ -36,6 +36,7 @@
 <form:form action="/admin/managers/edit" method="post" id="manager_form" name="manager_form">
     <div class="form-group">
         <input type="hidden" name="id" id="id" value="${manager.id}">
+        <input type="hidden" name="adminId" id="adminId" value="${sessionScope.admin.id}">
         <label for="firstname">Firstname</label>
         <input type="text" class="form-control" id="firstname" name="firstname" value="${manager.firstname}">
     </div>
@@ -56,7 +57,7 @@
         <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" value="${manager.password}">
     </div>
     <div class="form-group">
-        <label for="mobile">Email</label>
+        <label for="mobile">Mobile</label>
         <input type="text" class="form-control" id="mobile" name="mobile" value="${manager.mobile}">
     </div>
     <div class="form-group">

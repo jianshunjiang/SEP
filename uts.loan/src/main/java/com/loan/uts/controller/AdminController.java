@@ -93,7 +93,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/managers/add", method = RequestMethod.GET)
-    public String addManager() {
+    public String addManager(@RequestParam(name = "error", required = false) String error, ModelMap modelMap) {
+        if (error != null)modelMap.addAttribute("error", error);
         return "admin/newManager";
     }
 
@@ -106,6 +107,7 @@ public class AdminController {
 
     @RequestMapping(value = "/managers/edit", method = RequestMethod.POST)
     public String editManager(@RequestParam(name = "id", required = false) Integer id,
+                              @RequestParam(name = "adminId", required = false) Integer adminId,
                               @RequestParam("firstname") String firstname,
                               @RequestParam("lastname") String lastname,
                               @RequestParam("password") String password,
@@ -115,7 +117,7 @@ public class AdminController {
 
         if (id == null) {
             try {
-                adminService.addManager(email, password, firstname, lastname, mobile);
+                adminService.addManager(email, password, firstname, lastname, mobile, adminId);
             } catch (EmailExistsException e) {
                 modelMap.addAttribute("error", e.getMessage());
                 return "redirect:/admin/managers/add";

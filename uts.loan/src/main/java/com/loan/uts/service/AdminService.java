@@ -78,9 +78,10 @@ public class AdminService {
      * @param lastname
      * @param mobile
      */
-    public void addManager(String email, String password, String firstname, String lastname, String mobile) throws EmailExistsException {
+    public void addManager(String email, String password, String firstname, String lastname, String mobile, Integer adminId) throws EmailExistsException {
         if (managerRepository.findByEmailAndDeletedFalse(email) != null ) throw new EmailExistsException("Add", email);
         Manager manager = new Manager(firstname, lastname, email, mobile, password);
+        manager.setAdminByAdminId(get(adminId));
         managerRepository.save(manager);
     }
 
