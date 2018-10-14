@@ -123,7 +123,7 @@ public class StudentController {
         return "student/editStudentAccount";
     }
 
-    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/editStudentAccount"}, method = RequestMethod.PUT)
     public String saveStudentChanges(@RequestParam("id")Integer id,
                                      @RequestParam("password") String password,
                                      @RequestParam("repeatPassword")String repeatPassword,
@@ -141,7 +141,7 @@ public class StudentController {
             studentService.edit(id, password, bankaccount, phone, faculty, firstname, lastname, course, dob, gender, nationality, start_year);
             return "redirect:/student/";
         }
-        return "redirect:/student/editStudentAccount?id=" + id + "&error=" + "Passwords do not match!";
+        return "redirect:/editStudentAccount?id=" + id + "&error=" + "Passwords do not match!";
     }
 
     @RequestMapping(value = {"/studentProfile"}, method = RequestMethod.GET)

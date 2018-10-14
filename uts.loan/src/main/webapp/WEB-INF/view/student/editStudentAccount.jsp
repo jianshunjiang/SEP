@@ -32,9 +32,8 @@
 
 <body>
 <div class="col-md-9">
-    <c:url var="saveUrl" value="/student/editStudentAccount?id=${userAttribute.id}" />
-    <form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
-
+<c:url var="saveUrl" value="/student/editStudentAccount?id=${userAttribute.id}" />
+<form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
     <div class="form-group">
         <input type="hidden" name="id" id="id" value="${student.id}"/>
         <input type="text" class="form-control" name="name" id="name" value="${student.firstname}, ${student.lastname}" readonly="readonly" />
