@@ -34,11 +34,11 @@
         <div class="form-group">
             <input type="hidden" id="id" name="id" value="${sessionScope.admin.id}">
             <label for="newPassword">New Password</label>
-            <input type="password" class="form-control" id="newPassword" name="newPassword" value="${admin.password}">
+            <input type="password" class="form-control" id="newPassword" name="newPassword" value="">
         </div>
         <div class="form-group">
             <label for="repeatPassword">Re-type New Password</label>
-            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" value="${admin.password}">
+            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" value="">
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-success" value="Save">
