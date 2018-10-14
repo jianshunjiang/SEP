@@ -33,6 +33,7 @@
 </head>
 <body>
 <div class="container">
+        <img  width="200" src="/static/img/uts.JPG" class="img-circle"/>
     <h2>UTS Loan System</h2>
     <c:if test="${not empty error}">
         <div class="alert alert-danger">${error}</div>
