@@ -22,8 +22,7 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
-    <form:form action="" method="post" role="form" id="app_form" name="app_form" >
-               <%--enctype="multipart/form-data">--%>
+    <form:form action="" method="post" role="form" id="app_form" name="app_form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Application title</label>
             <input type="text" class="form-control" id="title" name="title" value="${draft.title}">
@@ -100,11 +99,11 @@
             <input type="hidden" name="draft_id" id="draft_id" value="${draft.id}">
         </div>
 
-        <%--<div class="form-group">--%>
-            <%--<p>--%>
-            <%--<input id="addAttachment" type="button" name="addAttachment" class="btn btn-success" value="Add Attachment"/>--%>
-            <%--</p>--%>
-        <%--</div>--%>
+        <div class="form-group">
+            <p>
+            <input id="addAttachment" type="button" name="addAttachment" class="btn btn-success" value="Add Attachment"/>
+            </p>
+        </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-sm btn-success" id="app_btn"

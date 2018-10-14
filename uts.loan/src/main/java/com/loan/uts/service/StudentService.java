@@ -102,23 +102,23 @@ public class StudentService {
      * @param application
      */
     public Application submitApplication(Application application, MultipartFile[] attachments, String uploadPath, Integer draftId)
-//            throws AttachFailException
+            throws AttachFailException
     {
         if( draftId != null ) deleteDraft(draftId);
 
-//        if(attachments != null && attachments.length != 0){
-//            for(MultipartFile file: attachments){
-//                if(file.isEmpty()) continue;
-//                try {
-//                    String path = uploadPath + file.getOriginalFilename();
-//                    file.transferTo(new File(path));
-//                    Attachment attachment = new Attachment(path, application, new Date());
-//                    attachmentRepository.save(attachment);
-//                } catch (IOException e) {
-//                    throw new AttachFailException();
-//                }
-//            }
-//        }
+        if(attachments != null && attachments.length != 0){
+            for(MultipartFile file: attachments){
+                if(file.isEmpty()) continue;
+                try {
+                    String path = uploadPath + file.getOriginalFilename();
+                    file.transferTo(new File(path));
+                    Attachment attachment = new Attachment(path, application, new Date());
+                    attachmentRepository.save(attachment);
+                } catch (IOException e) {
+                    throw new AttachFailException();
+                }
+            }
+        }
 
         application = applicationRepository.save(application);
         emailService.notifyStudent(application);

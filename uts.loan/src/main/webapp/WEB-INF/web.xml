@@ -7,11 +7,11 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
-        <!--<multipart-config>-->
-            <!--<location>/tmp/spittr/uploads</location>-->
-            <!--<max-file-size>2097152</max-file-size>-->
-            <!--<max-request-size>4194304</max-request-size>-->
-        <!--</multipart-config>-->
+        <multipart-config>
+            <location>/tmp/spittr/uploads</location>
+            <max-file-size>2097152</max-file-size>
+            <max-request-size>4194304</max-request-size>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>mvc-dispatcher</servlet-name>

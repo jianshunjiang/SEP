@@ -34,6 +34,7 @@ public class Attachment implements Serializable {
     }
     // The getter/setter function of variable ID.
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;

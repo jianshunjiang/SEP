@@ -1,5 +1,6 @@
 package com.loan.uts.controller;
 
+import com.loan.uts.exception.AttachFailException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
 import com.loan.uts.model.Student;
@@ -13,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -88,19 +90,19 @@ public class StudentController {
                                     @RequestParam("amount") Double amount,
                                     @RequestParam("years") Integer paybackYears,
                                     @RequestParam("sum") Double sum,
-//                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
                                     HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
-//        String uploadPath = session.getServletContext().getRealPath("/upload/");
+        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
 
         Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
         Application savedApp = null;
-        savedApp = studentService.submitApplication(application, null, null, draftId);
-//        try {
-//            savedApp = studentService.submitApplication(application, attachments, uploadPath);
-//        } catch (AttachFailException e) {
-//            e.printStackTrace();
-//        }
+//        savedApp = studentService.submitApplication(application, null, null, draftId);
+        try {
+            savedApp = studentService.submitApplication(application, attachments, uploadPath, draftId);
+        } catch (AttachFailException e) {
+            e.printStackTrace();
+        }
         managerService.AssignApplication(savedApp);
         logger.info("Application submitted.");
         if(draftId != null) {
