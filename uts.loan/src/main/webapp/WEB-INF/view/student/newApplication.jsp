@@ -22,6 +22,9 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../sidebar.jsp" %>
 <div class="col-md-9">
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
     <form:form action="" method="post" role="form" id="app_form" name="app_form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Application title</label>
@@ -105,7 +108,7 @@
             <c:forEach items="${attachments}" var="attachment">
                 <div class="form-group">
                     <label>${attachment.name}</label>
-                    <button class="btn btn-default">Delete</button>
+                    <button class="btn btn-default" onclick="delAttachment(this, ${attachment.id})">Delete</button>
                 </div>
             </c:forEach>
         </c:if>
@@ -188,6 +191,20 @@
         document.getElementById("app_form").submit();
         console.log("Submit draft")
     }
+
+    function delAttachment(btn, fileID){
+        console.log("Delete attachment:" + fileID);
+        var block = $(btn).parent();
+        var p = $("<p/>").insertBefore(block);
+        p.append($("<input/>", {
+            type: "hidden",
+            name: "delId",
+            id: "delId",
+            value:fileID
+        }));
+        block.remove();
+
+    }
     //
     $("#attachments").change(function () {
         $("#uploadBtn").val("Upload");
@@ -198,6 +215,9 @@
         }
 
     });
+
+
+
        $("#addAttachment").click(function () {
         var $this = $(this);
         var btnCtn = $this.parent();
@@ -206,7 +226,8 @@
         p.append($("<input/>", {
             type: "file",
             name: "attachments",
-            style: "float:left"
+            style: "float:left",
+            accept:"application/pdf"
         })).append($("<a/>", {
             href: "#",
             type: "button",

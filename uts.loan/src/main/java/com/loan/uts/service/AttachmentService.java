@@ -52,11 +52,7 @@ public class AttachmentService {
         Set<Attachment> attachmentSet = attachmentRepository.findAllByApplication(applicationRepository.findOne(id));
         if (attachmentSet != null && attachmentSet.size() != 0) {
             for (Attachment attachment : attachmentSet) {
-                File f = new File(attachmentPath + attachment.getName());
-                if (f.delete()) {
-                    logger.info("Deleted draft No." + attachment.getId() + " for application No." + id);
-                    attachmentRepository.delete(attachment);
-                }
+                delete(attachment, attachmentPath);
             }
         }
     }
@@ -70,12 +66,58 @@ public class AttachmentService {
         Set<Attachment> attachmentSet = attachmentRepository.findAllByDraft(draft);
         if (attachmentSet != null && attachmentSet.size() != 0) {
             for (Attachment attachment : attachmentSet) {
-                File f = new File(attachmentPath + attachment.getName());
-                if (f.delete()) {
-                    logger.info("Deleted draft No." + attachment.getId() + " for draft No." + draft.getId());
-                    attachmentRepository.delete(attachment);
-                }
+                delete(attachment, attachmentPath);
             }
         }
     }
+
+    /**
+     * Delete attachments by ids.
+     * @param ids
+     */
+    public void deleteAttachments(Integer[] ids, String path){
+        if (ids == null) return;
+        for(Integer id: ids){
+            if (id != null){
+                Attachment attachment = get(id);
+                delete(attachment, path);
+            }
+        }
+    }
+
+    /**
+     * Get attachment by id.
+     */
+    public Attachment get(Integer id){
+        return attachmentRepository.findOne(id);
+    }
+
+    /**
+     * Delete an attachment file and delete the record in the database.
+     * @param attachment
+     * @param path
+     */
+    public void delete(Attachment attachment, String path){
+        if (attachment == null) return;
+        File f = new File(path + attachment.getName());
+        if (f.delete()) {
+            logger.info("Deleted draft No." + attachment.getId());
+            attachmentRepository.delete(attachment);
+        }
+    }
+
+    /**
+     * Remove the draft attachments to the application.
+     * @param draft
+     * @param application
+     */
+    public void moveAttachments(Draft draft, Application application){
+        Set<Attachment> attachments = getAttachments(draft);
+        for (Attachment attachment: attachments){
+            attachment.setDraft(null);
+            attachment.setApplication(application);
+        }
+        attachmentRepository.save(attachments);
+    }
+
 }

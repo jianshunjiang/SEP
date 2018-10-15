@@ -1,6 +1,7 @@
 package com.loan.uts.service;
 
 import com.loan.uts.exception.AttachFailException;
+import com.loan.uts.exception.TooManyAppException;
 import com.loan.uts.model.*;
 import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.AttachmentRepository;
@@ -18,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Set;
+
+import static com.loan.uts.model.Application.SUBMITTED;
 
 /**
  * This service deal with the operations that a student might conduct.
@@ -132,17 +135,23 @@ public class StudentService {
      * Submit new application in the database and notify the student.
      * @param application
      */
-    public Application submitApplication(Application application, MultipartFile[] attachments, String uploadPath, Integer draftId)
-            throws AttachFailException
-    {
-        if( draftId != null ) deleteDraft(draftId);
-
-        addAttachments(attachments, uploadPath, application, null, application.getStudent());
-
+    public Application submitApplication(Application application, MultipartFile[] attachments, String uploadPath)
+            throws AttachFailException, TooManyAppException {
+        if (getApplicationsByStatus(application.getStudent(), SUBMITTED).size() >= 3) throw new TooManyAppException();
         application = applicationRepository.save(application);
+        addAttachments(attachments, uploadPath, application, null, application.getStudent());
         emailService.notifyStudent(application);
-
         return application;
+    }
+
+    /**
+     * Get student's applications by status
+     * @param student
+     * @param status
+     * @return
+     */
+    public Set<Application> getApplicationsByStatus(Student student, String status){
+        return applicationRepository.getAllByStudentIdAndStatus(student.getId(), status);
     }
 
     /**
@@ -217,7 +226,7 @@ public class StudentService {
     }
 
     /**
-     * Delete the draft.
+     * Delete the draft by draft id.
      * @param id
      */
     public void deleteDraft(Integer id){

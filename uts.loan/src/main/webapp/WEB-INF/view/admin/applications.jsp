@@ -31,6 +31,8 @@
             <th>Submit Date</th>
             <th>Student ID</th>
             <th>Manager ID</th>
+            <th>Status</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -39,8 +41,9 @@
                 <td>${application.id}</td>
                 <td>${application.title}</td>
                 <td>${application.submitDateString()}</td>
-                <td>${application.student.firstname} ${application.student.lastname}</td>
-                <td>${application.manager.firstname} ${application.manager.lastname}</td>
+                <td>${application.student.id}</td>
+                <td>${application.manager.id}</td>
+                <td>${application.status}</td>
                 <td>
                     <form:form role="form" method="post" action="/admin/applications/delete">
                         <input type="hidden" name="id" id="id" value="${application.id}">

@@ -1,6 +1,7 @@
 package com.loan.uts.controller;
 
 import com.loan.uts.exception.AttachFailException;
+import com.loan.uts.exception.TooManyAppException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
 import com.loan.uts.model.Student;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Set;
 
+import static com.loan.uts.controller.AttachmentController.getUploadPath;
 import static com.loan.uts.controller.LoginController.STUDENT;
 import static com.loan.uts.model.Application.SUBMITTED;
 
@@ -119,12 +121,15 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
-    public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
+    public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId,
+                                 @RequestParam(name = "error", required = false) String error,
+                                 ModelMap modelMap) {
         logger.info("Request for creating new application.");
         if(draftId != null) {
             Draft draft = studentService.getDraft(draftId);
             modelMap.addAttribute(DRAFT, draft);
             modelMap.addAttribute(ATTACHMENTS, attachmentService.getAttachments(draft));
+            if (error != null) modelMap.addAttribute("error", error);
             logger.info("Load draft: " + draftId);
         }
         return "student/newApplication";
@@ -141,22 +146,31 @@ public class StudentController {
                                     @RequestParam("amount") Double amount,
                                     @RequestParam("years") Integer paybackYears,
                                     @RequestParam("sum") Double sum,
+                                    @RequestParam(name = "delId", required = false) Integer[] delIDs,
                                     @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
                                     HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
         Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
         Application savedApp = null;
         try {
-            savedApp = studentService.submitApplication(application, attachments, getUploadPath(session), draftId);
+            savedApp = studentService.submitApplication(application, attachments, getUploadPath(session));//Create the application in the database.
+            if (draftId != null){
+                Draft draft = studentService.getDraft(draftId);
+                attachmentService.deleteAttachments(delIDs, getUploadPath(session)); //Delete the deleted attachments.
+                attachmentService.moveAttachments(draft, savedApp);//move the attachments from draft to applications.
+                studentService.deleteDraft(draft);
+                student.setDraft(null);
+                session.setAttribute(STUDENT, student);
+            }
         } catch (AttachFailException e) {
             e.printStackTrace();
+        } catch (TooManyAppException e) {
+            modelMap.addAttribute("error", e.getMessage());
+            if (draftId != null) modelMap.addAttribute("draftId", draftId);
+            return "redirect:/student/applications/add";
         }
         managerService.AssignApplication(savedApp);
         logger.info("Application submitted.");
-        if(draftId != null) {
-            student.setDraft(null);
-            session.setAttribute(STUDENT, student);
-        }
         modelMap.addAttribute("filetype", "application");
         return "success";
     }
@@ -174,11 +188,14 @@ public class StudentController {
                             @RequestParam("amount") Double amount, @RequestParam("years") Integer paybackYears,
                             @RequestParam("sum") Double sum, @RequestParam("content") String content,
                             @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                            @RequestParam(name = "delId", required = false) Integer[] delIDs,
                             HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         Draft draft = new Draft(title, content, student, paybackYears, amount, sum);
         if (draftId != null) draft.setId(draftId);
-        draft = studentService.saveDraft(student, draft, attachments, getUploadPath(session));
+        String path = getUploadPath(session);
+        draft = studentService.saveDraft(student, draft, attachments, path);
+        attachmentService.deleteAttachments(delIDs, path);
         student.setDraft(draft);
         session.setAttribute(STUDENT, student);
         modelMap.addAttribute("filetype", "draft");
@@ -210,7 +227,9 @@ public class StudentController {
     @RequestMapping(value = {"/applications/detail"}, method = RequestMethod.GET)
     public String detail(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
         logger.info("Application detail");
-        modelMap.addAttribute("application", studentService.getApplication(id));
+        Application application = studentService.getApplication(id);
+        modelMap.addAttribute("application", application);
+        modelMap.addAttribute(ATTACHMENTS, attachmentService.getAttachments(application));
         return "student/appDetail";
     }
     /**
@@ -311,7 +330,7 @@ public class StudentController {
     public ResponseEntity<byte[]> download(@RequestParam("id") Integer id, HttpSession session){
         Student student = (Student) session.getAttribute(STUDENT);
         HttpHeaders headers = new HttpHeaders();
-        String fileName = "Loan Contact" + id + " - " + student.getId();
+        String fileName = "Loan Contact" + id + " - " + student.getId() + ".pdf";
 
         headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -320,12 +339,5 @@ public class StudentController {
                 headers, HttpStatus.OK);
     }
 
-    /**
-     * Get the upload path
-     * @param session
-     * @return
-     */
-    private String getUploadPath(HttpSession session){
-        return session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-    }
+
 }

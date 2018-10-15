@@ -21,13 +21,21 @@ import java.io.IOException;
 public class AttachmentController {
     @RequestMapping(value="/download")
     public ResponseEntity<byte[]> download(HttpSession session, @RequestParam("filename") String filename) throws IOException {
-
-        String path = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-        File file = new File(path + filename + ".pdf");
+        String path = getUploadPath(session);
+        File file = new File(path + filename );
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", filename);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
                 headers, HttpStatus.CREATED);
+    }
+
+    /**
+     * Get the upload path
+     * @param session
+     * @return
+     */
+    public static String getUploadPath(HttpSession session){
+        return session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
     }
 }
