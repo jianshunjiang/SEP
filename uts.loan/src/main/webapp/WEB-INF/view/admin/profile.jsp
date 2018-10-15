@@ -20,14 +20,19 @@
 <%@ include file="../sidebar.jsp" %>
 
 <div class="col-md-9">
-    <div class="form-group">
-        <label>Account type</label>
-        <span>system administrator</span>
-    </div>
-    <div class="form-group">
-        <label>Username</label>
-        <span>${sessionScope.admin.username}</span>
-    </div>
+    <table class="table table-bordered">
+        <caption style="align-content: center; text-align: center"><h2>Profile</h2></caption>
+        <tbody>
+        <tr>
+            <td><strong>Account type</strong></td>
+            <td>System Administrator</td>
+        </tr>
+        <tr>
+            <td><strong>Username</strong></td>
+            <td>${sessionScope.admin.username}</td>
+        </tr>
+        </tbody>
+    </table>
     <a role="button" class="btn btn-warning btn-lg btn-block" href="/admin/resetPassword"><span class="glyphicon glyphicon-lock"></span> Reset Password</a>
 </div>
 <%--</div>--%>

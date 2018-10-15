@@ -83,7 +83,12 @@
                             regexp: {
                                 regexp: /^[a-zA-Z0-9_]+$/,
                                 message: 'Password should only contains characters, number and underscore character.'
-                            }
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 35,
+                                message: 'Password should be longer than 6 characters and less than 35 characters'
+                            },
                         }
                     },
                     repeatPassword: {
@@ -99,6 +104,66 @@
 
                                 }
                             }
+                        }
+                    },
+                    email:{
+                        validators:{
+                            notEmpty:{
+                                message: "Email is required",
+
+                            },
+                            regexp:{
+                                regexp:/^[a-zA-Z0-9]+[.a-zA-Z0-9_-]*@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                                message:"Email should only contains character, number, '.', '-', '_' and in right format"
+                            }
+                        }
+                    },
+                    mobile:{
+                        validators:{
+                            notEmpty: {
+                                message: "Mobile number is requried"
+                            },
+                            regexp:{
+                                regexp:/^[0-9][0-9-]+$/,
+                                message:"Mobile number should only contains 0-9 and '-'."
+                            },
+                            stringLength: {
+                                min: 6,
+                                max: 13,
+                                message: 'Mobile number should be minimum 6 digits and not more than 13 digits'
+                            },
+                        }
+                    },
+                    firstname:{
+                        validators:{
+                            notEmpty: {
+                                message: "Firstname is required."
+                            },
+                            regexp:{
+                                regexp:/^[A-Z][a-zA-Z\s]+$/,
+                                message:"Firstname should only contain characters."
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 30,
+                                message: 'Firstname should not be too long and the first letter should be capitalized..'
+                            },
+                        }
+                    },
+                    lastname:{
+                        validators:{
+                            notEmpty: {
+                                message: "Lastname is required."
+                            },
+                            regexp:{
+                                regexp:/^[A-Z][a-zA-Z\s]+$/,
+                                message:"Lastname should only contain characters and the first letter should be capitalized."
+                            },
+                            stringLength: {
+                                min: 1,
+                                max: 30,
+                                message: 'Lastname should not be too long.'
+                            },
                         }
                     }
 

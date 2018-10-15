@@ -1,5 +1,6 @@
 package com.loan.uts.controller;
 
+import com.loan.uts.exception.EmailExistsException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Attachment;
 import com.loan.uts.model.Manager;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,7 +72,6 @@ public class  ManagerController {
     public String detail(@RequestParam("id") Integer id, ModelMap modelMap){
         Application application = managerService.getApplication(id);
         if(application.getStatus().equals(SUBMITTED)) managerService.manageApp(application, PROCESSING);
-        Set<Attachment> attachmentSet = attachmentService.getAttachments(application);
         modelMap.addAttribute(ATTACHMENTS, attachmentService.getAttachments(application));
         modelMap.addAttribute(APPLICATION, application);
         logger.info("Application detail: " + application.toString());
@@ -91,8 +90,20 @@ public class  ManagerController {
     }
 
     /**
-     * Disapprove the application and save it in the database, back to the applications page.
-     * @param id The id of the application that is supposed to be approved.
+     * Get to the decline or reply page of application.
+     * @param id The id of the application that is supposed to be declined or replied.
+     * @return
+     */
+    @RequestMapping(value = "/applications/decline", method = RequestMethod.GET)
+    public String decline(@RequestParam("id") Integer id, @RequestParam("result") String result, ModelMap modelMap) {
+        modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
+        modelMap.addAttribute("result", result);
+        return "manager/declineApp";
+    }
+
+    /**
+     * Disapprove or reply the application and save it in the database, back to the applications page.
+     * @param id The id of the application that is supposed to be decline or replied.
      * @return
      */
     @RequestMapping(value = "/applications/manage", method = RequestMethod.POST)
@@ -102,39 +113,78 @@ public class  ManagerController {
         return "redirect:/loanManager/applications";
     }
 
-    @RequestMapping(value = "/modify_account", method = RequestMethod.GET)
-    public String modifyAccount(@RequestParam("id") Integer id, ModelMap modelMap, @ModelAttribute("userAttribute") Manager manager,
-                                @RequestParam(required = false, name = "error") String error) {
-        modelMap.addAttribute("id", managerService.get(id));
+    /**
+     * Go to the account information page of manager.
+     * @return
+     */
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public String account() {
+        return "manager/profile";
+    }
+
+    /**
+     * Go to the update account page.
+     * @param error
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/account/edit", method = RequestMethod.GET)
+    public String editAccount(@RequestParam(required = false, name = "error") String error, ModelMap modelMap) {
         if(error != null) modelMap.addAttribute("error", error);
         return "manager/editAccount";
     }
 
-    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.PUT)
-    public String saveChanges(@RequestParam("id") Integer id,
-                              @RequestParam("firstname") String firstname,
-                              @RequestParam("firstname") String lastname,
-                              @RequestParam("password") String password,
-                              @RequestParam("repeatPassword") String repeatPassword,
-                              @RequestParam("mobile") String mobile,
-                              @RequestParam("email") String email) {
-        if(password.equals(repeatPassword)) {
-            managerService.edit(id, password, email, mobile, firstname, lastname);
-            return "redirect:/loanManager/";
+    /**
+     * Update the account information for manager.
+     * @param id
+     * @param firstname
+     * @param lastname
+     * @param mobile
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.POST)
+    public String saveChanges(@RequestParam("id") Integer id, @RequestParam("firstname") String firstname,
+                              @RequestParam("lastname") String lastname, @RequestParam("mobile") String mobile,
+                              @RequestParam("email") String email, ModelMap modelMap, HttpSession session) {
+        try {
+            Manager manager = managerService.update(id, email, mobile, firstname, lastname);
+            session.setAttribute(LOAN_MANAGER, manager);
+        } catch (EmailExistsException e) {
+            modelMap.addAttribute("error", e.getMessage());
+            return "redirect:/loanManager/account/edit";
         }
-        return "redirect:/loanManager/modify_account?id=" + id + "&error=" + "Passwords do not match";
+        return "redirect:/loanManager/account";
+
     }
 
     /**
-     * Get to the decline page of application.
-     * @param id The id of the application that is supposed to be declined.
+     * Go to the student update account page.
+     * @param error
      * @return
      */
-    @RequestMapping(value = "/applications/decline", method = RequestMethod.GET)
-    public String decline(@RequestParam("id") Integer id, @RequestParam("result") String result, ModelMap modelMap) {
-        modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
-        modelMap.addAttribute("result", result);
-        return "manager/declineApp";
+    @RequestMapping(value = {"/account/resetPassword"}, method = RequestMethod.GET)
+    public String resetPassword(@RequestParam(required = false, name = "error") String error) {
+        return "manager/resetPassword";
     }
+
+    /**
+     * Reset manager's password.
+     * @param id
+     * @param password
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = {"/account/resetPassword"}, method = RequestMethod.POST)
+    public String resetPassword(@RequestParam("id")Integer id, @RequestParam("password")String password,
+                                HttpSession session) {
+        Manager manager = managerService.resetPassword(id, password);
+        session.setAttribute(LOAN_MANAGER, manager);
+        return "redirect:/loanManager/account";
+    }
+
+
+
+
 
 }

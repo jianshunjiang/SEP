@@ -113,7 +113,6 @@
                     onclick="saveDraft()">Save draft
             </button>
         </div>
-
     </form:form>
 </div>
 
@@ -143,13 +142,25 @@
                         notEmpty: {
                             message: 'Please describe your reason.'
                         },
+                        stringLength: {
+                            max: 5000,
+                            message: 'Content is too long.'
+                        },
                     }
                 },
                 title:{
                     validators:{
                         notEmpty:{
                             message: 'Title should not be empty.'
-                        }
+                        },
+                        regexp:{
+                            regexp:/^[a-zA-Z0-9\s]+$/,
+                            message:"Title should only contains character and numbers"
+                        },
+                        stringLength: {
+                            max: 20,
+                            message: 'Title should not be too long.'
+                        },
                     }
                 }
             }

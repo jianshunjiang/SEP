@@ -4,6 +4,7 @@ import com.loan.uts.exception.EmailExistsException;
 import com.loan.uts.exception.HasUnhandledWorkException;
 import com.loan.uts.model.Administrator;
 import com.loan.uts.service.AdminService;
+import com.loan.uts.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 import static com.loan.uts.controller.LoginController.SYSTEM_ADMIN;
+import static com.loan.uts.controller.StudentController.APPLICATIONS;
 
+/**
+ * Controls functions for administrators.
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -28,6 +33,9 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    ManagerService managerService;
 
     /**
      * Go to the home page of administrator.
@@ -58,6 +66,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.GET)
     public String resetPassword() {
+        logger.info("Admin: reset password page." );
         return "admin/resetPassword";
     }
 
@@ -71,40 +80,63 @@ public class AdminController {
                                 @RequestParam("id") Integer id, HttpSession httpSession) {
         Administrator admin = adminService.resetPassword(newPassword, id);
         httpSession.setAttribute(SYSTEM_ADMIN, admin);
+        logger.info("Admin: reset password.");
         return "admin/profile";
     }
 
     /**
-     * Go to the homepage of staffs.
-     *
+     * Go to the homepage of managers.
+     * @param modelMap
+     * @param error
      * @return
      */
-    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
-    public String staffs() {
-        return "admin/staffs";
-    }
-
-
     @RequestMapping(value = {"/managers"}, method = RequestMethod.GET)
     public String managers(ModelMap modelMap, @RequestParam(name = "error", required = false) String error) {
         modelMap.addAttribute("managers", adminService.getManagers());
         if (error != null) modelMap.addAttribute("error", error);
+        logger.info("Admin: managers");
         return "admin/managers";
     }
 
+    /**
+     * Go to the page to add new manager.
+     * @param error
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/managers/add", method = RequestMethod.GET)
     public String addManager(@RequestParam(name = "error", required = false) String error, ModelMap modelMap) {
         if (error != null)modelMap.addAttribute("error", error);
         return "admin/newManager";
     }
 
+    /**
+     * Go to the page to edit manager, prepared the manager information for editing.
+     * Display the edition error message if required.
+     * @param modelMap
+     * @param managerId
+     * @param error
+     * @return
+     */
     @RequestMapping(value = "/managers/edit", method = RequestMethod.GET)
     public String editManager(ModelMap modelMap, @RequestParam("managerId") Integer managerId, @RequestParam(name = "error", required = false) String error) {
         if (error != null) modelMap.addAttribute("error", error);
-        modelMap.addAttribute("manager", adminService.getManager(managerId));
+        modelMap.addAttribute("manager", managerService.get(managerId));
         return "admin/newManager";
     }
 
+    /**
+     * Add manager if there is no id paramater, or update manager information when manager id is provided.
+     * @param id
+     * @param adminId
+     * @param firstname
+     * @param lastname
+     * @param password
+     * @param mobile
+     * @param email
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/managers/edit", method = RequestMethod.POST)
     public String editManager(@RequestParam(name = "id", required = false) Integer id,
                               @RequestParam(name = "adminId", required = false) Integer adminId,
@@ -117,7 +149,7 @@ public class AdminController {
 
         if (id == null) {
             try {
-                adminService.addManager(email, password, firstname, lastname, mobile, adminId);
+                managerService.add(email, password, firstname, lastname, mobile, adminService.get(adminId));
             } catch (EmailExistsException e) {
                 modelMap.addAttribute("error", e.getMessage());
                 return "redirect:/admin/managers/add";
@@ -125,7 +157,7 @@ public class AdminController {
         }
         else {
             try {
-                adminService.editManager(id, password, email, mobile, firstname, lastname);
+                managerService.update(id, password, email, mobile, firstname, lastname);
             } catch (EmailExistsException e) {
                 modelMap.addAttribute("error", e.getMessage());
                 modelMap.addAttribute("managerId", id);
@@ -135,20 +167,40 @@ public class AdminController {
         return "redirect:/admin/managers";
     }
 
+    /**
+     * Delete the manager by its id.
+     * @param id
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "managers/delete", method = RequestMethod.POST)
     public String deleteManager(@RequestParam("managerId") Integer id, ModelMap modelMap) {
         try {
-            adminService.deleteManager(id);
+            managerService.delete(id);
         } catch (HasUnhandledWorkException e) {
             modelMap.addAttribute("error", e.getMessage());
         }
         return "redirect:/admin/managers";
     }
 
+    @RequestMapping(value = "applications", method = RequestMethod.GET)
+    public String applications(ModelMap modelMap) {
+        modelMap.addAttribute(APPLICATIONS, adminService.getApplications());
+        return "admin/applications";
+    }
+
+
+    /**
+     * Delete the application by application id.
+     * @param id
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "applications/delete", method = RequestMethod.POST)
-    public String deleteApplication(@RequestParam("applicationId") Integer id, ModelMap modelMap) {
+    public String deleteApplication(@RequestParam("id") Integer id, ModelMap modelMap, HttpSession session) {
         try {
-            adminService.deleteApplication(id);
+            String path = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
+            adminService.deleteApplication(id, path);
         } catch (Exception e) {
             modelMap.addAttribute("error", e.getMessage());
         }

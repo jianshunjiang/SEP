@@ -30,32 +30,33 @@
 <%@ include file="../sidebar.jsp"%>
 <body>
 <div class="col-md-9">
-<c:url var="saveUrl" value="/loanManager/modify_account?id=${userAttribute.id}" />
-<form:form modelAttribute="userAttribute" action="${saveUrl}" method="post">
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
+<form:form  action="/loanManager/account/edit" method="post" id="manager_form" name="manager_form">
     <div class="form-group">
-        <input type="hidden" name="id" id="id" value="${manager.id}"/>
-        <input type="text" class="form-control" name="name" id="name" value="${manager.firstname}, ${manager.lastname}" readonly="readonly" />
+        <input type="hidden" name="id" id="id" value="${sessionScope.manager.id}"/>
+        <label for="firstname">Firstname: </label>
+        <input class="form-control" name="firstname" id="firstname" value="${sessionScope.manager.firstname}" placeholder="Firstname..."/>
     </div>
 
     <div class="form-group">
-        <input type="password" class="form-control" name="password" id="password" value="${manager.password}" placeholder="Password"/>
+        <label for="lastname">Firstname: </label>
+        <input class="form-control" name="lastname" id="lastname" value="${sessionScope.manager.lastname}" placeholder="Lastname..."/>
     </div>
 
     <div class="form-group">
-        <input type="password" class="form-control" name="repeatpassword" id="repeatpassword" value="${manager.password}" placeholder="Repeat Password"/>
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" id="email" value="${sessionScope.manager.email}" placeholder="Email Address...">
     </div>
 
     <div class="form-group">
-        <input type="email" class="form-control" name="email" id="email" value="${manager.email}" placeholder="Email Address">
+        <label for="mobile">Mobile</label>
+        <input class="form-control" name="mobile" id="mobile" value="${sessionScope.manager.mobile}" placeholder="Mobile number..."/>
     </div>
-
-    <div class="form-group">
-        <input type="number" class="form-control" name="mobile" id="mobile" value="${manager.mobile}" placeholder="Numbers Only"/>
-    </div>
-
     <div class="form-group">
         <input type="submit" class="btn btn-success" value="Save"/>
-        <a href="/loanManager/modify_account" role="button" class="btn btn-primary">Return</a>
+        <a href="/loanManager/account" role="button" class="btn btn-primary">Return</a>
     </div>
 </div>
 </form:form>
@@ -69,40 +70,71 @@
                 validating: 'glyphicon glyphicon-refresh'        //正在更新图标
             },
             fields: {
-                password: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please enter password'
+                email:{
+                    validators:{
+                        notEmpty:{
+                            message: "Email is required",
+
                         },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_]+$/,
-                            message: 'Password should only contains characters, number and underscore character.'
+                        regexp:{
+                            regexp:/^[a-zA-Z0-9]+[.a-zA-Z0-9_-]*@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                            message:"Email should only contains character, number, '.', '-', '_' and in right format"
                         }
                     }
                 },
-                repeatPassword: {
-                    validators: {
+                mobile:{
+                    validators:{
                         notEmpty: {
-                            message: 'Repeat password should not be null.'
+                            message: "Mobile number is requried"
                         },
-                        callback: {
-                            message: "Inconsistent input before and after.",
-                            callback: function (value, validator) {
-                                var newPassword = document.getElementById("newPassword");
-                                return value === newPassword.value;
-
-                            }
-                        }
+                        regexp:{
+                            regexp:/^[0-9][0-9-]+$/,
+                            message:"Mobile number should only contains 0-9 and '-'."
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 13,
+                            message: 'Mobile number should be minimum 6 digits and not more than 13 digits'
+                        },
+                    }
+                },
+                firstname:{
+                    validators:{
+                        notEmpty: {
+                            message: "Firstname is required."
+                        },
+                        regexp:{
+                            regexp:/^[A-Z][a-zA-Z\s]+$/,
+                            message:"Firstname should only contain characters."
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 30,
+                            message: 'Firstname should not be too long and the first letter should be capitalized..'
+                        },
+                    }
+                },
+                lastname:{
+                    validators:{
+                        notEmpty: {
+                            message: "Lastname is required."
+                        },
+                        regexp:{
+                            regexp:/^[A-Z][a-zA-Z\s]+$/,
+                            message:"Lastname should only contain characters and the first letter should be capitalized.."
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 30,
+                            message: 'Lastname should not be too long.'
+                        },
                     }
                 }
-
             }
 
         });
     })
 
 </script>
-<h1>${error}</h1>
-<a href="/manager/modify_account/"></a>
 </body>
 </html>

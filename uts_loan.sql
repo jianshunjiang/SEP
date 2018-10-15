@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'admin','123456'),(2,'adminTest','111');
+INSERT INTO `admin` VALUES (1,'admin','0D5F043B540F205B1E112760541F4166');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,11 +63,9 @@ CREATE TABLE `application` (
   PRIMARY KEY (`id`),
   KEY `FKigm5jb0xdqnqjelaagm14dcva` (`student_id`),
   KEY `FKc9isrtiiftpc70gviknc26635` (`manager_id`),
-  CONSTRAINT `FKc9isrtiiftpc70gviknc26635` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
-  CONSTRAINT `FKigm5jb0xdqnqjelaagm14dcva` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
   CONSTRAINT `application_manager__fk` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`),
   CONSTRAINT `application_student__fk` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,11 +95,9 @@ CREATE TABLE `attachment` (
   PRIMARY KEY (`id`),
   KEY `FK6v9kv390t8e3ljkbs3gjfy3pe` (`application_id`),
   KEY `FK7tvrig72fsw5pcpde3vm4x1yx` (`draft_id`),
-  CONSTRAINT `FK6v9kv390t8e3ljkbs3gjfy3pe` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`),
-  CONSTRAINT `FK7tvrig72fsw5pcpde3vm4x1yx` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
   CONSTRAINT `attachment_application__fk` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE CASCADE,
   CONSTRAINT `attachment_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +106,6 @@ CREATE TABLE `attachment` (
 
 LOCK TABLES `attachment` WRITE;
 /*!40000 ALTER TABLE `attachment` DISABLE KEYS */;
-INSERT INTO `attachment` VALUES (1,NULL,39,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/target/uts.loan-3.5/WEB-INF/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(2,NULL,40,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/target/uts.loan-3.5/WEB-INF/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(3,NULL,41,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/upload/48440 SEP Assignment 1 Spring 2018.pdf',NULL),(4,NULL,41,'2018-10-14','/home/tong/Desktop/SEP/uts.loan/upload/48440 SEP Spring 2018 Assignment 2 Marking Sheet.pdf',NULL);
 /*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,8 +146,8 @@ DROP TABLE IF EXISTS `manager`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `manager` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(10) DEFAULT NULL,
-  `lastname` varchar(10) DEFAULT NULL,
+  `firstname` varchar(20) DEFAULT NULL,
+  `lastname` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
@@ -160,9 +155,8 @@ CREATE TABLE `manager` (
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `FKk32qe1qwpdvedrn489nfhppkx` (`admin_id`),
-  CONSTRAINT `FKk32qe1qwpdvedrn489nfhppkx` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`),
   CONSTRAINT `manager_admin__fk` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +165,7 @@ CREATE TABLE `manager` (
 
 LOCK TABLES `manager` WRITE;
 /*!40000 ALTER TABLE `manager` DISABLE KEYS */;
-INSERT INTO `manager` VALUES (1,'Manager','Test','12416881@student.uts.edu.au','123445567','111',1,0),(2,'Olo','New','leighton070103@gmail.com','1234555','111',1,0),(3,'Manager','Jiang','shunj110@gmail.com','3456789','111',1,0),(4,'Manager','Qi','qiwenbo1996@gmail.com','098765456','111',1,0),(5,'Manager','Zhan','jenny.zhan.yh@gmail.com','923884939','111',1,0),(6,'Manager','Lu','0424390218lu@gmail.com','23412341','111',1,0),(7,'Manager','Eric','stradlin0518@gmail.com','2341324','111',1,0);
+INSERT INTO `manager` VALUES (1,'Manager','Test Account','12416881@student.uts.edu.au','1234455679','3945397B54496C1139563C71140D6F24',1,0),(2,'Olo','New','leighton070103@gmail.com','1234555','2B4D1A72675C027469670A7D4C5D4211',1,0),(3,'Manager','Jiang','shunj110@gmail.com','3456789','437A1A267E397554467C3F2A50085E13',1,0),(4,'Manager','Qi','qiwenbo1996@gmail.com','098765456','587C7F2B01640F7D241942651A3E6F1B',1,0),(5,'Manager','Zhan','jenny.zhan.yh@gmail.com','923884939','05424A4E1870493056121E064D53170F',1,0),(6,'Manager','Lu','0424390218lu@gmail.com','23412341','493169010C7D3125231B591411424C58',1,0),(7,'Manager','Eric','stradlin0518@gmail.com','2341324','0F203B2D1851683D6C672F7A345F035F',1,0),(8,'First','Last','999@gmail.com','12344599','38151E4E09086663785C6940441C4211',1,1);
 /*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,8 +183,8 @@ CREATE TABLE `student` (
   `email` varchar(100) NOT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `faculty` varchar(4) DEFAULT NULL,
-  `firstname` varchar(10) DEFAULT NULL,
-  `lastname` varchar(10) DEFAULT NULL,
+  `firstname` varchar(20) DEFAULT NULL,
+  `lastname` varchar(20) DEFAULT NULL,
   `course` varchar(6) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `gender` varchar(6) DEFAULT NULL,
@@ -199,7 +193,6 @@ CREATE TABLE `student` (
   `draft_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `student_draft__fk` (`draft_id`),
-  CONSTRAINT `FK2el0f631jhyc46ocyyjsk4h53` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`),
   CONSTRAINT `student_draft__fk` FOREIGN KEY (`draft_id`) REFERENCES `draft` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -210,7 +203,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (12201846,'12201846','china number one','12201846@student.uts.edu.au','42679513','FEIT','Jianshun','Jiang','C3838','1983-10-13','Female','America','2011',NULL),(12345678,'12345678','00000000','leighton070103@gmail.com','1111111','FEIT','Ayman','Jiang','C8990','1989-08-18','Male','mongo','2015',NULL),(12665396,'12665396','Badminton Love','12665396@student.uts.edu.au','88887777','LOL','Wenbo','Qi','U666','1995-10-06','Female','England','2007',NULL),(12701759,'12701759','Niubility','12701759@student.uts.edu.au','999000','FEIT','Shan','Lu','a888','1987-10-02','Male','Brazil','2016',NULL),(12840211,'12840211','Yunhan Zhan','12840211@student.uts.edu.au','68237461','SOSO','Yunhan','Zhan','D999','1997-10-16','Female','China','2013',NULL),(87654321,'87654321','Tree new bee','shunj110@gmail.com','202929292','FASS','Spring','Test','D909','2015-08-07','Female','Australia','2011',NULL),(99196305,'99196305','I love Germany','99196305@student.uts.edu.au','88888888','FEIT','Xiaoyang','Wang','I000','1990-10-05','Male','Japan','2009',NULL);
+INSERT INTO `student` VALUES (12201846,'3E65460558233F4F195E6F4D157A7E46','china number one','12201846@student.uts.edu.au','42679513','FEIT','Jianshun','Jiang','C3838','1983-10-13','Female','America','2011',NULL),(12345678,'71451F7E42731B026D1123346A123761','00000000','leighton070103@gmail.com','060-779978','FEIT','Ayman','Jiang','C8990','1989-08-18','Male','mongo','2015',NULL),(12665396,'081338003E336D3A541F717D0A2E7B23','Badminton Love','12665396@student.uts.edu.au','88887777','LOL','Wenbo','Qi','U666','1995-10-06','Female','England','2007',NULL),(12701759,'715059315E3E266847696E71492A0823','Niubility','12701759@student.uts.edu.au','999000','FEIT','Shan','Lu','a888','1987-10-02','Male','Brazil','2016',NULL),(12840211,'6F78147F48692E167A344A657361241B','Yunhan Zhan','12840211@student.uts.edu.au','68237461','SOSO','Yunhan','Zhan','D999','1997-10-16','Female','China','2013',NULL),(87654321,'151953514028666B774D3C4328201955','Tree new bee','shunj110@gmail.com','202929292','FASS','Spring','Test','D909','2015-08-07','Female','Australia','2011',NULL),(99196305,'235A1000575F3254466E381108400B5E','I love Germany','99196305@student.uts.edu.au','88888888','FEIT','Xiaoyang','Wang','I000','1990-10-05','Male','Japan','2009',NULL);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -223,4 +216,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-14 18:56:14
+-- Dump completed on 2018-10-15 17:14:58

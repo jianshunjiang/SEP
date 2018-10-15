@@ -58,8 +58,8 @@
                         },
                         stringLength: {
                             min: 6,
-                            max: 18,
-                            message: 'Password should be longer than 6 characters and less than 18 characters'
+                            max: 35,
+                            message: 'Password should be longer than 6 characters and less than 35 characters'
                         },
                         regexp: {
                             regexp: /^[a-zA-Z0-9_]+$/,

@@ -72,10 +72,13 @@
         </tr>
         </tbody>
     </table>
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/student/account/edit"><span
-            class="glyphicon glyphicon-pencil"></span>Edit</a>
-    <a role="button" class="btn btn-warning btn-lg btn-block" href="/student/account/resetPassword"><span
-            class="glyphicon glyphicon-lock"></span>Reset Password</a>
+    <div class="form-group">
+        <a role="button" class="btn btn-primary" href="/student/account/edit"><span
+                class="glyphicon glyphicon-pencil"></span>Edit</a>
+        <a role="button" class="btn btn-warning" href="/student/account/resetPassword"><span
+                class="glyphicon glyphicon-lock"></span>Reset Password</a>
+    </div>
+
 </div>
 </body>
 </html>

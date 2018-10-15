@@ -131,6 +131,10 @@
                             regexp:/^[a-zA-Z0-9-]+$/,
                             message:"Please enter bank account with valid information."
                         },
+                        stringLength: {
+                            max: 50,
+                            message: 'Bank account should not be longer than 50 characters.'
+                        },
                     }
                 },
                 course:{
@@ -142,6 +146,10 @@
                             regexp:/^[a-zA-Z0-9]+$/,
                             message:"Please fill in course with valid information."
                         },
+                        stringLength: {
+                            max: 6,
+                            message: 'Course should not be longer than 6 characters.'
+                        },
                     }
                 },
                 faculty:{
@@ -152,6 +160,10 @@
                         regexp:{
                             regexp:/^[a-zA-Z0-9]+$/,
                             message:"Please fill in faculty with valid information."
+                        },
+                        stringLength: {
+                            max: 6,
+                            message: 'Faculty should not be longer than 6 characters.'
                         },
                     }
                 }

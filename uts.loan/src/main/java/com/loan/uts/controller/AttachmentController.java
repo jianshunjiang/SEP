@@ -20,8 +20,7 @@ import java.io.IOException;
 @RequestMapping("/attachment")
 public class AttachmentController {
     @RequestMapping(value="/download")
-    public ResponseEntity<byte[]> download(HttpSession session,
-                                           @RequestParam("filename") String filename) throws IOException {
+    public ResponseEntity<byte[]> download(HttpSession session, @RequestParam("filename") String filename) throws IOException {
 
         String path = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
         File file = new File(path + filename + ".pdf");
