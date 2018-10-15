@@ -180,6 +180,11 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.1.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-impl</artifactId>
+            <version>1.2.5</version>
+        </dependency>
     </dependencies>
     <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
 
@@ -217,8 +222,18 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.0.0</version>
+                <configuration>
+                    <webResources>
+                        <resource>${basedir}/src/main/webapp/WEB-INF</resource>
+                        <filtering>true</filtering>
+                        <targetPath>WEB-INF</targetPath>
+                    </webResources>
+
+                </configuration>
+
             </plugin>
 
             <plugin>
