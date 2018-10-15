@@ -33,7 +33,7 @@ $(document).ready(function () {
                                 reg_str = /^[0-9]{8}/;
                             }
                             if (option.value === "manager") {
-                                reg_str = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                                reg_str = /^[a-zA-Z0-9]+[.a-zA-Z0-9_-]*@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                             }
                             if (option.value === "admin") {
                                 reg_str = /^[a-zA-Z0-9_]+$/;

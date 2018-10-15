@@ -24,7 +24,7 @@ public class AttachmentController {
                                            @RequestParam("filename") String filename) throws IOException {
 
         String path = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-        File file = new File(path + filename);
+        File file = new File(path + filename + ".pdf");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", filename);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);

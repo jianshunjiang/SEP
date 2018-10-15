@@ -1,36 +1,32 @@
 package com.loan.uts.util;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class EncrptUtil {
 
-    public void Encrypt(){
-        PasswordEncoder password = new BCryptPasswordEncoder();
-        for(int i = 0; i < 5; ++i){
-            String encrypted = password.encode("PaSsWoRd");
+    public static String encrypt(String password){
+        byte tempResult[] = new byte[16];
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(("www.MD5.com.cn" + password).getBytes());
+            tempResult = md.digest();
 
-            if(password.matches("PaSsWoRd", encrypted)) {
-
+            for (int i = 0; i < tempResult.length; i++) {
+                if (tempResult[i] < 0) {
+                    tempResult[i] += 128;
+                }
+                String temp = Integer.toHexString(tempResult[i]).toUpperCase();
+                if (tempResult[i] < 16) {
+                    temp = "0" + temp;
+                }
+                result += temp;
             }
-            else {
-
-            }
+        } catch (NoSuchAlgorithmException e) {
+            result = "";
         }
-    }
-
-    public static String encrypt(String s){
-
-        String password = "testpassword";
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        String candidate = "testpassword";
-
-        if(BCrypt.checkpw(candidate, hashed)){
-
-        }
-        else {
-
-        }
-        return "";
+        return result;
     }
 }

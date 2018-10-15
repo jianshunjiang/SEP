@@ -28,7 +28,7 @@
         <label>Username</label>
         <span>${sessionScope.admin.username}</span>
     </div>
-    <a role="button" class="btn btn-primary btn-lg btn-block" href="/admin/resetPassword"><span class="glyphicon glyphicon-pencil"></span> Reset Password</a>
+    <a role="button" class="btn btn-warning btn-lg btn-block" href="/admin/resetPassword"><span class="glyphicon glyphicon-lock"></span> Reset Password</a>
 </div>
 <%--</div>--%>
 <script src="https://code.jquery.com/jquery.js"></script>

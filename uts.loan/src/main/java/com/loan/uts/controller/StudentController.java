@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +48,15 @@ public class StudentController {
     ManagerService managerService;
 
     /**
+     * Go to the homepage of the student.
+     * @return
+     */
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
+    public String student() {
+        return "student/home";
+    }
+
+    /**
      * Search for the student's application records within the student.
      * And go to the view application page.
      * @param session
@@ -61,138 +69,6 @@ public class StudentController {
         Set<Application> applications = studentService.getUnFinishedApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
         return "student/applications";
-    }
-
-    /**
-     * Go to the homepage of the student.
-     * @return
-     */
-    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
-    public String student() {
-        return "student/home";
-    }
-
-    /**
-     * Go to the homepage of the adding new applications.
-     * @return
-     */
-    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
-    public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
-        logger.info("Request for creating new application.");
-        if(draftId != null) {
-            modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
-            logger.info("Load draft: " + draftId);
-        }
-        return "student/newApplication";
-    }
-
-    /**
-     * Go to the homepage of the adding new applications.
-     * @return
-     */
-    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.GET)
-    public String responseApp(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
-        logger.info("Request for response application");
-        modelMap.addAttribute("application", studentService.getApplication(id));
-        return "student/responseApp";
-    }
-
-    /**
-     * Go to the homepage of the adding new applications.
-     * @return
-     */
-    @RequestMapping(value = {"/applications/detail"}, method = RequestMethod.GET)
-    public String detail(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
-        logger.info("Application detail");
-        modelMap.addAttribute("application", studentService.getApplication(id));
-        return "student/appDetail";
-    }
-
-    /**
-     * Go to the homepage of the adding new applications.
-     * @return
-     */
-    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.POST)
-    public String responseApp(@RequestParam(name = "id") Integer id, @RequestParam(name = "result") String result,
-                              @RequestParam(name = "result") String content,
-                              @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
-                              HttpSession session) {
-        logger.info("Request for response application");
-        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-        try {
-            studentService.responseApplication(id, result, content, attachments, uploadPath);
-        } catch (AttachFailException e) {
-            e.printStackTrace();
-        }
-        return "redirect:/student/applications";
-    }
-
-    /**
-     * Submit the application and go to the homepage of the student.
-     * @return
-     */
-    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.POST)
-    public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content,
-                                    @RequestParam("draft_id") Integer draftId,
-                                    @RequestParam("amount") Double amount,
-                                    @RequestParam("years") Integer paybackYears,
-                                    @RequestParam("sum") Double sum,
-                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
-                                    HttpSession session, ModelMap modelMap) {
-        Student student = (Student)session.getAttribute(STUDENT);
-        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-
-        Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
-        Application savedApp = null;
-        try {
-            savedApp = studentService.submitApplication(application, attachments, uploadPath, draftId);
-        } catch (AttachFailException e) {
-            e.printStackTrace();
-        }
-        managerService.AssignApplication(savedApp);
-        logger.info("Application submitted.");
-        if(draftId != null) {
-            student.setDraft(null);
-            session.setAttribute(STUDENT, student);
-        }
-        modelMap.addAttribute("filetype", "application");
-        return "success";
-    }
-
-    @RequestMapping(value = {"/editStudentAccount"}, method = RequestMethod.GET)
-    public String editStudentAccount(@RequestParam("id")Integer id, ModelMap modelMap,
-                                     @ModelAttribute("userAttribute") Student student,
-                                     @RequestParam(required = false, name = "error") String error) {
-        modelMap.addAttribute("id", studentService.get(id));
-        if(error != null) modelMap.addAttribute("error", error);
-        return "student/editStudentAccount";
-    }
-
-    @RequestMapping(value = {"/editStudentAccount"}, method = RequestMethod.PUT)
-    public String saveStudentChanges(@RequestParam("id")Integer id,
-                                     @RequestParam("password") String password,
-                                     @RequestParam("repeatPassword")String repeatPassword,
-                                     @RequestParam("bankaccount")String bankaccount,
-                                     @RequestParam("phone")String phone,
-                                     @RequestParam("faculty")String faculty,
-                                     @RequestParam("firstname")String firstname,
-                                     @RequestParam("lastname")String lastname,
-                                     @RequestParam("course")String course,
-                                     @RequestParam("dob") java.sql.Date dob,
-                                     @RequestParam("gender")String gender,
-                                     @RequestParam("nationality")String nationality,
-                                     @RequestParam("start_year")String start_year) {
-        if(password.equals(repeatPassword)) {
-            studentService.edit(id, password, bankaccount, phone, faculty, firstname, lastname, course, dob, gender, nationality, start_year);
-            return "redirect:/student/";
-        }
-        return "redirect:/editStudentAccount?id=" + id + "&error=" + "Passwords do not match!";
-    }
-
-    @RequestMapping(value = {"/studentProfile"}, method = RequestMethod.GET)
-    public String getStudentProfile() {
-        logger.info("Student: studentProfile");
-        return "/student/studentProfile";
     }
 
     /**
@@ -232,6 +108,54 @@ public class StudentController {
         logger.info("Application history searched");
         modelMap.addAttribute("applications", applications);
         return "student/history";
+    }
+
+    /**
+     * Go to the homepage of the adding new applications.
+     * Load the draft information if the application is created from the draft.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.GET)
+    public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
+        logger.info("Request for creating new application.");
+        if(draftId != null) {
+            modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
+            logger.info("Load draft: " + draftId);
+        }
+        return "student/newApplication";
+    }
+
+    /**
+     * Submit the application and go to the homepage of the student applications.
+     * Delete the draft if the application is created from the draft.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/add"}, method = RequestMethod.POST)
+    public String submitApplication(@RequestParam("title") String title, @RequestParam("content") String content,
+                                    @RequestParam("draft_id") Integer draftId,
+                                    @RequestParam("amount") Double amount,
+                                    @RequestParam("years") Integer paybackYears,
+                                    @RequestParam("sum") Double sum,
+                                    @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                                    HttpSession session, ModelMap modelMap) {
+        Student student = (Student)session.getAttribute(STUDENT);
+        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
+
+        Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
+        Application savedApp = null;
+        try {
+            savedApp = studentService.submitApplication(application, attachments, uploadPath, draftId);
+        } catch (AttachFailException e) {
+            e.printStackTrace();
+        }
+        managerService.AssignApplication(savedApp);
+        logger.info("Application submitted.");
+        if(draftId != null) {
+            student.setDraft(null);
+            session.setAttribute(STUDENT, student);
+        }
+        modelMap.addAttribute("filetype", "application");
+        return "success";
     }
 
     /**
@@ -276,6 +200,103 @@ public class StudentController {
         return "redirect:/student/applications";
     }
 
+    /**
+     * Go to the page of viewing application in detail.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/detail"}, method = RequestMethod.GET)
+    public String detail(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
+        logger.info("Application detail");
+        modelMap.addAttribute("application", studentService.getApplication(id));
+        return "student/appDetail";
+    }
+    /**
+     * Go to page for responsing the application.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.GET)
+    public String responseApp(@RequestParam(name = "id") Integer id, ModelMap modelMap) {
+        logger.info("Request for response application");
+        modelMap.addAttribute("application", studentService.getApplication(id));
+        return "student/responseApp";
+    }
+    /**
+     * Handle the response storage of the application, storing new attachments.
+     * @return
+     */
+    @RequestMapping(value = {"/applications/response"}, method = RequestMethod.POST)
+    public String responseApp(@RequestParam(name = "id") Integer id, @RequestParam(name = "result") String result,
+                              @RequestParam(name = "result") String content,
+                              @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
+                              HttpSession session) {
+        logger.info("Request for response application");
+        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
+        try {
+            studentService.responseApplication(id, result, content, attachments, uploadPath);
+        } catch (AttachFailException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/student/applications";
+    }
+
+    /**
+     * Display student account information.
+     * @return
+     */
+    @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
+    public String getStudentProfile() {
+        logger.info("Student: profile");
+        return "student/profile";
+    }
+
+    /**
+     * Go to the student update account page.
+     * @param error
+     * @return
+     */
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.GET)
+    public String editStudentAccount(@RequestParam(required = false, name = "error") String error) {
+        return "student/editAccount";
+    }
+
+    @RequestMapping(value = {"/account/edit"}, method = RequestMethod.POST)
+    public String saveStudentChanges(@RequestParam("id")Integer id,
+                                     @RequestParam("email")String email,
+                                     @RequestParam("bankaccount")String bankaccount,
+                                     @RequestParam("phone")String phone,
+                                     @RequestParam("faculty")String faculty,
+                                     @RequestParam("course")String course,
+                                     HttpSession session) {
+
+        Student student = studentService.update(id, email, bankaccount, phone, faculty, course);
+        session.setAttribute(STUDENT, student);
+        return "redirect:/student/account";
+    }
+
+    /**
+     * Go to the student update account page.
+     * @param error
+     * @return
+     */
+    @RequestMapping(value = {"/account/resetPassword"}, method = RequestMethod.GET)
+    public String resetPassword(@RequestParam(required = false, name = "error") String error) {
+        return "student/resetPassword";
+    }
+
+    @RequestMapping(value = {"/account/resetPassword"}, method = RequestMethod.POST)
+    public String resetPassword(@RequestParam("id")Integer id, @RequestParam("password")String password,
+                                HttpSession session) {
+        Student student = studentService.resetPassword(id, password);
+        session.setAttribute(STUDENT, student);
+        return "redirect:/student/account";
+    }
+
+    /**
+     * Preparing the contract pdf for downloading.
+     * @param id
+     * @param session
+     * @return
+     */
     @RequestMapping("/applications/contract")
     public ResponseEntity<byte[]> download(@RequestParam("id") Integer id, HttpSession session){
         Student student = (Student) session.getAttribute(STUDENT);

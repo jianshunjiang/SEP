@@ -14,7 +14,7 @@
             <li class="active"><a href="/student"><i class="icon-white icon-home"></i> Home</a></li>
             <li><a href="/student/applications"><span class="glyphicon glyphicon-file"></span> Applications</a></li>
             <li><a href="/student/history"><span class="glyphicon glyphicon-dashboard"></span> History</a></li>
-            <li><a href="/student/studentProfile"><span class="glyphicon glyphicon-user"></span> Student Profile</a> </li>
+            <li><a href="/student/account"><span class="glyphicon glyphicon-user"></span> Profile</a> </li>
         </c:if>
 
         <c:if test="${not empty sessionScope.manager}">

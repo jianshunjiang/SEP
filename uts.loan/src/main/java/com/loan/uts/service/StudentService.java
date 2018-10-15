@@ -6,6 +6,7 @@ import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.AttachmentRepository;
 import com.loan.uts.repository.DraftRepository;
 import com.loan.uts.repository.StudentRepository;
+import com.loan.uts.util.EncrptUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class StudentService {
      * @return whether there is a student match the student id and password.
      */
     public Student login(Integer studentId, String password){
-        return studentRepository.findByIdAndPassword(studentId, password);
+        return studentRepository.findByIdAndPassword(studentId, EncrptUtil.encrypt(studentId + password));
     }
 
     /**
@@ -106,19 +107,25 @@ public class StudentService {
         return studentRepository.findOne(id);
     }
 
-    public void edit(Integer id, String password, String bankaccount, String phone, String faculty, String firstname, String lastname, String course, Date dob, String gender, String nationality, String start_year) {
+    /**
+     * Update student account information.
+     * @param id
+     * @param email
+     * @param bankaccount
+     * @param phone
+     * @param faculty
+     * @param course
+     * @return
+     */
+    public Student update(Integer id, String email, String bankaccount, String phone, String faculty, String course) {
         Student student = get(id);
-        student.setPassword(password);
+        student.setEmail(email);
         student.setBankaccount(bankaccount);
         student.setPhone(phone);
         student.setFaculty(faculty);
-        student.setFirstname(firstname);
-        student.setLastname(lastname);
         student.setCourse(course);
-        student.setDob(dob);
-        student.setGender(gender);
-        student.setStartYear(start_year);
         studentRepository.saveAndFlush(student);
+        return student;
     }
 
     /**
@@ -189,6 +196,19 @@ public class StudentService {
         studentRepository.save(student);
         logger.info("Draft deleted: " + draft.toString());
         draftRepository.delete(draft.getId());
+    }
+
+    /**
+     * Reset student's password.
+     * @param id
+     * @param password
+     * @return
+     */
+    public Student resetPassword(Integer id, String password){
+        Student student = get(id);
+        student.setPassword(EncrptUtil.encrypt(id + password));
+        studentRepository.save(student);
+        return student;
     }
 
     /**
