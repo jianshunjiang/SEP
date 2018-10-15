@@ -2,6 +2,8 @@ package com.loan.uts.model;
 
 import java.io.Serializable;
 
+import static com.loan.uts.model.Application.ACCEPTED;
+
 /**
  * The email template.
  */
@@ -77,7 +79,8 @@ public class Email implements Serializable {
 
     public void setContent(String title, String name, int id, String messageType) {
         this.content = "<html><body>Dear " + name +", <br/><br/>";
-        this.content +="Application No. " + id + " " + title +" is " + messageType;
+        this.content +="Application No. " + id + " " + title +" is " + messageType + ". ";
+        if (messageType.equals(ACCEPTED)) this.content += "Please log in our system with your student account, download the contract for the application, sign it and send to our official email account (uts.loan.system.2018@gmail.com) in 10 days.";
         this.content +="<br/>For further information, check uts loan system.";
 
         this.content +="<br/><br/>Best Regards, <br/>UTS Loan System" +

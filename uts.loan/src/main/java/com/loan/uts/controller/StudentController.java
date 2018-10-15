@@ -331,7 +331,6 @@ public class StudentController {
         Student student = (Student) session.getAttribute(STUDENT);
         HttpHeaders headers = new HttpHeaders();
         String fileName = "Loan Contact" + id + " - " + student.getId() + ".pdf";
-
         headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity<byte[]>(
