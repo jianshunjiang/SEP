@@ -4,6 +4,7 @@ import com.loan.uts.exception.AttachFailException;
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Draft;
 import com.loan.uts.model.Student;
+import com.loan.uts.service.AttachmentService;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
 import com.loan.uts.util.PDFUtil;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -40,12 +39,16 @@ public class StudentController {
     public static final String DRAFT = "draft";
     public static final int DATE = 1;
     public static final int TITLE = 0;
+    public static final String ATTACHMENTS = "attachments";
 
     @Autowired
     StudentService studentService;
 
     @Autowired
     ManagerService managerService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     /**
      * Go to the homepage of the student.
@@ -106,7 +109,7 @@ public class StudentController {
             applications = studentService.searchByTitle(student, title);
         }
         logger.info("Application history searched");
-        modelMap.addAttribute("applications", applications);
+        modelMap.addAttribute(APPLICATIONS, applications);
         return "student/history";
     }
 
@@ -119,7 +122,9 @@ public class StudentController {
     public String newApplication(@RequestParam(name = "draftId", required = false) Integer draftId, ModelMap modelMap) {
         logger.info("Request for creating new application.");
         if(draftId != null) {
-            modelMap.addAttribute(DRAFT, studentService.getDraft(draftId));
+            Draft draft = studentService.getDraft(draftId);
+            modelMap.addAttribute(DRAFT, draft);
+            modelMap.addAttribute(ATTACHMENTS, attachmentService.getAttachments(draft));
             logger.info("Load draft: " + draftId);
         }
         return "student/newApplication";
@@ -139,12 +144,10 @@ public class StudentController {
                                     @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
                                     HttpSession session, ModelMap modelMap) {
         Student student = (Student)session.getAttribute(STUDENT);
-        String uploadPath = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-
         Application application = new Application(title, content, new Date(), SUBMITTED, student, paybackYears, sum, amount);
         Application savedApp = null;
         try {
-            savedApp = studentService.submitApplication(application, attachments, uploadPath, draftId);
+            savedApp = studentService.submitApplication(application, attachments, getUploadPath(session), draftId);
         } catch (AttachFailException e) {
             e.printStackTrace();
         }
@@ -167,17 +170,16 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = {"/draft/save"}, method = RequestMethod.POST)
-    public String saveDraft(@RequestParam("title") String title,
-                            @RequestParam("draft_id") Integer draftId,
-                            @RequestParam("amount") Double amount,
-                            @RequestParam("years") Integer paybackYears,
-                            @RequestParam("sum") Double sum,
-                            @RequestParam("content") String content,
+    public String saveDraft(@RequestParam("title") String title, @RequestParam("draft_id") Integer draftId,
+                            @RequestParam("amount") Double amount, @RequestParam("years") Integer paybackYears,
+                            @RequestParam("sum") Double sum, @RequestParam("content") String content,
+                            @RequestParam(name = "attachments", required = false) MultipartFile[] attachments,
                             HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         Draft draft = new Draft(title, content, student, paybackYears, amount, sum);
         if (draftId != null) draft.setId(draftId);
-        draft = studentService.saveDraft(student, draft);
+        draft = studentService.saveDraft(student, draft, attachments, getUploadPath(session));
+        student.setDraft(draft);
         session.setAttribute(STUDENT, student);
         modelMap.addAttribute("filetype", "draft");
         logger.info("Save draft.");
@@ -193,6 +195,7 @@ public class StudentController {
     public String deleteDraft(HttpSession session){
         Student student = (Student) session.getAttribute(STUDENT);
         Draft draft = student.getDraft();
+        attachmentService.deleteAttachmentsByDraft(draft, getUploadPath(session));
         studentService.deleteDraft(draft);
         student.setDraft(null);
         session.setAttribute(STUDENT, student);
@@ -315,5 +318,14 @@ public class StudentController {
         return new ResponseEntity<byte[]>(
                 PDFUtil.contract(studentService.getApplication(id), student),
                 headers, HttpStatus.OK);
+    }
+
+    /**
+     * Get the upload path
+     * @param session
+     * @return
+     */
+    private String getUploadPath(HttpSession session){
+        return session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
     }
 }

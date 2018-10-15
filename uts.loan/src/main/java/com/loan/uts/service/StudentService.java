@@ -137,7 +137,7 @@ public class StudentService {
     {
         if( draftId != null ) deleteDraft(draftId);
 
-        addAttachments(attachments, uploadPath, application);
+        addAttachments(attachments, uploadPath, application, null, application.getStudent());
 
         application = applicationRepository.save(application);
         emailService.notifyStudent(application);
@@ -177,11 +177,16 @@ public class StudentService {
      * @param student
      * @param draft
      */
-    public Draft saveDraft(Student student, Draft draft){
+    public Draft saveDraft(Student student, Draft draft, MultipartFile[] attachments, String path){
         if (draft.getId() == null && student.getDraft() != null) draft.setId(student.getDraft().getId());
         Draft savedDraft = draftRepository.save(draft);
         student.setDraft(savedDraft);
         studentRepository.save(student);
+        try {
+            addAttachments(attachments, path, null, draft, student);
+        } catch (AttachFailException e) {
+            e.printStackTrace();
+        }
         logger.info("Draft saved: " + draft.toString());
         return savedDraft;
     }
@@ -229,22 +234,38 @@ public class StudentService {
        return  draftRepository.findOne(draftId);
     }
 
+    /**
+     * Response to a replied application.
+     * @param id
+     * @param result
+     * @param content
+     * @param attachments
+     * @param uploadPath
+     * @throws AttachFailException
+     */
     public void responseApplication(Integer id, String result, String content, MultipartFile[] attachments, String uploadPath) throws AttachFailException {
         Application application = getApplication(id);
         application.setStatus(result);
         application.setContent(content);
         application = applicationRepository.save(application);
-        addAttachments(attachments, uploadPath, application);
+        addAttachments(attachments, uploadPath, application, null, application.getStudent());
     }
 
-    private void addAttachments(MultipartFile[] attachments, String uploadPath, Application application) throws AttachFailException {
+    /**
+     * Add attachments to the database and save the file.
+     * @param attachments
+     * @param uploadPath
+     * @param application
+     * @throws AttachFailException
+     */
+    private void addAttachments(MultipartFile[] attachments, String uploadPath, Application application, Draft draft, Student student) throws AttachFailException {
         if(attachments != null && attachments.length != 0){
             for(MultipartFile file: attachments){
                 if(file.isEmpty()) continue;
                 try {
-                    String name = application.getStudent().getId() + new java.util.Date().toString() + file.getOriginalFilename();
+                    String name = student.getId() + new java.util.Date().toString() + file.getOriginalFilename();
                     file.transferTo(new File(uploadPath + name));
-                    Attachment attachment = new Attachment(uploadPath, application, new java.util.Date(), name);
+                    Attachment attachment = new Attachment(uploadPath, application, draft, new java.util.Date(), name);
                     attachmentRepository.save(attachment);
                 } catch (IOException e) {
                     throw new AttachFailException();

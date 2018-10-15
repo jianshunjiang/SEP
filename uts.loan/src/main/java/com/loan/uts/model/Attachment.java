@@ -27,9 +27,10 @@ public class Attachment implements Serializable {
      * @param application
      * @param uploadDate
      */
-    public Attachment(String path, Application application, Date uploadDate, String name){
+    public Attachment(String path, Application application, Draft draft, Date uploadDate, String name){
         this.path = path;
         this.application = application;
+        this.draft = draft;
         this.uploadDate = uploadDate;
         this.name = name;
     }

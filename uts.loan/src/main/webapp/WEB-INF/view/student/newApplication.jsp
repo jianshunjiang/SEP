@@ -98,7 +98,17 @@
             <textarea class="form-control" id="content" name="content" rows="10">${draft.content}</textarea>
             <input type="hidden" name="draft_id" id="draft_id" value="${draft.id}">
         </div>
-
+        <div class="form-group">
+            <h3>Attachments</h3>
+        </div>
+        <c:if test="${not empty attachments}">
+            <c:forEach items="${attachments}" var="attachment">
+                <div class="form-group">
+                    <label>${attachment.name}</label>
+                    <button class="btn btn-default">Delete</button>
+                </div>
+            </c:forEach>
+        </c:if>
         <div class="form-group">
             <p>
             <input id="addAttachment" type="button" name="addAttachment" class="btn btn-success" value="Add Attachment"/>
