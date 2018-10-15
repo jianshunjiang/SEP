@@ -283,6 +283,13 @@ public class StudentController {
         return "student/resetPassword";
     }
 
+    /**
+     * Reset password for student account.
+     * @param id
+     * @param password
+     * @param session
+     * @return
+     */
     @RequestMapping(value = {"/account/resetPassword"}, method = RequestMethod.POST)
     public String resetPassword(@RequestParam("id")Integer id, @RequestParam("password")String password,
                                 HttpSession session) {

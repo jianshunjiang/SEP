@@ -4,6 +4,7 @@ import com.loan.uts.exception.EmailExistsException;
 import com.loan.uts.exception.HasUnhandledWorkException;
 import com.loan.uts.model.Administrator;
 import com.loan.uts.service.AdminService;
+import com.loan.uts.service.AttachmentService;
 import com.loan.uts.service.ManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,9 @@ public class AdminController {
 
     @Autowired
     ManagerService managerService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     /**
      * Go to the home page of administrator.
@@ -200,7 +204,8 @@ public class AdminController {
     public String deleteApplication(@RequestParam("id") Integer id, ModelMap modelMap, HttpSession session) {
         try {
             String path = session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
-            adminService.deleteApplication(id, path);
+            attachmentService.deleteAttachmentsByApplication(id, path);
+            adminService.deleteApplication(id);
         } catch (Exception e) {
             modelMap.addAttribute("error", e.getMessage());
         }

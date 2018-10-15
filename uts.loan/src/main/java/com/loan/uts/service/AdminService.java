@@ -58,19 +58,8 @@ public class AdminService {
      * Delete application by application id.
      * @param id
      */
-    public void deleteApplication(Integer id, String attachmentPath){
+    public void deleteApplication(Integer id){
         Application application = applicationRepository.findOne(id);
-        Set<Attachment> attachmentSet = attachmentRepository.findAllByApplication(application);
-        if (attachmentSet != null && attachmentSet.size() != 0){
-            for(Attachment attachment: attachmentSet){
-                File f = new File(attachmentPath + attachment.getName());
-                if(f.delete()){
-                    logger.info("Deleted draft No." + attachment.getId() + " for application No." + id);
-                    attachmentRepository.delete(attachment);
-
-                }
-            }
-        }
         logger.info("Application No." + id + " deleted.");
         applicationRepository.delete(id);
     }
