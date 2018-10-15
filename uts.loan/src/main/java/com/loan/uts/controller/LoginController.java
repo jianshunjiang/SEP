@@ -14,36 +14,49 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpSession;
 
 /**
  * This controller deal with the log in and log out request from all type of users.
  */
-
 @Controller
 public class LoginController {
 
+    /**
+     * Below are constants that usually used for login.
+     */
     public static final String STUDENT = "student";
     public static final String LOAN_MANAGER = "manager";
     public static final String SYSTEM_ADMIN = "admin";
     public static final String USER_TYPE = "type";
 
 
+    /**
+     * Log tools
+     */
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    /**
+     * Services for students.
+     */
     @Autowired
     StudentService studentService;
 
+    /**
+     * Functions for managers.
+     */
     @Autowired
     ManagerService managerService;
 
+    /**
+     * Functions for administrators.
+     */
     @Autowired
     AdminService adminService;
 
     /**
      * Handle the log in action with different user types.
-     *
+     * After log in, go to the home page of each user type.
      * @param username
      * @param password
      * @param userType
@@ -133,6 +146,4 @@ public class LoginController {
         session.invalidate();
         return "index";
     }
-
-
 }

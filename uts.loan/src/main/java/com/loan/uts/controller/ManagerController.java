@@ -2,7 +2,6 @@ package com.loan.uts.controller;
 
 import com.loan.uts.exception.EmailExistsException;
 import com.loan.uts.model.Application;
-import com.loan.uts.model.Attachment;
 import com.loan.uts.model.Manager;
 import com.loan.uts.service.AttachmentService;
 import com.loan.uts.service.ManagerService;
@@ -14,12 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpSession;
-
 import java.util.Date;
-import java.util.Set;
-
 import static com.loan.uts.controller.LoginController.LOAN_MANAGER;
 import static com.loan.uts.controller.StudentController.APPLICATIONS;
 import static com.loan.uts.model.Application.PROCESSING;
@@ -30,12 +25,26 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @RequestMapping("/loanManager")
 public class  ManagerController {
 
+    /**
+     * Log tool.
+     */
     private static Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
+    /**
+     * Constants that are usually used.
+     */
     public static final String APPLICATION = "application";
     public static final String ATTACHMENTS = "attachments";
 
+    /**
+     * Functions for manager operations.
+     */
     @Autowired
     ManagerService managerService;
+
+    /**
+     * Functions for attachments.
+     */
     @Autowired
     AttachmentService attachmentService;
 
@@ -45,7 +54,7 @@ public class  ManagerController {
      */
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String home(){
-
+        logger.info("Manager: home");
         return "manager/home";
     }
 
@@ -59,6 +68,7 @@ public class  ManagerController {
     public String getApplications(HttpSession session, ModelMap modelMap){
         Manager manager = (Manager) session.getAttribute(LOAN_MANAGER);
         modelMap.addAttribute(APPLICATIONS, managerService.getUnhandledApp(manager));
+        logger.info("Manager: applications");
         return "manager/applications";
     }
 
@@ -86,6 +96,7 @@ public class  ManagerController {
     @RequestMapping(value = "/applications/manage", method = RequestMethod.GET)
     public String manage(@RequestParam("id") Integer id, @RequestParam("result") String result) {
         managerService.manageApp(id, result, new Date(), null);
+        logger.info("Application: manage.");
         return "redirect:/loanManager/applications";
     }
 
@@ -98,6 +109,7 @@ public class  ManagerController {
     public String decline(@RequestParam("id") Integer id, @RequestParam("result") String result, ModelMap modelMap) {
         modelMap.addAttribute(APPLICATION, managerService.getApplication(id));
         modelMap.addAttribute("result", result);
+        logger.info("Application: manage.");
         return "manager/declineApp";
     }
 
@@ -152,6 +164,7 @@ public class  ManagerController {
             session.setAttribute(LOAN_MANAGER, manager);
         } catch (EmailExistsException e) {
             modelMap.addAttribute("error", e.getMessage());
+            logger.error(e.getMessage());
             return "redirect:/loanManager/account/edit";
         }
         return "redirect:/loanManager/account";
@@ -180,11 +193,7 @@ public class  ManagerController {
                                 HttpSession session) {
         Manager manager = managerService.resetPassword(id, password);
         session.setAttribute(LOAN_MANAGER, manager);
+        logger.info("Manager: reset password.");
         return "redirect:/loanManager/account";
     }
-
-
-
-
-
 }

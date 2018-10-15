@@ -14,9 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.HttpSession;
-
 import static com.loan.uts.controller.LoginController.SYSTEM_ADMIN;
 import static com.loan.uts.controller.StudentController.APPLICATIONS;
 
@@ -28,16 +26,26 @@ import static com.loan.uts.controller.StudentController.APPLICATIONS;
 public class AdminController {
 
 
+    /**
+     * log tools.
+     */
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
-    public static final String PROFILE = "profile";
 
-
+    /**
+     * Business functions for administrator.
+     */
     @Autowired
     AdminService adminService;
 
+    /**
+     * Basic operations for managers.
+     */
     @Autowired
     ManagerService managerService;
 
+    /**
+     * Functions for attachhments
+     */
     @Autowired
     AttachmentService attachmentService;
 
@@ -70,7 +78,7 @@ public class AdminController {
      */
     @RequestMapping(value = {"/resetPassword"}, method = RequestMethod.GET)
     public String resetPassword() {
-        logger.info("Admin: reset password page." );
+        logger.info("Admin: reset password page.");
         return "admin/resetPassword";
     }
 
@@ -90,6 +98,7 @@ public class AdminController {
 
     /**
      * Go to the homepage of managers.
+     *
      * @param modelMap
      * @param error
      * @return
@@ -104,19 +113,21 @@ public class AdminController {
 
     /**
      * Go to the page to add new manager.
+     *
      * @param error
      * @param modelMap
      * @return
      */
     @RequestMapping(value = "/managers/add", method = RequestMethod.GET)
     public String addManager(@RequestParam(name = "error", required = false) String error, ModelMap modelMap) {
-        if (error != null)modelMap.addAttribute("error", error);
+        if (error != null) modelMap.addAttribute("error", error);
         return "admin/newManager";
     }
 
     /**
      * Go to the page to edit manager, prepared the manager information for editing.
      * Display the edition error message if required.
+     *
      * @param modelMap
      * @param managerId
      * @param error
@@ -131,6 +142,7 @@ public class AdminController {
 
     /**
      * Add manager if there is no id paramater, or update manager information when manager id is provided.
+     *
      * @param id
      * @param adminId
      * @param firstname
@@ -158,8 +170,7 @@ public class AdminController {
                 modelMap.addAttribute("error", e.getMessage());
                 return "redirect:/admin/managers/add";
             }
-        }
-        else {
+        } else {
             try {
                 managerService.update(id, password, email, mobile, firstname, lastname);
             } catch (EmailExistsException e) {
@@ -173,6 +184,7 @@ public class AdminController {
 
     /**
      * Delete the manager by its id.
+     *
      * @param id
      * @param modelMap
      * @return
@@ -187,6 +199,12 @@ public class AdminController {
         return "redirect:/admin/managers";
     }
 
+    /**
+     * Get to the applications page.
+     *
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "applications", method = RequestMethod.GET)
     public String applications(ModelMap modelMap) {
         modelMap.addAttribute(APPLICATIONS, adminService.getApplications());
@@ -196,6 +214,7 @@ public class AdminController {
 
     /**
      * Delete the application by application id.
+     *
      * @param id
      * @param modelMap
      * @return
@@ -211,6 +230,5 @@ public class AdminController {
         }
         return "redirect:/admin/applications";
     }
-
 
 }

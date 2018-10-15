@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.Set;
 
+/**
+ * Service for operations about attachments.
+ */
 @Service
 public class AttachmentService {
     private static Logger logger = LoggerFactory.getLogger(AttachmentService.class);

@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Set;
-
 import static com.loan.uts.controller.AttachmentController.getUploadPath;
 import static com.loan.uts.controller.LoginController.STUDENT;
 import static com.loan.uts.model.Application.SUBMITTED;
@@ -36,19 +35,40 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+
+    /**
+     * Log tool.
+     */
     private static Logger logger = LoggerFactory.getLogger(StudentController.class);
+
+    /**
+     * General constants.
+     */
     public static final String APPLICATIONS = "applications";
     public static final String DRAFT = "draft";
+
+    /**
+     * Search type.
+     */
     public static final int DATE = 1;
     public static final int TITLE = 0;
     public static final String ATTACHMENTS = "attachments";
 
+    /**
+     * Functions for student.
+     */
     @Autowired
     StudentService studentService;
 
+    /**
+     * Functions for manager.
+     */
     @Autowired
     ManagerService managerService;
 
+    /**
+     * Functions for attachment operation.
+     */
     @Autowired
     AttachmentService attachmentService;
 
@@ -58,6 +78,7 @@ public class StudentController {
      */
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String student() {
+        logger.info("Student: home");
         return "student/home";
     }
 
@@ -73,6 +94,7 @@ public class StudentController {
         Student student = (Student) session.getAttribute(STUDENT);
         Set<Application> applications = studentService.getUnFinishedApplication(student);
         modelMap.addAttribute(APPLICATIONS, applications);
+        logger.info("Student: applications.");
         return "student/applications";
     }
 
@@ -87,6 +109,7 @@ public class StudentController {
     public String history(HttpSession session, ModelMap modelMap){
         Student student = (Student)session.getAttribute(STUDENT);
         modelMap.addAttribute("applications", studentService.getHistoricalApplication(student));
+        logger.info("Student: history");
         return "student/history";
     }
 
@@ -163,9 +186,10 @@ public class StudentController {
                 session.setAttribute(STUDENT, student);
             }
         } catch (AttachFailException e) {
-            e.printStackTrace();
+            logger.error("Student: " + e.getMessage());
         } catch (TooManyAppException e) {
             modelMap.addAttribute("error", e.getMessage());
+            logger.error("Student: " + e.getMessage());
             if (draftId != null) modelMap.addAttribute("draftId", draftId);
             return "redirect:/student/applications/add";
         }
@@ -256,7 +280,7 @@ public class StudentController {
         try {
             studentService.responseApplication(id, result, content, attachments, uploadPath);
         } catch (AttachFailException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "redirect:/student/applications";
     }
@@ -278,6 +302,7 @@ public class StudentController {
      */
     @RequestMapping(value = {"/account/edit"}, method = RequestMethod.GET)
     public String editStudentAccount(@RequestParam(required = false, name = "error") String error) {
+        logger.info("Student: edit account.");
         return "student/editAccount";
     }
 
@@ -317,6 +342,7 @@ public class StudentController {
                                 HttpSession session) {
         Student student = studentService.resetPassword(id, password);
         session.setAttribute(STUDENT, student);
+        logger.info("Student: updated password.");
         return "redirect:/student/account";
     }
 
@@ -333,6 +359,7 @@ public class StudentController {
         String fileName = "Loan Contact" + id + " - " + student.getId() + ".pdf";
         headers.setContentDispositionFormData("attachment", fileName);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        logger.info("Student: download contract for application No." + id);
         return new ResponseEntity<byte[]>(
                 PDFUtil.contract(studentService.getApplication(id), student),
                 headers, HttpStatus.OK);
