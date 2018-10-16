@@ -115,7 +115,7 @@
     <c:if test="${empty application.resultDate}">
         <a role="button" class="btn btn-success btn-lg" href="/loanManager/applications/manage?id=${application.id}&result=Accepted" onclick="return confirm('Approve this application?')"><span class="glyphicon glyphicon-ok"></span> Approve</a>
         <a role="button" class="btn btn-danger btn-lg" href="/loanManager/applications/decline?id=${application.id}&result=Refused"><span class="glyphicon glyphicon-remove"></span> Decline</a>
-        <c:if test="${application.status.equals('Submitted') ||application.status.equals('Responsed')}">
+        <c:if test="${application.status.equals('Processing')|| application.status.equals('Submitted') ||application.status.equals('Responsed')}">
             <a role="button" class="btn btn-primary btn-lg" href="/loanManager/applications/decline?id=${application.id}&result=Replied"><span class="glyphicon glyphicon-primary"></span> Reply</a>
         </c:if>
 
