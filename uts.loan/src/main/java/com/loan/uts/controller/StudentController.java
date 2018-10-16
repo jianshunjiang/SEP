@@ -9,8 +9,8 @@ import com.loan.uts.service.AttachmentService;
 import com.loan.uts.service.ManagerService;
 import com.loan.uts.service.StudentService;
 import com.loan.uts.util.PDFUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class StudentController {
     /**
      * Log tool.
      */
-    private static Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static Logger logger = LogManager.getLogger(StudentController.class);
 
     /**
      * General constants.

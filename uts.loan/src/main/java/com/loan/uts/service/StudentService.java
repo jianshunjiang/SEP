@@ -8,16 +8,14 @@ import com.loan.uts.repository.AttachmentRepository;
 import com.loan.uts.repository.DraftRepository;
 import com.loan.uts.repository.StudentRepository;
 import com.loan.uts.util.EncrptUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Set;
 
 import static com.loan.uts.model.Application.SUBMITTED;
@@ -29,7 +27,7 @@ import static com.loan.uts.model.Application.SUBMITTED;
 @Service("studentService")
 public class StudentService {
 
-    private static Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private static Logger logger = LogManager.getLogger(StudentService.class);
 
     @Autowired
     StudentRepository studentRepository;

@@ -1,5 +1,4 @@
 package com.loan.uts.util;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

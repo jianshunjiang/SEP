@@ -7,16 +7,11 @@ import com.loan.uts.model.Application;
 import com.loan.uts.model.Manager;
 import com.loan.uts.repository.ApplicationRepository;
 import com.loan.uts.repository.ManagerRepository;
-import com.loan.uts.util.EncrptUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.objenesis.instantiator.sun.MagicInstantiator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.mail.Session;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +22,7 @@ import static com.loan.uts.util.EncrptUtil.encrypt;
 @Service
 public class ManagerService {
 
-    private static Logger logger = LoggerFactory.getLogger(ManagerService.class);
+    private static Logger logger = LogManager.getLogger(ManagerService.class);
 
     @Autowired
     ManagerRepository managerRepository;

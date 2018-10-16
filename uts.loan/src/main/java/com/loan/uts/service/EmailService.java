@@ -1,10 +1,10 @@
 package com.loan.uts.service;
 
-import com.loan.uts.controller.StudentController;
+
 import com.loan.uts.model.Application;
 import com.loan.uts.model.Email;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
  */
 @Service
 public class EmailService {
-    private static Logger logger = LoggerFactory.getLogger(EmailService.class);
+    private static Logger logger = LogManager.getLogger(EmailService.class);
     @Resource
     private TaskExecutor taskExecutor;
     @Resource

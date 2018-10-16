@@ -3,8 +3,8 @@ package com.loan.uts.service;
 
 import com.loan.uts.model.*;
 import com.loan.uts.repository.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ import static com.loan.uts.util.EncrptUtil.encrypt;
 @Transactional
 @Service
 public class AdminService {
-    private static Logger logger = LoggerFactory.getLogger(AdminService.class);
+    private static Logger logger = LogManager.getLogger(AdminService.class);
 
     @Autowired
     AdministratorRepository administratorRepository;

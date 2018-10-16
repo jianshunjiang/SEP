@@ -7,9 +7,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="com.loan.uts.controller"/>
-
     <context:component-scan base-package="com.loan.uts.service"/>
-    <context:property-placeholder location="/WEB-INF/email.properties"/>
+    <!--<context:property-placeholder location="WEB-INF/email.properties"/>-->
 
     <mvc:default-servlet-handler/>
     <mvc:resources location="/static/" mapping="/static/**" />
@@ -73,10 +72,10 @@
     </bean>
 
     <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${email.host}"/>
-        <property name="username" value="${email.username}"/>
-        <property name="password" value="${email.password}"/>
-        <property name="port" value="${email.smtp.port}"/>
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="username" value="uts.loan.system.2018@gmail.com"/>
+        <property name="password" value="utsloan1234"/>
+        <property name="port" value="465"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">true</prop>

@@ -1,8 +1,8 @@
 package com.loan.uts.controller;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class AttachmentController {
     /**
      * Log tool
      */
-    private static Logger logger = LoggerFactory.getLogger(AttachmentController.class);
+    private static Logger logger = LogManager.getLogger(AttachmentController.class);
     /**
      * Find the attachment by attachment id and prepare it for downloading.
      * @param session
