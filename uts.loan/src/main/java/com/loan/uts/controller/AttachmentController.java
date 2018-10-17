@@ -48,6 +48,6 @@ public class AttachmentController {
      * @return
      */
     public static String getUploadPath(HttpSession session){
-        return session.getServletContext().getRealPath("/").split("target")[0] + "upload/";
+        return session.getServletContext().getRealPath("/WEB-INF/")+ "upload/";
     }
 }
